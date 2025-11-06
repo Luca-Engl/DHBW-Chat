@@ -1,1 +1,12 @@
-﻿
+﻿.img-logo-nav {
+    width: 20%;
+    height: auto;
+}
+
+.img-background-index {
+    background-image: url(../img/DHBW-Background-Red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    min-height: 100vh
+}
