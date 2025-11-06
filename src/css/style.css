@@ -1,4 +1,6 @@
 ﻿:root {
+    --primary-font: 'Rubik';
+    --secondary-font: 'Exo2';
     --primary-color: #FFFFFF;
     --secondary-color: #DCD3D3;
     --primary-background-color: #28282E;
@@ -11,12 +13,16 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: 'Rubik', Arial, sans-serif;
+    font-family: var(--primary-font), Arial, sans-serif;
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
     color: var(--primary-color);
     background-color: var(--primary-background-color);
+}
+
+.write {
+    font-family: var(--secondary-font), Arial, sans-serif;
 }
 
 .title {
