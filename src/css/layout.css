@@ -10,3 +10,10 @@
     background-attachment: scroll;
     min-height: 100vh
 }
+.img-background-login {
+    background-image: url(../img/DHBW-Background-Red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh
+}
