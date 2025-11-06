@@ -1,0 +1,81 @@
+﻿:root {
+    --primary-font: 'Rubik';
+    --secondary-font: 'Exo2';
+    --primary-color: #FFFFFF;
+    --secondary-color: #DCD3D3;
+    --primary-background-color: #28282E;
+    --secondary-background-color: #202025;
+    --primary-button-color: #E2001A;
+    --secondary-button-color: rgba(255, 255, 255, 0.1);
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: var(--primary-font), Arial, sans-serif;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    color: var(--primary-color);
+    background-color: var(--primary-background-color);
+}
+
+.write {
+    font-family: var(--secondary-font), Arial, sans-serif;
+}
+
+.title {
+    font-size: 3rem;
+
+}
+
+.subtitle {
+    font-size: 2rem;
+}
+
+.small {
+    font-size: 0.5rem;
+}
+
+.large {
+    font-size: 5rem;
+}
+
+.background {
+    background-color: var(--secondary-background-color);
+}
+
+button {
+    background-color: var(--primary-button-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 400;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.75;
+}
+
+button.secondary {
+    background-color: var(--secondary-button-color);
+    color: var(--primary-color);
+}
+
+.secondary {
+    color: var(--secondary-color);
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.italic {
+    font-style: italic;
+}
