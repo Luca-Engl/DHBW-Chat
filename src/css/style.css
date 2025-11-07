@@ -35,6 +35,14 @@ header {
     color: var(--secondary-color);
 }
 
+.font-size-landing {
+    font-size: 4rem;
+}
+
+.font-size-landing-small {
+    font-size: 1.5rem;
+}
+
 .font-write {
     font-family: var(--secondary-font), Arial, sans-serif;
 }
