@@ -1,5 +1,26 @@
-﻿.margin-bottom-5 {
-    margin-bottom: 5% ;
+.img-logo-nav {
+    width: 20%;
+    height: auto;
+}
+
+.img-background-index {
+    background-image: url(../img/DHBW-Background-Red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    min-height: 100vh;
+}
+
+.img-background-login {
+    background-image: url(../img/DHBW-Background-Red.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5%;
 }
 
 .margin-bottom-3 {
@@ -52,7 +73,6 @@
     margin-left: 5%;
 }
 
-
 .flex-center {
     display: flex;
     justify-content: center;
@@ -65,7 +85,6 @@
     align-items: center;
 }
 
-/* Gap-Klassen für flex */
 .gap-1 {
     gap: 1%;
 }
@@ -78,29 +97,62 @@
     gap: 5%;
 }
 
-/* Padding Left */
-.padding-left-1 { padding-left: 1%; }
-.padding-left-3 { padding-left: 3%; }
-.padding-left-5 { padding-left: 5%; }
+.padding-left-1 {
+    padding-left: 1%;
+}
 
-/* Padding Right */
-.padding-right-1 { padding-right: 1%; }
-.padding-right-3 { padding-right: 3%; }
-.padding-right-5 { padding-right: 5%; }
+.padding-left-3 {
+    padding-left: 3%;
+}
 
-/* Padding Top */
-.padding-top-1 { padding-top: 1%; }
-.padding-top-3 { padding-top: 3%; }
-.padding-top-5 { padding-top: 5%; }
+.padding-left-5 {
+    padding-left: 5%;
+}
 
-/* Padding Bottom */
-.padding-bottom-1 { padding-bottom: 1%; }
-.padding-bottom-3 { padding-bottom: 3%; }
-.padding-bottom-5 { padding-bottom: 5%; }
+.padding-right-1 {
+    padding-right: 1%;
+}
 
-/* Padding all sides*/
-.padding-1 { padding: 1%; }
-.padding-3 { padding: 3%; }
-.padding-5 { padding: 5%; }
+.padding-right-3 {
+    padding-right: 3%;
+}
 
+.padding-right-5 {
+    padding-right: 5%;
+}
 
+.padding-top-1 {
+    padding-top: 1%;
+}
+
+.padding-top-3 {
+    padding-top: 3%;
+}
+
+.padding-top-5 {
+    padding-top: 5%;
+}
+
+.padding-bottom-1 {
+    padding-bottom: 1%;
+}
+
+.padding-bottom-3 {
+    padding-bottom: 3%;
+}
+
+.padding-bottom-5 {
+    padding-bottom: 5%;
+}
+
+.padding-1 {
+    padding: 1%;
+}
+
+.padding-3 {
+    padding: 3%;
+}
+
+.padding-5 {
+    padding: 5%;
+}
