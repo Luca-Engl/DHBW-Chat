@@ -43,10 +43,6 @@ header {
     font-size: 1.5rem;
 }
 
-.font-landing-headline-feature-box {
-    font-size: 1.25rem;
-}
-
 .font-write {
     font-family: var(--secondary-font), Arial, sans-serif;
 }
