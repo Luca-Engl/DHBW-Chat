@@ -23,9 +23,11 @@
 
 .feature-box:hover {
     transform: translateY(-10px);
-.img-logo-nav {
-    width: 20%;
-    height: auto;
+
+    .img-logo-nav {
+        width: 20%;
+        height: auto;
+    }
 }
 
 .img-background-index {
