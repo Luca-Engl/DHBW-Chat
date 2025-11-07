@@ -10,10 +10,10 @@
 
 .feature-box {
     flex: 1 1 22%;  /* 22% Breite (4 Boxen = 88% + gaps) */
-    min-width: 250px;  /* Minimum für kleine Screens */
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-    border-radius: 16px;
-    padding: 4%;  /* prozentual */
+    min-width: 250px;
+    background: #28282E;
+    border-radius: 10px;
+    padding: 4%;
     text-align: center;
     transition: all 0.4s ease;
     position: relative;
@@ -22,9 +22,7 @@
 }
 
 .feature-box:hover {
-    transform: translateY(-10px);
-
-
+    transform: translateY(-15px);
 }
 
 .img-logo-nav {
@@ -46,6 +44,9 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     min-height: 100vh;
+}
+.margin-bottom-7 {
+    margin-bottom: 7%;
 }
 
 .margin-bottom-5 {
