@@ -1,3 +1,28 @@
+﻿.index-features-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 3%;
+}
+
+.feature-box {
+    flex: 1 1 22%;  /* 22% Breite (4 Boxen = 88% + gaps) */
+    min-width: 250px;  /* Minimum für kleine Screens */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border-radius: 16px;
+    padding: 4%;  /* prozentual */
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2%;
+}
+
+.feature-box:hover {
+    transform: translateY(-10px);
 .img-logo-nav {
     width: 20%;
     height: auto;
