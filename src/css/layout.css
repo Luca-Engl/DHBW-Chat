@@ -24,10 +24,12 @@
 .feature-box:hover {
     transform: translateY(-10px);
 
-    .img-logo-nav {
-        width: 20%;
-        height: auto;
-    }
+
+}
+
+.img-logo-nav {
+    width: 40%;
+    height: auto;
 }
 
 .img-background-index {
@@ -92,6 +94,23 @@
 
 .margin-right-5 {
     margin-right: 5%;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    align-items: center;
+}
+.nav-left {
+    justify-self: start;
+}
+
+.nav-center {
+    justify-self: center;
+}
+
+.nav-right {
+    justify-self: end;
 }
 
 .login-button-nav {
@@ -183,3 +202,4 @@
 .padding-5 {
     padding: 5%;
 }
+
