@@ -14,6 +14,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -28,14 +29,19 @@ header {
     position: sticky;
     top: 0;
     background-color: var(--secondary-background-color);
-
-    nav {
-        margin-bottom: 4%;
-    }
+    z-index: 1000;
 }
 
 .font-secondary {
     color: var(--secondary-color);
+}
+
+.font-size-landing {
+    font-size: 4rem;
+}
+
+.font-size-landing-small {
+    font-size: 1.5rem;
 }
 
 .font-write {
