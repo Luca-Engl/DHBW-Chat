@@ -98,6 +98,10 @@
     margin-left: 12%;
 }
 
+.margin-left-20 {
+    margin-left: 20%;
+}
+
 .margin-top-1 {
     margin-top: 1%;
 }
@@ -148,6 +152,28 @@
 
 .nav-right {
     justify-self: end;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 2fr 2fr;
+    align-items: center;
+}
+
+.footer-left {
+    justify-self: start;
+}
+
+.footer-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.img-logo-footer {
+    width: 25%;
+    height: auto;
 }
 
 .login-button-nav {
@@ -251,7 +277,7 @@
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto 1fr;
     gap: 3% 5%;
-    padding: 8% 24%;
+    padding: 8% 20%;
     align-items: start;
 }
 
