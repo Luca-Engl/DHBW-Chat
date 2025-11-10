@@ -61,10 +61,10 @@
 
 
 .img-background-login {
-    background-image: url(../img/DHBW-Background-Red.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    background:
+    linear-gradient(rgba(39,39,39,0.8), rgba(39,39,39,0.8)),
+    url(../img/DHBW-Background-Red.png)
+    center / cover no-repeat;
     min-height: 100vh;
 }
 .margin-bottom-7 {
