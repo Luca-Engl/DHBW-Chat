@@ -101,20 +101,29 @@ header {
 }
 
 button {
+    position: relative; /* für ::after Overlay nötig */
     background-color: var(--primary-button-color);
+    color: var(--primary-color);
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 400;
-    color: var(--primary-color);
     cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s;
 }
 
-button:hover {
-    opacity: 0.75;
+button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    pointer-events: none;
+    transition: background-color 0.2s;
+}
+
+button:hover::after {
+    background-color: rgba(0,0,0,0.1);
 }
 
 .button-secondary {
