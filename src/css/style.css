@@ -101,7 +101,7 @@ button {
     color: var(--primary-color);
     text-decoration: none;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
     padding: 10px 20px;
     cursor: pointer;
     overflow: hidden;
