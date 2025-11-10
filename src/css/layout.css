@@ -44,12 +44,13 @@
 }
 
 .img-background-index {
-    background-image: url(../img/DHBW-Background-Red.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: scroll;
+    background:
+    linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
+    url(../img/DHBW-Background-Red.png)
+    center / cover no-repeat;
     min-height: 100vh;
 }
+
 
 .img-background-login {
     background-image: url(../img/DHBW-Background-Red.png);
