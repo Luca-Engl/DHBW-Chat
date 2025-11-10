@@ -101,9 +101,10 @@ header {
 }
 
 button {
-    position: relative; /* für ::after Overlay nötig */
+    position: relative;
     background-color: var(--primary-button-color);
     color: var(--primary-color);
+    text-decoration: none;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
@@ -119,7 +120,7 @@ button::after {
     background-color: rgba(0,0,0,0);
     border-radius: 5px;
     pointer-events: none;
-    transition: background-color 0.2s;
+    transition: all 0.2s;
 }
 
 button:hover::after {
@@ -133,6 +134,7 @@ button:hover::after {
 
 a:link {
     color: var(--primary-button-color);
+    text-decoration: none;
 }
 
 a:link:hover {
