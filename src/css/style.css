@@ -3,8 +3,9 @@
     --secondary-font: 'Exo2';
     --primary-color: #FFFFFF;
     --secondary-color: #DCD3D3;
-    --secondary-background-color: #28282E;
     --primary-background-color: #202025;
+    --secondary-background-color: #28282E;
+    --navbar-background-color: rgba(50, 40, 46, 0.85);
     --primary-button-color: #E2001A;
     --secondary-button-color: rgba(255, 255, 255, 0.1);
 }
@@ -24,12 +25,6 @@ body {
     font-weight: 400;
     color: var(--primary-color);
     background-color: var(--primary-background-color);
-}
-header {
-    position: sticky;
-    top: 0;
-    background-color: var(--secondary-background-color);
-    z-index: 1000;
 }
 
 .font-secondary {
