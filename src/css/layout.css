@@ -171,6 +171,7 @@
     display: grid;
     grid-template-columns: 2fr 2fr 2fr;
     align-items: center;
+    padding: 20px 0;
 }
 
 .footer-left {
