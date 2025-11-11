@@ -3,10 +3,15 @@
     --secondary-font: 'Exo2';
     --primary-color: #FFFFFF;
     --secondary-color: #DCD3D3;
-    --secondary-background-color: #28282E;
     --primary-background-color: #202025;
+    --secondary-background-color: #28282E;
+    --navbar-background-color: rgba(50, 40, 46, 0.85);
     --primary-button-color: #E2001A;
     --secondary-button-color: rgba(255, 255, 255, 0.1);
+    --input-background-color: var(--secondary-background-color);
+    --input-border-color: rgba(255,255,255,0.1);
+    --input-focus-border-color: var(--primary-button-color);
+    --input-focus-shadow-color: rgba(226,0,26,0.5);
 }
 
 
@@ -24,12 +29,6 @@ body {
     font-weight: 400;
     color: var(--primary-color);
     background-color: var(--primary-background-color);
-}
-header {
-    position: sticky;
-    top: 0;
-    background-color: var(--secondary-background-color);
-    z-index: 1000;
 }
 
 .font-secondary {
@@ -101,20 +100,30 @@ header {
 }
 
 button {
+    position: relative;
     background-color: var(--primary-button-color);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 400;
     color: var(--primary-color);
+    text-decoration: none;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 20px;
     cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s;
 }
 
-button:hover {
-    opacity: 0.75;
+button::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    pointer-events: none;
+    transition: all 0.2s;
+}
+
+button:hover::after {
+    background-color: rgba(0,0,0,0.1);
 }
 
 .button-secondary {
@@ -122,8 +131,40 @@ button:hover {
     color: var(--primary-color);
 }
 
+input[type="text"],
+select {
+    position: relative;
+    background-color: var(--input-background-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    border: 2px solid var(--input-border-color);
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin: 5px 0;
+    width: auto;
+    min-width: 250px;
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+select:focus {
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 5px var(--input-focus-shadow-color);
+    background-color: rgba(40, 40, 46, 0.7);
+}
+
+input[type="text"]:hover,
+select:hover {
+    border-color: rgba(226,0,26,0.5);
+}
+
+select {
+    cursor: pointer;
+}
+
 a:link {
     color: var(--primary-button-color);
+    text-decoration: none;
 }
 
 a:link:hover {
