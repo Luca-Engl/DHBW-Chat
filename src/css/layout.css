@@ -6,6 +6,12 @@
     z-index: 1000;
 }
 
+footer {
+    min-height: 50px;
+    background-color: var(--navbar-background-color);
+}
+
+
 .index-features-container {
     display: flex;
     justify-content: space-evenly;
