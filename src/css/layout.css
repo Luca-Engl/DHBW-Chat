@@ -16,6 +16,69 @@
     padding: 3%;
 }
 
+.faq-item {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* 1. Den <summary> (Klickbereich) gestalten */
+.faq-item summary {
+    display: block; /* Macht den ganzen Bereich klickbar */
+    position: relative;
+    padding: 1.5rem 2.5rem 1.5rem 1rem; /* Platz für das Icon rechts */
+    font-weight: 600;
+    cursor: pointer;
+
+    /* Standard-Pfeil (Marker) in allen Browsern ausblenden */
+    list-style: none; /* Firefox */
+}
+.faq-item summary::-webkit-details-marker {
+    display: none; /* Chrome/Safari */
+}
+
+
+/* 2. Eigenes Icon (das '+') hinzufügen */
+.faq-item summary::after {
+    content: '+';
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+
+    /* Sanfter Übergang für die Rotation */
+    transition: transform 0.3s ease-out;
+}
+
+/* 3. Icon drehen, wenn [open] */
+.faq-item[open] summary::after {
+    /* Dreht das '+' um 45 Grad, um ein 'x' zu werden */
+    transform: rotate(45deg);
+}
+
+
+/* 4. Der Animations-Wrapper (max-height Trick) */
+.faq-animator {
+    max-height: 0;
+    overflow: hidden;
+
+    /* Die eigentliche Slide-Animation */
+    transition: max-height 0s ease-out;
+}
+
+/* 5. Der Inhalts-Wrapper (für das Padding) */
+.faq-content {
+    padding: 0 1rem 1.5rem 1rem;
+}
+
+
+/* 6. Wenn [open], die max-height setzen */
+.faq-item[open] .faq-animator {
+    /* Muss größer sein als der höchste Inhalt! */
+    max-height: 600px;
+    transition: max-height 2.3s ease-in;
+}
+
 .feature-box {
     flex: 1 1 22%;  /* 22% Breite (4 Boxen = 88% + gaps) */
     min-width: 250px;
