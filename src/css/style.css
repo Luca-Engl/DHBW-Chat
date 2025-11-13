@@ -8,10 +8,12 @@
     --navbar-background-color: rgba(50, 40, 46, 0.85);
     --primary-button-color: #E2001A;
     --secondary-button-color: rgba(255, 255, 255, 0.1);
-    --input-background-color: var(--secondary-background-color);
+    --input-background-color: var(--primary-background-color);
     --input-border-color: rgba(255,255,255,0.1);
     --input-focus-border-color: var(--primary-button-color);
+    --input-focus-background-color: rgba(32, 32, 37,0.5);
     --input-focus-shadow-color: rgba(226,0,26,0.5);
+    --input-hover-border-color: rgba(226,0,26,0.5);
 }
 
 
@@ -151,17 +153,24 @@ input:focus,
 select:focus {
     border-color: var(--input-focus-border-color);
     box-shadow: 0 0 5px var(--input-focus-shadow-color);
-    background-color: rgba(40, 40, 46, 0.7);
+    background-color: var(--input-focus-background-color);
 }
 
 input:hover,
 select:hover {
-    border-color: rgba(226,0,26,0.5);
+    border-color: var(--input-hover-border-color);
+}
+
+.input-small {
+    min-width: 120px;
+    max-width: 120px;
+    text-align: center;
+    text-transform: uppercase;
 }
 
 .select-small {
-    min-width: 100px;
-    max-width: 100px;
+    min-width: 120px;
+    max-width: 120px;
 }
 
 a:link {
