@@ -38,14 +38,26 @@ footer {
 }
 
 .faq-item {
-    border-bottom: 1px solid #e0e0e0;
+    position: relative;
+    margin-bottom: 2rem
+    /* border-bottom entfernt, wird jetzt mit ::after gemacht */
+}
+
+/* Zentrierte, anpassbare Trennlinie */
+.faq-item::after {
+    content: '';
+    display: block;
+    width: 50%; /* Länge anpassbar - z.B. 50%, 70%, 90% etc. */
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 0 auto; /* Horizontal zentriert */
 }
 
 /* 1. Den <summary> (Klickbereich) gestalten */
 .faq-item summary {
     display: block; /* Macht den ganzen Bereich klickbar */
     position: relative;
-    padding: 1.5rem 2.5rem 1.5rem 1rem; /* Platz für das Icon rechts */
+    padding: 1.5rem 1rem 1.5rem 3rem; /* Platz für das Icon links */
     font-weight: 600;
     cursor: pointer;
 
@@ -57,11 +69,11 @@ footer {
 }
 
 
-/* 2. Eigenes Icon (das '+') hinzufügen */
-.faq-item summary::after {
+/* 2. Eigenes Icon (das '+') hinzufügen - jetzt links */
+.faq-item summary::before {
     content: '+';
     position: absolute;
-    right: 1rem;
+    left: 25rem; /* Abstand zum linken Rand - anpassbar */
     top: 1.5rem;
     font-size: 1.5rem;
     font-weight: 400;
@@ -72,7 +84,7 @@ footer {
 }
 
 /* 3. Icon drehen, wenn [open] */
-.faq-item[open] summary::after {
+.faq-item[open] summary::before {
     /* Dreht das '+' um 45 Grad, um ein 'x' zu werden */
     transform: rotate(45deg);
 }
