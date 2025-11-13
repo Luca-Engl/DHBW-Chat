@@ -481,13 +481,63 @@ footer {
 }
 
 
+/* Die Box selbst - bleibt normal */
 .d-feature-text {
     display: grid;
-    grid-template-columns: 2fr 2fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: auto 1fr;
     gap: 3% 5%;
     padding: 8% 20%;
     align-items: start;
+}
+
+/* Der Inhalt wird animiert */
+.d-feature-text h2,
+.d-feature-text p,
+.d-feature-text img {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Linke Boxen: Inhalt kommt von links */
+.d-feature-text:nth-of-type(odd) h2,
+.d-feature-text:nth-of-type(odd) p {
+    transform: translateX(-80px);
+}
+
+.d-feature-text:nth-of-type(odd) img {
+    transform: translateX(-80px);
+}
+
+/* Rechte Boxen: Inhalt kommt von rechts */
+.d-feature-text:nth-of-type(even) h2,
+.d-feature-text:nth-of-type(even) p {
+    transform: translateX(80px);
+}
+
+.d-feature-text:nth-of-type(even) img {
+    transform: translateX(80px);
+}
+
+/* Wenn sichtbar */
+.d-feature-text.visible h2,
+.d-feature-text.visible p,
+.d-feature-text.visible img {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Gestaffelte Animation */
+.d-feature-text.visible h2 {
+    transition-delay: 0s;
+}
+
+.d-feature-text.visible img {
+    transition-delay: 0.1s;
+}
+
+.d-feature-text.visible p {
+    transition-delay: 0.2s;
 }
 
 .d-feature-text-img {
