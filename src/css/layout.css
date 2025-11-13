@@ -5,8 +5,15 @@
     width: 100%;
     background-color: var(--navbar-background-color);
     backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
     z-index: 1000;
     height: 70px;
+}
+
+header:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 main {
@@ -77,7 +84,7 @@ footer {
     overflow: hidden;
 
     /* Die eigentliche Slide-Animation */
-    transition: max-height 0s ease-out;
+    transition: max-height 5s ease-out;
 }
 
 /* 5. Der Inhalts-Wrapper (für das Padding) */
@@ -128,6 +135,13 @@ footer {
     max-width: 150px;
     height: auto;
     margin-right: 5%;
+    transition: filter 0.5s ease, transform 0.3s ease;
+}
+
+.img-logo-nav:hover {
+    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    transform: scale(1.01);
+    cursor: pointer;
 }
 
 .background-index {
@@ -157,19 +171,39 @@ footer {
 }
 
 .login-box {
-    background-color: var(--secondary-background-color);
+    background: var(--input-background-color);
+    backdrop-filter: blur(3px);
     border-radius: 15px;
     padding: 20px;
     width: 500px;
     max-width: 50%;
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.05),
+    0 0 25px rgba(0,0,0,0.5);
+    transition: all 0.3s ease-in-out;
 }
+
+.login-box:hover {
+    box-shadow:
+            inset 0 0 10px rgba(255,255,255,0.05),
+            0 0 35px rgba(0,0,0,0.6);
+    transform: translateY(-1px);
+}
+
 
 .img-logo-login {
     width: 220px;
     max-width: 150px;
     height: auto;
     margin-bottom: 25px;
+    transition: filter 0.5s ease, transform 0.3s ease;
+}
+
+.img-logo-login:hover {
+    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    transform: scale(1.01);
+    cursor: pointer;
 }
 
 .privacy-container {
