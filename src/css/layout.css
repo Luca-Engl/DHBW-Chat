@@ -1,10 +1,18 @@
 ﻿header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
     background-color: var(--navbar-background-color);
     backdrop-filter: blur(5px);
     z-index: 1000;
+    height: 70px;
 }
+
+main {
+    padding-top: 70px;
+}
+
 
 footer {
     min-height: 50px;
@@ -122,14 +130,17 @@ footer {
     margin-right: 5%;
 }
 
+.background-index {
+    padding-top: 0
+}
+
 .img-background-index {
-    background:
-    linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
+    background: linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
     url(../img/DHBW-Background-Red.png)
     center / cover no-repeat;
     min-height: 100vh;
+    padding-top: 70px;
 }
-
 
 .img-background-login {
     background:
@@ -137,6 +148,29 @@ footer {
     url(../img/DHBW-Background-Red.png)
     center / cover no-repeat;
     min-height: 100vh;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    display: flex;
+}
+
+.login-box {
+    background-color: var(--secondary-background-color);
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    max-width: 50%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+
+.img-logo-login {
+    width: 220px;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 25px;
+    padding-top: 20px;
 }
 
 .privacy-container {
