@@ -131,7 +131,7 @@ button:hover::after {
     color: var(--primary-color);
 }
 
-input[type="text"],
+input,
 select {
     position: relative;
     background-color: var(--input-background-color);
@@ -146,14 +146,14 @@ select {
     transition: all 0.2s ease-in-out;
 }
 
-input[type="text"]:focus,
+input:focus,
 select:focus {
     border-color: var(--input-focus-border-color);
     box-shadow: 0 0 5px var(--input-focus-shadow-color);
     background-color: rgba(40, 40, 46, 0.7);
 }
 
-input[type="text"]:hover,
+input:hover,
 select:hover {
     border-color: rgba(226,0,26,0.5);
 }
