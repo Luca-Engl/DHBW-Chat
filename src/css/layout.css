@@ -137,6 +137,29 @@ footer {
     url(../img/DHBW-Background-Red.png)
     center / cover no-repeat;
     min-height: 100vh;
+
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    display: flex;
+}
+
+.login-box {
+    background-color: var(--secondary-background-color);
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    max-width: 50%;
+    box-shadow: 0 0 30px rgba(0,0,0,0.6);
+}
+
+.img-logo-login {
+    width: 220px;
+    max-width: 150px;
+    height: auto;
+    margin-bottom: 25px;
+    padding-top: 20px;
 }
 
 .privacy-container {
