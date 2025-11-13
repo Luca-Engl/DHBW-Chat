@@ -116,10 +116,10 @@ footer {
 }
 
 .img-logo-nav {
-    width: 75%;
+    width: auto;
+    max-width: 150px;
     height: auto;
     margin-right: 5%;
-    min-width: 50%;
 }
 
 .img-background-index {
@@ -149,8 +149,8 @@ footer {
 }
 
 .privacy-box {
-    flex: 1 1 40%;  /* Flexible Breite, mindestens 40% */
-    max-width: 45%;  /* Maximale Breite */
+    flex: 1 1 40%;
+    max-width: 45%;
     text-align: center;
     padding: 2%;
 }
@@ -261,6 +261,11 @@ footer {
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+.nav-left-a {
+    flex-shrink: 0;
+    width: min-content;
 }
 
 .nav-center {
