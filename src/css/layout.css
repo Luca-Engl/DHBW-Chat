@@ -477,3 +477,7 @@ footer {
 .align-stretch {
     align-items: stretch;
 }
+
+.info-box {
+    border-radius: 7px;
+}
