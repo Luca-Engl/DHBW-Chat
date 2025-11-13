@@ -6,14 +6,16 @@
     --primary-background-color: #202025;
     --secondary-background-color: #28282E;
     --navbar-background-color: rgba(50, 40, 46, 0.85);
-    --primary-button-color: #E2001A;
+    --primary-button-color: rgba(226,0,26,1);
     --secondary-button-color: rgba(255, 255, 255, 0.1);
-    --input-background-color: var(--primary-background-color);
+    --input-background-color: rgba(32,32,37,0.2);
     --input-border-color: rgba(255,255,255,0.1);
-    --input-focus-border-color: var(--primary-button-color);
     --input-focus-background-color: rgba(32, 32, 37,0.5);
-    --input-focus-shadow-color: rgba(226,0,26,0.5);
+    --input-focus-border-color: rgba(226,0,26,1);
+    --input-focus-shadow-color: rgba(226,0,26,0.3);
     --input-hover-border-color: rgba(226,0,26,0.5);
+    --input-hover-shadow-color: rgba(226,0,26,0.1);
+    --link-shadow-color: rgba(255,255,255,1);
 }
 
 
@@ -128,6 +130,16 @@ button:hover::after {
     background-color: rgba(0,0,0,0.1);
 }
 
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
+
+button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 .button-secondary {
     background-color: var(--secondary-button-color);
     color: var(--primary-color);
@@ -149,16 +161,42 @@ select {
     cursor: pointer;
 }
 
-input:focus,
-select:focus {
-    border-color: var(--input-focus-border-color);
-    box-shadow: 0 0 5px var(--input-focus-shadow-color);
-    background-color: var(--input-focus-background-color);
-}
-
 input:hover,
 select:hover {
     border-color: var(--input-hover-border-color);
+    box-shadow: 0 4px 10px var(--input-hover-shadow-color);
+    transform: translateY(-2px);
+}
+
+input:focus,
+select:focus {
+    border-color: var(--input-focus-border-color);
+    box-shadow: 0 0 10px var(--input-focus-shadow-color);
+    background-color: var(--input-focus-background-color);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+input::after,
+select::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0,0,0,0);
+    border-radius: 5px;
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+}
+
+input:hover::after,
+select:hover::after {
+    background-color: rgba(0,0,0,0.05);
+}
+
+input:active,
+select:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px var(--input-focus-shadow-color);
 }
 
 .input-small {
@@ -176,10 +214,12 @@ select:hover {
 a:link {
     color: var(--primary-button-color);
     text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 a:link:hover {
     color: var(--primary-color);
+    text-shadow: 0 1px 4px var(--link-shadow-color);
     cursor: pointer;
 }
 
