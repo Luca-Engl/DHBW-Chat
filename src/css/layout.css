@@ -53,8 +53,10 @@ footer {
 }
 
 .img-logo-nav {
-    width: 40%;
+    width: 75%;
     height: auto;
+    margin-right: 5%;
+    min-width: 50%;
 }
 
 .img-background-index {
@@ -73,6 +75,7 @@ footer {
     center / cover no-repeat;
     min-height: 100vh;
 }
+
 .margin-bottom-7 {
     margin-bottom: 7%;
 }
@@ -153,13 +156,20 @@ footer {
     margin-right: 5%;
 }
 
+.margin-right-10 {
+    margin-right: 10%;
+}
 .nav-grid {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr;
     align-items: center;
 }
+
 .nav-left {
     justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .nav-center {
@@ -171,6 +181,8 @@ footer {
 
 .nav-right {
     justify-self: end;
+    display: flex;
+    align-items: center;
 }
 
 .footer-grid {
@@ -236,6 +248,10 @@ footer {
 
 .padding-left-5 {
     padding-left: 5%;
+}
+
+.padding-left-15 {
+    padding-left: 15%;
 }
 
 .padding-left-25 {
