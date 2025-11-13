@@ -473,3 +473,7 @@ footer {
     justify-self: center;
     align-self: center;
 }
+
+.align-stretch {
+    align-items: stretch;
+}
