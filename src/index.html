@@ -157,5 +157,22 @@
         <a href="privacy.html">Datenschutz</a>
     </section>
 </footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+
+                // Nach Animation: Hover-Klasse hinzufügen
+                setTimeout(() => {
+                    entry.target.classList.add('animation-done');
+                }, 1500); // 0.8s Animation + 0.55s längste Verzögerung + Puffer
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.feature-box').forEach(box => observer.observe(box));
+</script>
 </body>
 </html>
