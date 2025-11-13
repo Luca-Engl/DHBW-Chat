@@ -1,10 +1,18 @@
 ﻿header {
-    position: sticky;
+    position: fixed;          /* fixiert über allem */
     top: 0;
+    left: 0;
+    width: 100%;
     background-color: var(--navbar-background-color);
     backdrop-filter: blur(5px);
     z-index: 1000;
+    height: 70px;             /* z.B. Höhe der Navbar */
 }
+
+main {
+    padding-top: 70px;
+}
+
 
 footer {
     min-height: 50px;
@@ -122,14 +130,17 @@ footer {
     margin-right: 5%;
 }
 
+.background-index {
+    padding-top: 0px
+}
+
 .img-background-index {
-    background:
-    linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
+    background: linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
     url(../img/DHBW-Background-Red.png)
     center / cover no-repeat;
     min-height: 100vh;
+    padding-top: 70px;
 }
-
 
 .img-background-login {
     background:
