@@ -413,8 +413,9 @@ footer {
 }
 
 .img-logo-footer {
-    width: 25%;
-    height: auto;
+    display: inline-block;
+    height: 40px;
+    width: auto;
 }
 
 .login-button-nav {
