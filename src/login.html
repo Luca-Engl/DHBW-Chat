@@ -20,12 +20,12 @@
     <br>
     <p >Benutzername:</p>
     <label class>
-        <input type="text" id = username name="username" placeholder="">
+        <input type="text" maxlength="30" pattern="[A-Za-z0-9]+" title="Nur Buchstaben und Zahlen erlaubt. Maximal 30 Zeichen." inputmode="text" id=username name="username" placeholder="">
     </label>
     <br>
     <p>Passwort:</p>
     <label>
-        <input type="password" id= password name="password" placeholder="" autocomplete="current-password">
+        <input type="password" minlength="4" maxlength="30" pattern="[A-Za-z0-9]+" title="Nur Buchstaben und Zahlen erlaubt. Minimal 4 Zeichen. Maximal 30 Zeichen."  inputmode="text" id=password name="password" placeholder="" autocomplete="current-password">
     </label>
     <br>
     <br>
@@ -46,7 +46,7 @@
     <br>
     <p >Gruppencode eingeben:</p>
     <label>
-        <input class = "input-small" maxlength="6" type="text" id = groupcode name="groupcode" placeholder="* * * * * *">
+        <input class = "input-small" maxlength="6" pattern="[A-Za-z0-9]+" title="Nur Buchstaben und Zahlen erlaubt." inputmode="text" type="text" id=groupcode name="groupcode" placeholder="* * * * * *">
     </label>
     <br>
     <br>
