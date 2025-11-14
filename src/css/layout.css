@@ -617,4 +617,11 @@ footer {
 
 .info-box {
     border-radius: 7px;
+    transition: all 0.3s ease-in-out;
+}
+
+.info-box:hover {
+    box-shadow:
+            0 0 35px rgba(0,0,0,0.6);
+    transform: translateY(-1px);
 }
