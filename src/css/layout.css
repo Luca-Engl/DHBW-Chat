@@ -416,6 +416,13 @@ footer {
     display: inline-block;
     height: 40px;
     width: auto;
+    transition: filter 0.5s ease, transform 0.3s ease;
+}
+
+.img-logo-footer:hover {
+    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    transform: scale(1.01);
+    cursor: pointer;
 }
 
 .login-button-nav {
