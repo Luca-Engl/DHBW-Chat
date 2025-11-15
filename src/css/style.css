@@ -152,7 +152,8 @@ button:active {
 }
 
 input,
-select {
+select,
+textarea {
     position: relative;
     background-color: var(--input-background-color);
     color: var(--primary-color);
@@ -170,14 +171,16 @@ select {
 }
 
 input:hover,
-select:hover {
+select:hover,
+textarea:hover {
     border-color: var(--input-hover-border-color);
     box-shadow: 0 4px 10px var(--input-hover-shadow-color);
     transform: translateY(-2px);
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     border-color: var(--input-focus-border-color);
     box-shadow: 0 0 10px var(--input-focus-shadow-color);
     background-color: var(--input-focus-background-color);
@@ -186,7 +189,8 @@ select:focus {
 }
 
 input::after,
-select::after {
+select::after,
+textarea::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -197,14 +201,22 @@ select::after {
 }
 
 input:hover::after,
-select:hover::after {
+select:hover::after,
+textarea:hover::after {
     background-color: rgba(0,0,0,0.05);
 }
 
 input:active,
-select:active {
+select:active,
+textarea:active {
     transform: translateY(1px);
     box-shadow: 0 2px 5px var(--input-focus-shadow-color);
+}
+
+textarea {
+    resize: none;
+    overflow-y: auto;
+    line-height: 1.5;
 }
 
 .input-small {
@@ -213,6 +225,8 @@ select:active {
     text-align: center;
     text-transform: uppercase;
 }
+
+
 
 .select-small {
     width: 100%;
