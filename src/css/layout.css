@@ -220,6 +220,7 @@ footer {
     background: var(--input-background-color);
     backdrop-filter: blur(3px);
     border-radius: 15px;
+    box-sizing: border-box;
     padding: 20px;
     width: 500px;
     max-width: 50%;

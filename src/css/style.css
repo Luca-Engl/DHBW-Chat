@@ -104,16 +104,21 @@ body {
 }
 
 button {
+    display: inline-block;
     position: relative;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
     background-color: var(--primary-button-color);
     color: var(--primary-color);
-    text-decoration: none;
     border: none;
     border-radius: 7px;
+    text-decoration: none;
     padding: 10px 20px;
     cursor: pointer;
-    overflow: hidden;
-    transition: all 0.2s;
 }
 
 button::after {
@@ -155,10 +160,12 @@ select {
     border-radius: 5px;
     padding: 8px 15px;
     margin: 5px 0;
-    width: auto;
-    min-width: 250px;
+    width: 100%;
+    max-width: 250px;
+    min-width: 0;
+    box-sizing: border-box;
     transition: all 0.2s ease-in-out;
-    cursor: pointer;
+    cursor: text;
 }
 
 input:hover,
@@ -200,14 +207,14 @@ select:active {
 }
 
 .input-small {
-    min-width: 120px;
+    width: 100%;
     max-width: 120px;
     text-align: center;
     text-transform: uppercase;
 }
 
 .select-small {
-    min-width: 120px;
+    width: 100%;
     max-width: 120px;
 }
 
