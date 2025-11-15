@@ -119,6 +119,7 @@ button {
     text-decoration: none;
     padding: 10px 20px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
 button::after {
@@ -128,7 +129,7 @@ button::after {
     background-color: rgba(0,0,0,0);
     border-radius: 5px;
     pointer-events: none;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 button:hover::after {
@@ -164,7 +165,7 @@ select {
     max-width: 250px;
     min-width: 0;
     box-sizing: border-box;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s ease-in-out;
     cursor: text;
 }
 
