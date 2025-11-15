@@ -11,58 +11,46 @@
 </head>
 <body>
 <header>
-    <nav class ="nav-grid margin-left-10 margin-right-10">
-        <section class = "nav-left">
+    <nav class="nav-grid margin-left-10 margin-right-10">
+        <section class="nav-left">
             <a href="index.html" class="nav-left-a">
                 <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
         </section>
-        <section class="nav-center">
-        </section>
-        <section class = "nav-right margin-right-5 margin-bottom-3">
-            <a href="settings.html" class="nav-right">
-                <img src="img/DHBW-Chat-Settings.png" class="img-logo-nav margin-right-3" alt="DHBW-Chat-Settings">
+        <section class="nav-center"></section>
+        <section class="nav-right margin-right-5">
+            <a href="settings.html" class="nav-settings">
+                <img src="img/DHBW-Chat-Settings.png" alt="DHBW-Chat-Settings">
             </a>
         </section>
     </nav>
 </header>
-<main>
-<section class ="login-box background">
-    <h1>Chat</h1>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
 
+<main class="chat-container">
+    <aside class="chat-sidebar">
+        <h2>Chats</h2>
+        <ul>
+            <li>Max Mustermann</li>
+            <li>Maria Musterfrau</li>
+            <li>Team DHBW</li>
+        </ul>
 
-</section>
+        <section class="chat-sidebar-buttons">
+            <button class="button-secondary">Kontakt hinzufügen</button>
+            <button class="button-secondary">Gruppe hinzufügen</button>
+        </section>
+    </aside>
+
+    <section class="chat-main background">
+        <section class="chat-messages">
+            <p>Test Nachricht</p>
+        </section>
+        <form class="chat-input-container">
+            <textarea id="chat-message" placeholder="Nachricht eingeben..."></textarea>
+            <button class="style-bold">Senden</button>
+        </form>
+    </section>
 </main>
+
 </body>
 </html>
