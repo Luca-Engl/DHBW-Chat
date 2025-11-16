@@ -34,6 +34,7 @@ footer {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    margin: 0 10%;
     padding: 3%;
 }
 
@@ -220,6 +221,7 @@ footer {
     background: var(--input-background-color);
     backdrop-filter: blur(3px);
     border-radius: 15px;
+    box-sizing: border-box;
     padding: 20px;
     width: 500px;
     max-width: 50%;
@@ -334,6 +336,92 @@ footer {
     text-align: left;
 }
 
+.chat-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.chat-sidebar {
+    width: 250px;
+    padding: 20px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+}
+
+.chat-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chat-sidebar li {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.chat-sidebar li:hover {
+    background-color: var(--input-hover-shadow-color);
+}
+
+.chat-sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    gap: 10px;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.chat-input-container {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    background-color: var(--chat-background-color);
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.chat-input-container textarea {
+    max-width: 100%;
+    min-height: 30px;
+    max-height: 50px;
+    font-family: 'Exo2', Arial, sans-serif;
+    font-size: 16px;
+}
+
+.nav-settings img {
+    width: 40px;
+    height: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.nav-settings img:hover {
+    transform: scale(1.05);
+}
+
+
 .margin-bottom-7 {
     margin-bottom: 7%;
 }
@@ -447,6 +535,67 @@ footer {
     display: flex;
     align-items: center;
 }
+
+.responsive-nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.responsive-nav-hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.responsive-nav-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.responsive-nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.responsive-nav-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.responsive-nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color);
+    backdrop-filter: blur(5px);
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+.responsive-nav-mobile-menu.active {
+    display: flex;
+}
+
+.responsive-nav-mobile-menu a {
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.responsive-nav-mobile-menu a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
 
 .footer-grid {
     display: grid;
@@ -594,7 +743,7 @@ footer {
     grid-template-columns: 1fr 2fr;
     grid-template-rows: auto 1fr;
     gap: 3% 5%;
-    padding: 8% 20%;
+    padding: 8% 10%;
     align-items: start;
 }
 
@@ -626,7 +775,6 @@ footer {
     transform: translateX(80px);
 }
 
-/* Wenn sichtbar */
 .d-feature-text.visible h2,
 .d-feature-text.visible p,
 .d-feature-text.visible img {
@@ -634,7 +782,6 @@ footer {
     transform: translateX(0);
 }
 
-/* Gestaffelte Animation */
 .d-feature-text.visible h2 {
     transition-delay: 0s;
 }
@@ -648,7 +795,7 @@ footer {
 }
 
 .d-feature-text-img {
-    grid-row: 1 / 3;  /* Bild über beide Reihen */
+    grid-row: 1 / 3;
     grid-column: 1;
     width: 80%;
     max-width: 250px;
@@ -657,12 +804,16 @@ footer {
 }
 
 .d-feature-text-r-img {
-    grid-row: 1 / 3;  /* Bild über beide Reihen */
+    grid-row: 1 / 3;
     grid-column: 2;
     width: 80%;
     max-width: 250px;
     justify-self: center;
     align-self: center;
+}
+
+.d-feature-text:nth-of-type(even) {
+    grid-template-columns: 2fr 1fr;
 }
 
 .align-stretch {
@@ -678,4 +829,150 @@ footer {
     box-shadow:
             0 0 35px rgba(0,0,0,0.6);
     transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    /* Desktop Links verstecken */
+    .responsive-nav-desktop-link {
+        display: none;
+    }
+
+    /* Hamburger in der Mitte anzeigen */
+    .responsive-nav-hamburger {
+        display: flex;
+    }
+
+    body, html {
+        overflow-x: hidden !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    header, main, footer {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    /* ========== NAVBAR ANPASSUNGEN ========== */
+    header {
+        height: 60px;
+    }
+
+    main {
+        padding-top: 60px;
+    }
+
+    .responsive-nav-mobile-menu {
+        top: 60px;
+        max-height: calc(100vh - 60px);
+    }
+
+    /* Nav-Grid */
+    .nav-grid {
+        height: 60px;
+        align-items: center;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 3%;
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+
+    .nav-left {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0;
+    }
+
+    .img-logo-nav {
+        max-width: 80px;
+        margin: 0 !important;
+    }
+
+    .nav-center {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-right {
+        margin: 0 !important;
+        padding: 0 !important;
+        justify-content: flex-end;
+    }
+
+    .nav-right button {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .responsive-nav-hamburger span {
+        width: 20px;
+        height: 2px;
+    }
+
+    /* ========== ÜBERSCHRIFTEN KLEINER MACHEN ========== */
+
+    /* Landing Page große Überschriften */
+    .font-size-landing {
+        font-size: 2rem !important;
+    }
+
+    .font-size-landing-small {
+        font-size: 1rem !important;
+    }
+
+    /* "Studieren. Verbinden. Einfach." */
+    h1 {
+        font-size: 1.8rem !important;
+    }
+
+    h2 {
+        font-size: 1.2rem !important;
+    }
+
+    h3 {
+        font-size: 1rem !important;
+    }
+
+    /* Feature-Box Headlines */
+    .font-landing-headline-feature-box {
+        font-size: 1.1rem !important;
+    }
+
+    /* Buttons anpassen */
+    .button-landing {
+        padding: 2% 5%;
+        font-size: 1rem;
+    }
+
+    .d-feature-text {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 10% 5% !important;
+        gap: 20px !important;
+    }
+
+    /* Alle Bilder kleiner */
+    .d-feature-text-img,
+    .d-feature-text-r-img {
+        grid-row: unset !important;
+        grid-column: unset !important;
+        width: 40% !important;  /* Reduziert von 60% auf 40% */
+        max-width: 150px !important;  /* Reduziert von 200px auf 150px */
+        margin: 0 auto 15px auto !important;
+        order: -1;
+    }
+
+    /* Überschrift und Text */
+    .d-feature-text h2 {
+        order: 1;
+        text-align: center;
+        font-size: 1.4rem !important;
+    }
+
+    .d-feature-text p {
+        order: 2;
+        text-align: left;
+    }
 }

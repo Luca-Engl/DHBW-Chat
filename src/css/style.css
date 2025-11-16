@@ -16,6 +16,7 @@
     --input-hover-border-color: rgba(226,0,26,0.5);
     --input-hover-shadow-color: rgba(226,0,26,0.1);
     --link-shadow-color: rgba(255,255,255,1);
+    --chat-background-color: rgba(32, 32, 37, 0.5);
 }
 
 
@@ -104,16 +105,22 @@ body {
 }
 
 button {
+    display: inline-block;
     position: relative;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
     background-color: var(--primary-button-color);
     color: var(--primary-color);
-    text-decoration: none;
     border: none;
     border-radius: 7px;
+    text-decoration: none;
     padding: 10px 20px;
     cursor: pointer;
-    overflow: hidden;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 button::after {
@@ -123,7 +130,7 @@ button::after {
     background-color: rgba(0,0,0,0);
     border-radius: 5px;
     pointer-events: none;
-    transition: all 0.2s;
+    transition: all 0.3s;
 }
 
 button:hover::after {
@@ -146,7 +153,8 @@ button:active {
 }
 
 input,
-select {
+select,
+textarea {
     position: relative;
     background-color: var(--input-background-color);
     color: var(--primary-color);
@@ -155,21 +163,25 @@ select {
     border-radius: 5px;
     padding: 8px 15px;
     margin: 5px 0;
-    width: auto;
-    min-width: 250px;
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
+    width: 100%;
+    max-width: 250px;
+    min-width: 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+    cursor: text;
 }
 
 input:hover,
-select:hover {
+select:hover,
+textarea:hover {
     border-color: var(--input-hover-border-color);
     box-shadow: 0 4px 10px var(--input-hover-shadow-color);
     transform: translateY(-2px);
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
     border-color: var(--input-focus-border-color);
     box-shadow: 0 0 10px var(--input-focus-shadow-color);
     background-color: var(--input-focus-background-color);
@@ -178,7 +190,8 @@ select:focus {
 }
 
 input::after,
-select::after {
+select::after,
+textarea::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -189,25 +202,35 @@ select::after {
 }
 
 input:hover::after,
-select:hover::after {
+select:hover::after,
+textarea:hover::after {
     background-color: rgba(0,0,0,0.05);
 }
 
 input:active,
-select:active {
+select:active,
+textarea:active {
     transform: translateY(1px);
     box-shadow: 0 2px 5px var(--input-focus-shadow-color);
 }
 
+textarea {
+    resize: none;
+    overflow-y: auto;
+    line-height: 1.5;
+}
+
 .input-small {
-    min-width: 120px;
+    width: 100%;
     max-width: 120px;
     text-align: center;
     text-transform: uppercase;
 }
 
+
+
 .select-small {
-    min-width: 120px;
+    width: 100%;
     max-width: 120px;
 }
 
