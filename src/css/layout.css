@@ -272,6 +272,10 @@ footer {
     transition: all 0.3s ease-in-out;
 }
 
+.privacy-box.animated {
+    transform: translateY(0);
+}
+
 .privacy-box:hover {
     transform: scale(1.0) translateY(-10px);
     box-shadow: 0 4px 15px rgba(255,0,0,0.2);

@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Starte Animation nacheinander mit Verzögerung
         setTimeout(() => {
             box.style.opacity = '1';
-            box.style.transform = 'translateY(0)';
-        }, 100 + (150 * index)); // 100ms Initialverzögerung und 150ms zwischen den Boxen
+            box.style.transform = '';  // Entferne inline transform, damit CSS Hover funktioniert
+            box.classList.add('animated'); // Markiere als animiert
+        }, 500 + (150 * index)); // 500ms Initialverzögerung + 150ms zwischen den Boxen
     });
 });
