@@ -275,12 +275,12 @@ footer {
     box-shadow: 0 4px 15px rgba(255,0,0,0.2);
 }
 
-.fixed-height-150 {
-    height: 150px;
+.fixed-height-10rem {
+    height: 10rem;
 }
 
-.fixed-height-170 {
-    height: 170px;
+.fixed-height-11rem {
+    height: 11rem;
 }
 
 .privacy-box h2 {
