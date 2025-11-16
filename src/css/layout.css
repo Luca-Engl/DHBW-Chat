@@ -262,11 +262,13 @@ footer {
 }
 
 .privacy-box {
+    opacity: 0;
     flex: 1 1 40%;
     max-width: 45%;
     border-radius: 7px;
     text-align: center;
     padding: 2%;
+    transform: translateY(30px);
     transition: all 0.3s ease-in-out;
 }
 
