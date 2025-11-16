@@ -267,6 +267,7 @@ footer {
     width: 100%;
     gap: 3%;
     align-items: stretch;
+    justify-content: center;
 }
 
 .privacy-row .privacy-box {
