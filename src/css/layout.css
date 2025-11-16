@@ -482,6 +482,67 @@ footer {
     align-items: center;
 }
 
+.responsive-nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.responsive-nav-hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.responsive-nav-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.responsive-nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.responsive-nav-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.responsive-nav-mobile-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background-color: var(--navbar-background-color);
+    backdrop-filter: blur(5px);
+    flex-direction: column;
+    padding: 20px;
+    gap: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    z-index: 999;
+}
+
+.responsive-nav-mobile-menu.active {
+    display: flex;
+}
+
+.responsive-nav-mobile-menu a {
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.responsive-nav-mobile-menu a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+
 .footer-grid {
     display: grid;
     grid-template-columns: 2fr 2fr 2fr;
@@ -707,4 +768,70 @@ footer {
 
 .info-box {
     border-radius: 7px;
+}
+
+@media (max-width: 768px) {
+    .responsive-nav-desktop-link {
+        display: none;
+    }
+
+    .responsive-nav-hamburger {
+        display: flex;
+    }
+
+    /* Header anpassen */
+    header {
+        height: 60px;
+    }
+
+    main {
+        padding-top: 60px;
+    }
+
+    .responsive-nav-mobile-menu {
+        top: 60px;
+    }
+
+    /* Grid - WICHTIG: Margins entfernen */
+    .nav-grid {
+        height: 60px;
+        align-items: center;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 8%;
+    }
+
+    /* Logo */
+    .nav-left {
+        margin: 0 !important;
+        padding: 0 !important;
+        gap: 0;
+    }
+
+    .img-logo-nav {
+        max-width: 90px;
+        margin: 0 !important;
+    }
+
+    /* Hamburger zentriert */
+    .nav-center {
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Login-Button */
+    .nav-right {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .nav-right button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .responsive-nav-hamburger span {
+        width: 22px;
+        height: 2.5px;
+    }
 }

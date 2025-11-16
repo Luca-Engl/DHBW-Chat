@@ -16,10 +16,15 @@
             <a href="index.html" class="nav-left-a">
                 <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
-                <a href="privacy.html">Datenschutz</a>
-                <a href="help.html">Hilfe</a>
+                <a href="privacy.html" class="responsive-nav-desktop-link">Datenschutz</a>
+                <a href="help.html" class="responsive-nav-desktop-link">Hilfe</a>
         </section>
         <section class="nav-center">
+            <button class="responsive-nav-hamburger" id="responsiveNavHamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </section>
         <section class = "nav-right margin-right-5 margin-top-3 margin-bottom-3">
             <a href="login.html">
@@ -27,6 +32,10 @@
             </a>
         </section>
     </nav>
+    <div class="responsive-nav-mobile-menu" id="responsiveNavMobileMenu">
+        <a href="privacy.html">Datenschutz</a>
+        <a href="help.html">Hilfe</a>
+    </div>
 </header>
 <main class="background-index" id="top">
     <section class="img-background-index">
@@ -184,6 +193,13 @@
         // Beide beobachten
         featureBoxes.forEach(box => observer.observe(box));
         dFeatureBoxes.forEach(box => observer.observe(box));
+    });
+    const responsiveNavHamburger = document.getElementById('responsiveNavHamburger');
+    const responsiveNavMobileMenu = document.getElementById('responsiveNavMobileMenu');
+
+    responsiveNavHamburger.addEventListener('click', () => {
+        responsiveNavHamburger.classList.toggle('active');
+        responsiveNavMobileMenu.classList.toggle('active');
     });
 </script>
 </body>
