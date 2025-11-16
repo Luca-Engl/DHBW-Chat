@@ -771,15 +771,29 @@ footer {
 }
 
 @media (max-width: 768px) {
+    /* Desktop Links verstecken */
     .responsive-nav-desktop-link {
         display: none;
     }
 
+    /* Hamburger in der Mitte anzeigen */
     .responsive-nav-hamburger {
         display: flex;
     }
 
-    /* Header anpassen */
+    body, html {
+        overflow-x: hidden !important;
+        width: 100vw !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    header, main, footer {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+
+    /* ========== NAVBAR ANPASSUNGEN ========== */
     header {
         height: 60px;
     }
@@ -790,18 +804,20 @@ footer {
 
     .responsive-nav-mobile-menu {
         top: 60px;
+        max-height: calc(100vh - 60px);
     }
 
-    /* Grid - WICHTIG: Margins entfernen */
+    /* Nav-Grid */
     .nav-grid {
         height: 60px;
         align-items: center;
         margin-left: 0 !important;
         margin-right: 0 !important;
-        padding: 0 8%;
+        padding: 0 3%;
+        max-width: 100vw;
+        box-sizing: border-box;
     }
 
-    /* Logo */
     .nav-left {
         margin: 0 !important;
         padding: 0 !important;
@@ -809,29 +825,93 @@ footer {
     }
 
     .img-logo-nav {
-        max-width: 90px;
+        max-width: 80px;
         margin: 0 !important;
     }
 
-    /* Hamburger zentriert */
     .nav-center {
         justify-content: center;
         align-items: center;
     }
 
-    /* Login-Button */
     .nav-right {
         margin: 0 !important;
         padding: 0 !important;
+        justify-content: flex-end;
     }
 
     .nav-right button {
-        padding: 8px 15px;
-        font-size: 0.9rem;
+        padding: 6px 12px;
+        font-size: 0.85rem;
     }
 
     .responsive-nav-hamburger span {
-        width: 22px;
-        height: 2.5px;
+        width: 20px;
+        height: 2px;
+    }
+
+    /* ========== ÜBERSCHRIFTEN KLEINER MACHEN ========== */
+
+    /* Landing Page große Überschriften */
+    .font-size-landing {
+        font-size: 2rem !important;
+    }
+
+    .font-size-landing-small {
+        font-size: 1rem !important;
+    }
+
+    /* "Studieren. Verbinden. Einfach." */
+    h1 {
+        font-size: 1.8rem !important;
+    }
+
+    h2 {
+        font-size: 1.2rem !important;
+    }
+
+    h3 {
+        font-size: 1rem !important;
+    }
+
+    /* Feature-Box Headlines */
+    .font-landing-headline-feature-box {
+        font-size: 1.1rem !important;
+    }
+
+    /* Buttons anpassen */
+    .button-landing {
+        padding: 2% 5%;
+        font-size: 1rem;
+    }
+
+    .d-feature-text {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 10% 5% !important;
+        gap: 20px !important;
+    }
+
+    /* Alle Bilder kleiner */
+    .d-feature-text-img,
+    .d-feature-text-r-img {
+        grid-row: unset !important;
+        grid-column: unset !important;
+        width: 40% !important;  /* Reduziert von 60% auf 40% */
+        max-width: 150px !important;  /* Reduziert von 200px auf 150px */
+        margin: 0 auto 15px auto !important;
+        order: -1;
+    }
+
+    /* Überschrift und Text */
+    .d-feature-text h2 {
+        order: 1;
+        text-align: center;
+        font-size: 1.4rem !important;
+    }
+
+    .d-feature-text p {
+        order: 2;
+        text-align: left;
     }
 }
