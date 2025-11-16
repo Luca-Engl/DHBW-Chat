@@ -264,8 +264,23 @@ footer {
 .privacy-box {
     flex: 1 1 40%;
     max-width: 45%;
+    border-radius: 7px;
     text-align: center;
     padding: 2%;
+    transition: all 0.3s ease-in-out;
+}
+
+.privacy-box:hover {
+    transform: scale(1.0) translateY(-10px);
+    box-shadow: 0 4px 15px rgba(255,0,0,0.2);
+}
+
+.fixed-height-150 {
+    height: 150px;
+}
+
+.fixed-height-170 {
+    height: 170px;
 }
 
 .privacy-box h2 {
