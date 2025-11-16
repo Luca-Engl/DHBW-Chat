@@ -34,6 +34,7 @@ footer {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    margin: 0 10%;
     padding: 3%;
 }
 
