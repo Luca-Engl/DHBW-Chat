@@ -1001,15 +1001,60 @@ footer {
     transform: translateY(-1px);
 }
 
+.responsive-nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.responsive-nav-hamburger span {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.responsive-nav-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.responsive-nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.responsive-nav-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.responsive-nav-mobile-menu.active {
+    display: flex;
+}
+
+.responsive-nav-mobile-menu a {
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.responsive-nav-mobile-menu a:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
 @media (max-width: 768px) {
     /* Desktop Links verstecken */
     .responsive-nav-desktop-link {
-        display: none;
+        display: none !important;
     }
 
     /* Hamburger in der Mitte anzeigen */
     .responsive-nav-hamburger {
-        display: flex;
+        display: flex !important;
     }
 
     body, html {
@@ -1026,16 +1071,16 @@ footer {
 
     /* ========== NAVBAR ANPASSUNGEN ========== */
     header {
-        height: 60px;
+        height: 60px !important;
     }
 
     main {
-        padding-top: 60px;
+        padding-top: 60px !important;
     }
 
     .responsive-nav-mobile-menu {
-        top: 60px;
-        max-height: calc(100vh - 60px);
+        top: 60px !important;
+        max-height: calc(100vh - 60px) !important;
     }
 
     /* Nav-Grid */
@@ -1053,33 +1098,33 @@ footer {
     .nav-left {
         margin: 0 !important;
         padding: 0 !important;
-        gap: 0;
+        gap: 0 !important;
     }
 
     .img-logo-nav {
-        max-width: 80px;
+        max-width: 80px !important;
         margin: 0 !important;
     }
 
     .nav-center {
-        justify-content: center;
-        align-items: center;
+        justify-content: center !important;
+        align-items: center !important;
     }
 
     .nav-right {
         margin: 0 !important;
         padding: 0 !important;
-        justify-content: flex-end;
+        justify-content: flex-end !important;
     }
 
     .nav-right button {
-        padding: 6px 12px;
-        font-size: 0.85rem;
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
     }
 
     .responsive-nav-hamburger span {
-        width: 20px;
-        height: 2px;
+        width: 20px !important;
+        height: 2px !important;
     }
 
     /* ========== ÜBERSCHRIFTEN KLEINER MACHEN ========== */
@@ -1111,10 +1156,10 @@ footer {
         font-size: 1.1rem !important;
     }
 
-    /* Buttons anpassen */
+    /* Buttons auf Landing Page anpassen - NUR die auf der Landing Page */
     .button-landing {
-        padding: 2% 5%;
-        font-size: 1rem;
+        padding: 2% 5% !important;
+        font-size: 1rem !important;
     }
 
     .d-feature-text {
@@ -1129,8 +1174,8 @@ footer {
     .d-feature-text-r-img {
         grid-row: unset !important;
         grid-column: unset !important;
-        width: 40% !important;  /* Reduziert von 60% auf 40% */
-        max-width: 150px !important;  /* Reduziert von 200px auf 150px */
+        width: 40% !important;
+        max-width: 150px !important;
         margin: 0 auto 15px auto !important;
         order: -1;
     }
@@ -1145,5 +1190,97 @@ footer {
     .d-feature-text p {
         order: 2;
         text-align: left;
+    }
+
+    /* ========== PRIVACY SEITE RESPONSIVE ========== */
+
+    /* Privacy Container */
+    .privacy-container {
+        flex-direction: column;
+        padding: 0 5%;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Privacy Row wird zur Spalte */
+    .privacy-row {
+        flex-direction: column;
+        width: 100%;
+        gap: 20px;
+    }
+
+    /* Privacy Boxen auf volle Breite */
+    .privacy-box {
+        flex: 1 1 100%;
+        max-width: 100%;
+        min-height: auto;
+        padding: 5%;
+    }
+
+    /* Fixed Heights entfernen auf Mobile */
+    .fixed-height-13rem,
+    .fixed-height-10rem {
+        height: auto !important;
+        min-height: unset !important;
+    }
+
+    /* Listen-Items anpassen */
+    .privacy-box li {
+        padding: 0.4rem 0;
+        padding-left: 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .privacy-box li::before {
+        font-size: 1rem;
+    }
+
+    /* Text in Privacy Boxen */
+    .privacy-box h2 {
+        font-size: 1.1rem !important;
+        margin-bottom: 15px;
+    }
+
+    .privacy-box p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    /* Intro-Text */
+    main p.align-center {
+        font-size: 0.9rem;
+        padding: 0 5%;
+        line-height: 1.6;
+    }
+
+    main h1.align-center {
+        font-size: 1.8rem !important;
+        margin-bottom: 20px;
+    }
+
+    /* Main Padding anpassen */
+    main.padding-5 {
+        padding: 5% 3% !important;
+    }
+
+    /* Footer anpassen */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        padding: 20px 5%;
+        text-align: center;
+    }
+
+    .footer-left {
+        display: none;
+    }
+
+    .footer-center {
+        flex-direction: column;
+        gap: 15px;
+        justify-self: center;
+    }
+
+    .img-logo-footer {
+        height: 30px;
     }
 }
