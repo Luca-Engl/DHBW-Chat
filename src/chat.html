@@ -6,21 +6,23 @@
     <link rel="stylesheet" href="css/font.css" />
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/layout.css"/>
+
     <title>DHBW Chat - Chatbereich</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
-<header>
-    <nav class="nav-grid margin-left-10 margin-right-10">
-        <section class="nav-left">
-            <a href="index.html" class="nav-left-a">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
+<header class="chat-page-header">
+    <nav class="chat-nav-grid margin-right-10">
+        <section class="chat-nav-left">
+            <a href="index.html">
+                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
-        <section class="nav-center"></section>
-        <section class="nav-right margin-right-5">
-            <a href="settings.html" class="nav-settings">
-                <img src="img/DHBW-Chat-Settings.png" alt="DHBW-Chat-Settings">
+        <section class="chat-nav-center"></section>
+        <section class="nav-right">
+            <p class="margin-right-5">ExampleUser</p>
+            <a href="#" onclick="openSettings()" class="nav-settings">
+                <img src="img/default-avatar.png" alt="User-Avatar">
             </a>
         </section>
     </nav>
@@ -37,8 +39,8 @@
         </ul>
 
         <section class="chat-sidebar-buttons">
-            <button class="button-secondary">Kontakt hinzufügen</button>
-            <button class="button-secondary">Gruppe hinzufügen</button>
+            <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
+            <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
         </section>
     </aside>
 
@@ -52,6 +54,128 @@
         </form>
     </section>
 </main>
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeSettings()">&times;</button>
 
+        <h2>Einstellungen</h2>
+        <br>
+
+        <p>Benutzername:</p>
+        <label>
+            <input type="text" maxlength="30" pattern="[A-Za-z0-9]+"
+                   title="Nur Buchstaben und Zahlen erlaubt. Maximal 30 Zeichen."
+                   inputmode="text" id="username" name="username" placeholder="">
+        </label>
+        <br>
+
+        <p>DHBW E-Mail Adresse:</p>
+        <label>
+            <input type="email" inputmode="email" id="displayname"
+                   name="displayname" placeholder="">
+        </label>
+        <br><br>
+
+        <p>Studiengang:</p>
+        <label>
+            <select class="select-small" id="faculty" name="faculty">
+                <option value="" selected hidden="">Fakultät ...</option>
+                <option value="T">Technik</option>
+                <option value="W">Wirtschaft</option>
+                <option value="S">Sozialwesen</option>
+                <option value="G">Gesundheit</option>
+                <option value="A">Sonstige</option>
+            </select>
+        </label>
+
+        <label>
+            <select class="select-small" id="cursus" name="cursus">
+                <option value="" selected hidden="">Kurs ...</option>
+                <option value="INF">Angewandte Informatik</option>
+                <option value="MB">Maschinenbau</option>
+                <option value="MT">Mechatronik</option>
+                <option value="WIW">Wirtschaftsingenieurwesen</option>
+            </select>
+        </label>
+
+        <label>
+            <select class="select-small" id="year" name="year">
+                <option value="" selected hidden="">Jahr ...</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+            </select>
+        </label>
+
+        <br><br>
+        <button onclick="saveSettings()">Speichern</button>
+        <br><br>
+        <button class="button-secondary" onclick="closeSettings()">Abbrechen</button>
+    </div>
+</div>
+<!-- Kontakt hinzufügen Modal -->
+<div id="addContactModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeAddContact()">&times;</button>
+
+        <h2>Kontakt hinzufügen</h2>
+        <br>
+
+        <p>DHBW E-Mail Adresse:</p>
+        <label>
+            <input type="email" inputmode="email" id="contactEmail"
+                   name="contactEmail" placeholder="max.mustermann@dhbw.de">
+        </label>
+
+        <br><br>
+        <button onclick="addContact()">Hinzufügen</button>
+        <br><br>
+        <button class="button-secondary" onclick="closeAddContact()">Abbrechen</button>
+    </div>
+</div>
+<!-- Gruppe hinzufügen Modal -->
+<div id="addGroupModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeAddGroup()">&times;</button>
+
+        <h2>Gruppe erstellen</h2>
+        <br>
+
+        <p>Gruppenname:</p>
+        <label>
+            <input type="text" id="groupName" name="groupName"
+                   placeholder="z.B. Team DHBW" maxlength="50">
+        </label>
+
+        <br><br>
+
+        <p>Mitglieder hinzufügen:</p>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <label style="flex: 1;">
+                <input type="email" inputmode="email" id="memberEmail"
+                       name="memberEmail" placeholder="max.mustermann@dhbw.de">
+            </label>
+            <button class="button-secondary" onclick="addMemberToList()"
+                    style="white-space: nowrap;">+ Hinzufügen</button>
+        </div>
+
+        <br>
+
+        <!-- Mitgliederliste -->
+        <div id="memberList" style="max-height: 200px; overflow-y: auto;">
+            <p style="color: #888; font-size: 0.9rem;">Keine Mitglieder hinzugefügt</p>
+        </div>
+
+        <br>
+        <button onclick="createGroup()">Gruppe erstellen</button>
+        <br><br>
+        <button class="button-secondary" onclick="closeAddGroup()">Abbrechen</button>
+    </div>
+</div>
+<script src="js/chat-page.js"></script>
 </body>
 </html>
