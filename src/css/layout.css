@@ -386,11 +386,6 @@ footer {
     gap: 10px;
 }
 
-.chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    margin-bottom: 10px;
-}
 
 .chat-input-container {
     display: flex;
