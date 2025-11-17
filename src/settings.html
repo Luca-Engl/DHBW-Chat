@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/font.css" />
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/layout.css"/>
-    <title>DHBW Chat - Chatbereich</title>
+    <title>DHBW Chat - Einstellungen</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
@@ -26,23 +26,46 @@
     </nav>
 </header>
 
-<main class="chat-container">
-    <aside class="chat-sidebar">
-        <h2>Einstellungen</h2>
-        <ul>
-            <li>Profil</li>
-            <li>Benachrichtigungen</li>
-            <li>Sicherheit</li>
-        </ul>
+<main class="center-box">
 
-    </aside>
+    <section class="popup-box align-left margin-top-5">
+        <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
 
-    <section class="chat-main background">
-        <section class="chat-messages">
-            <p>Test Option</p>
+        <section class="margin-bottom-3">
+            <label for="profile-picture" class="style-bold">Profilbild:</label>
+            <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild" style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
+            <input type="file" id="profile-picture" accept="image/*">
+            </section>
+
+        <section class="margin-bottom-3">
+            <label class="style-bold">Username:</label>
+            <p>
+                <span id="username-display">Luca Engl</span>
+                <button type="button" class="button-secondary">Bearbeiten</button>
+            </p>
+        </section>
+
+        <section class="margin-bottom-3">
+            <label class="style-bold">Email:</label>
+            <p>
+                <span id="email-display">engll.tin25@student.dhbw-heidenheim.de</span>
+                <button type="button" class="button-secondary">Bearbeiten</button>
+            </p>
+        </section>
+
+        <section class="margin-bottom-3">
+            <label class="style-bold">Passwort:</label>
+            <p>
+                <span id="password-display">••••••••</span>
+                <button type="button" class="button-secondary">Bearbeiten</button>
+            </p>
+        </section>
+
+        <section class="margin-top-5">
+            <button type="button">Speichern</button>
         </section>
     </section>
-</main>
 
+</main>
 </body>
 </html>
