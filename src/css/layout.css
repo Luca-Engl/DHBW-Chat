@@ -539,6 +539,47 @@ footer {
     color: #E2001A;
 }
 
+/* Mitgliederliste im Gruppen-Modal */
+#memberList {
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.member-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.member-item:hover {
+    background: rgba(255,255,255,0.15);
+}
+
+.member-email {
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.member-remove {
+    background: transparent;
+    border: none;
+    color: #E2001A;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: transform 0.2s;
+}
+
+.member-remove:hover {
+    transform: scale(1.2);
+}
+
 .margin-bottom-7 {
     margin-bottom: 7%;
 }

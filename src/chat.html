@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/font.css" />
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/layout.css"/>
-    <script src="js/chat-page.js"></script>
+
     <title>DHBW Chat - Chatbereich</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
@@ -20,8 +20,9 @@
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
+            <p class="margin-right-5">ExampleUser</p>
             <a href="#" onclick="openSettings()" class="nav-settings">
-                <img src="img/DHBW-Chat-Settings.png" alt="DHBW-Chat-Settings">
+                <img src="img/default-avatar.png" alt="User-Avatar">
             </a>
         </section>
     </nav>
@@ -38,8 +39,8 @@
         </ul>
 
         <section class="chat-sidebar-buttons">
-            <button class="button-secondary">Kontakt hinzufügen</button>
-            <button class="button-secondary">Gruppe hinzufügen</button>
+            <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
+            <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
         </section>
     </aside>
 
@@ -116,5 +117,65 @@
         <button class="button-secondary" onclick="closeSettings()">Abbrechen</button>
     </div>
 </div>
+<!-- Kontakt hinzufügen Modal -->
+<div id="addContactModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeAddContact()">&times;</button>
+
+        <h2>Kontakt hinzufügen</h2>
+        <br>
+
+        <p>DHBW E-Mail Adresse:</p>
+        <label>
+            <input type="email" inputmode="email" id="contactEmail"
+                   name="contactEmail" placeholder="max.mustermann@dhbw.de">
+        </label>
+
+        <br><br>
+        <button onclick="addContact()">Hinzufügen</button>
+        <br><br>
+        <button class="button-secondary" onclick="closeAddContact()">Abbrechen</button>
+    </div>
+</div>
+<!-- Gruppe hinzufügen Modal -->
+<div id="addGroupModal" class="modal-overlay">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeAddGroup()">&times;</button>
+
+        <h2>Gruppe erstellen</h2>
+        <br>
+
+        <p>Gruppenname:</p>
+        <label>
+            <input type="text" id="groupName" name="groupName"
+                   placeholder="z.B. Team DHBW" maxlength="50">
+        </label>
+
+        <br><br>
+
+        <p>Mitglieder hinzufügen:</p>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <label style="flex: 1;">
+                <input type="email" inputmode="email" id="memberEmail"
+                       name="memberEmail" placeholder="max.mustermann@dhbw.de">
+            </label>
+            <button class="button-secondary" onclick="addMemberToList()"
+                    style="white-space: nowrap;">+ Hinzufügen</button>
+        </div>
+
+        <br>
+
+        <!-- Mitgliederliste -->
+        <div id="memberList" style="max-height: 200px; overflow-y: auto;">
+            <p style="color: #888; font-size: 0.9rem;">Keine Mitglieder hinzugefügt</p>
+        </div>
+
+        <br>
+        <button onclick="createGroup()">Gruppe erstellen</button>
+        <br><br>
+        <button class="button-secondary" onclick="closeAddGroup()">Abbrechen</button>
+    </div>
+</div>
+<script src="js/chat-page.js"></script>
 </body>
 </html>
