@@ -284,7 +284,7 @@ footer {
     text-align: center;
     padding: 2%;
     transform: translateY(30px);
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 /* Entferne Standard-Listen-Styling und füge eigenes hinzu */
@@ -317,7 +317,6 @@ footer {
 
 .privacy-box:hover {
     transform: scale(1.0) translateY(-10px);
-    box-shadow: 0 4px 15px rgba(255,0,0,0.2);
 }
 
 .privacy-container:first-of-type .privacy-box {
