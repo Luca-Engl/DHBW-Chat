@@ -403,6 +403,7 @@ footer {
     max-height: 50px;
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
+    overflow-y: hidden;
 }
 
 .nav-settings img {
