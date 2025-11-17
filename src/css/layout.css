@@ -256,6 +256,7 @@ footer {
 
 .privacy-container {
     display: flex;
+    align-items: stretch;
     justify-content: center;
     flex-wrap: wrap;
     gap: 3%;
@@ -263,11 +264,64 @@ footer {
     padding: 0 5%;
 }
 
+.privacy-row {
+    display: flex;
+    width: 100%;
+    gap: 3%;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.privacy-row .privacy-box {
+    height: auto;
+}
+
 .privacy-box {
+    opacity: 0;
     flex: 1 1 40%;
     max-width: 45%;
+    border-radius: 7px;
     text-align: center;
     padding: 2%;
+    transform: translateY(30px);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Entferne Standard-Listen-Styling und füge eigenes hinzu */
+.privacy-box ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.privacy-box li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    text-align: left;
+}
+
+/* Eigene Bullet-Points mit Checkmarks */
+.privacy-box li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #E2001A; /* DHBW Rot */
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.privacy-box.animated {
+    transform: translateY(0);
+}
+
+.privacy-box:hover {
+    transform: scale(1.0) translateY(-10px);
+    box-shadow: 0 4px 15px rgba(255,0,0,0.2);
+}
+
+.privacy-container:first-of-type .privacy-box {
+    height: auto;
 }
 
 .privacy-box h2 {
@@ -768,6 +822,13 @@ footer {
 
 .info-box {
     border-radius: 7px;
+    transition: all 0.3s ease-in-out;
+}
+
+.info-box:hover {
+    box-shadow:
+            0 0 35px rgba(0,0,0,0.6);
+    transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
