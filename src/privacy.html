@@ -12,22 +12,34 @@
 </head>
 <body>
 <header>
-    <nav class ="nav-grid margin-left-10 margin-right-10">
-        <section class = "nav-left">
+    <nav class="nav-grid margin-left-10 margin-right-10">
+        <section class="nav-left">
             <a href="index.html" class="nav-left-a">
                 <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
-            <a href="privacy.html">Datenschutz</a>
-            <a href="help.html">Hilfe</a>
+            <a href="privacy.html" class="responsive-nav-desktop-link">Datenschutz</a>
+            <a href="help.html" class="responsive-nav-desktop-link">Hilfe</a>
         </section>
         <section class="nav-center">
+            <button class="responsive-nav-hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </section>
-        <section class = "nav-right margin-right-5 margin-top-3 margin-bottom-3">
+        <section class="nav-right margin-right-5 margin-top-3 margin-bottom-3">
             <a href="login.html">
-                <button class = "style-bold">Anmelden</button>
+                <button class="style-bold">Anmelden</button>
             </a>
         </section>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div class="responsive-nav-mobile-menu">
+        <a href="privacy.html">Datenschutz</a>
+        <a href="help.html">Hilfe</a>
+        <a href="login.html">Anmelden</a>
+    </div>
 </header>
 
 <main class="padding-5" id="top">
@@ -75,7 +87,7 @@
             <div class="align-center privacy-box background margin-bottom-3 fixed-height-10rem">
                 <h2>Gruppen & Schlüsselverwaltung</h2>
                 <p class="align-left">
-                Gruppen werden mit eigenen Verschlüsselungsschlüsseln geschützt. Neue Mitglieder erhalten diese verschlüsselt, alte Mitglieder können keine bereits verschickten Nachrichten sehen.
+                    Gruppen werden mit eigenen Verschlüsselungsschlüsseln geschützt. Neue Mitglieder erhalten diese verschlüsselt, alte Mitglieder können keine bereits verschickten Nachrichten sehen.
                 </p>
             </div>
         </div>
@@ -105,12 +117,32 @@
 
     </section>
     <section class="footer-center">
-    <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
-                                                class="img-logo-footer"></a>
-    <a href="legal_notice.html">Impressum</a>
-    <a href="help.html">Hilfe</a>
-    <a href="privacy.html">Datenschutz</a>
+        <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo"
+                                                    class="img-logo-footer"></a>
+        <a href="legal_notice.html">Impressum</a>
+        <a href="help.html">Hilfe</a>
+        <a href="privacy.html">Datenschutz</a>
     </section>
 </footer>
+
+<script>
+    function toggleMobileMenu() {
+        const hamburger = document.querySelector('.responsive-nav-hamburger');
+        const mobileMenu = document.querySelector('.responsive-nav-mobile-menu');
+        hamburger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    }
+
+    // Schließe Mobile Menu beim Klick auf einen Link
+    document.querySelectorAll('.responsive-nav-mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            const hamburger = document.querySelector('.responsive-nav-hamburger');
+            const mobileMenu = document.querySelector('.responsive-nav-mobile-menu');
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+</script>
+
 </body>
 </html>
