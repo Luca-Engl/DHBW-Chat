@@ -289,7 +289,7 @@ footer {
     transition: all 0.2s ease-in-out;
 }
 
-/* Entferne Standard-Listen-Styling und füge eigenes hinzu */
+
 .privacy-box ul {
     list-style: none;
     padding-left: 0;
@@ -303,7 +303,7 @@ footer {
     text-align: left;
 }
 
-/* Eigene Bullet-Points mit Checkmarks */
+
 .privacy-box li::before {
     content: "✓";
     position: absolute;
@@ -413,7 +413,7 @@ footer {
     transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-/* Spezielle Navbar nur für Chat-Seite */
+
 .chat-page-header {
     position: fixed;
     top: 0;
@@ -486,7 +486,7 @@ footer {
     transform: scale(1.05);
 }
 
-/* Modal Overlay */
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -578,6 +578,18 @@ footer {
 
 .member-remove:hover {
     transform: scale(1.2);
+}
+
+.chat-sidebar li {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Trennlinie */
+}
+
+.chat-sidebar li:hover {
+    background-color: var(--input-hover-shadow-color);
 }
 
 .margin-bottom-7 {
