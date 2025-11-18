@@ -1237,3 +1237,48 @@ button.modal-close:hover::after {
     background-color: rgba(226,0,26,1); /* Knalliges Rot */
     border-bottom-right-radius: 2px; /* "Zipfel" unten rechts */
 }
+
+/* =========================================
+   Custom Scrollbar Design
+   ========================================= */
+
+/* Standard für Firefox */
+html {
+    /* Erster Wert: Schieberegler-Farbe, Zweiter Wert: Hintergrund-Farbe */
+    scrollbar-color: var(--primary-button-color) var(--primary-background-color);
+    scrollbar-width: thin;
+}
+
+/* Für WebKit-Browser (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+    width: 12px; /* Breite der vertikalen Leiste */
+    height: 12px; /* Höhe der horizontalen Leiste (falls vorhanden) */
+}
+
+/* Der Hintergrund der Leiste (Track) */
+::-webkit-scrollbar-track {
+    background: var(--primary-background-color);
+    border-left: 1px solid var(--secondary-background-color); /* Optionale feine Trennlinie */
+}
+
+/* Der Schieberegler (Thumb) */
+::-webkit-scrollbar-thumb {
+    /* Wir nutzen hier das Rot, damit man sofort sieht, wo man ist.
+       Alternativ: var(--secondary-background-color) für dezenteren Look */
+    background-color: var(--secondary-button-color);
+    border-radius: 10px; /* Stark abgerundet für modernen Look */
+
+    /* Dieser Rahmen sorgt für einen "Padding"-Effekt, damit der Balken "schwebend" wirkt */
+    border: 3px solid var(--primary-background-color);
+}
+
+/* Hover-Effekt für den Schieberegler */
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--primary-button-color); /* DHBW-Rot beim Interagieren */
+    border-color: var(--primary-background-color);
+}
+
+/* Ecke unten rechts, wo sich Scrollbars treffen (selten sichtbar) */
+::-webkit-scrollbar-corner {
+    background: var(--primary-background-color);
+}
