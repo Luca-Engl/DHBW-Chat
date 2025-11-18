@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,14 +15,15 @@
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.html">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
+                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo" onerror="this.style.display='none'">
+                <span style="font-weight:bold; color:#e2001a; margin-left:10px;">DHBW Chat</span>
             </a>
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
-            <p class="margin-right-5">ExampleUser</p>
+            <p class="margin-right-5">Luca Engl</p>
             <a href="#" onclick="openSettings()" class="nav-settings">
-                <img src="img/default-avatar.png" alt="User-Avatar">
+                <img src="img/default-avatar.png" alt="User-Avatar" onerror="this.src='https://via.placeholder.com/40'">
             </a>
         </section>
     </nav>
@@ -33,7 +34,7 @@
         <h2>Chats</h2>
         <ul>
             <li>Globalchat</li>
-            <li>Max Mustermann</li>
+            <li class="active-chat">Max Mustermann</li>
             <li>Maria Musterfrau</li>
             <li>Team DHBW</li>
         </ul>
@@ -46,8 +47,10 @@
 
     <section class="chat-main">
 
+        <!-- Chatverlauf Container -->
         <div class="chat-messages" id="chat-history">
 
+            <!-- 1. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:30</span>
                 <div class="bubble">
@@ -55,6 +58,7 @@
                 </div>
             </div>
 
+            <!-- 2. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">10:32</span>
                 <div class="bubble">
@@ -62,6 +66,7 @@
                 </div>
             </div>
 
+            <!-- 3. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:33</span>
                 <div class="bubble">
@@ -69,6 +74,7 @@
                 </div>
             </div>
 
+            <!-- 4. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:34</span>
                 <div class="bubble">
@@ -76,6 +82,7 @@
                 </div>
             </div>
 
+            <!-- 5. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">10:36</span>
                 <div class="bubble">
@@ -83,6 +90,7 @@
                 </div>
             </div>
 
+            <!-- 6. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:37</span>
                 <div class="bubble">
@@ -90,6 +98,7 @@
                 </div>
             </div>
 
+            <!-- 7. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">10:38</span>
                 <div class="bubble">
@@ -97,6 +106,7 @@
                 </div>
             </div>
 
+            <!-- 8. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:39</span>
                 <div class="bubble">
@@ -104,6 +114,7 @@
                 </div>
             </div>
 
+            <!-- 9. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">10:40</span>
                 <div class="bubble">
@@ -111,6 +122,7 @@
                 </div>
             </div>
 
+            <!-- 10. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:41</span>
                 <div class="bubble">
@@ -118,6 +130,7 @@
                 </div>
             </div>
 
+            <!-- 11. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">11:15</span>
                 <div class="bubble">
@@ -125,6 +138,7 @@
                 </div>
             </div>
 
+            <!-- 12. Empfangen -->
             <div class="message received">
                 <span class="timestamp">11:16</span>
                 <div class="bubble">
@@ -132,6 +146,7 @@
                 </div>
             </div>
 
+            <!-- 13. Gesendet -->
             <div class="message sent">
                 <span class="timestamp">11:17</span>
                 <div class="bubble">
@@ -141,115 +156,67 @@
 
         </div>
 
-        <form class="chat-input-container background">
+        <!-- WICHTIG: Hier wurde onsubmit entfernt und ID hinzugefügt -->
+        <form class="chat-input-container background" id="chatForm">
             <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text"></textarea>
-            <button type=submit class="style-bold">Senden</button>
+            <button type="submit" class="style-bold">Senden</button>
         </form>
     </section>
 </main>
+
 <!-- Settings Modal -->
-<div id="settingsModal" class="modal-overlay">
+<div id="settingsModal" class="modal-overlay" style="display: none;">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
-
-            <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
-
-            <section class="margin-bottom-3">
-                <label for="profile-picture" class="style-bold">Profilbild:</label>
-                <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild" style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
-                <input type="file" id="profile-picture" accept="image/*">
-            </section>
-
-            <section class="margin-bottom-3">
-                <label class="style-bold">Username:</label>
-                <p>
-                    <span id="username-display">Luca Engl</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
-            </section>
-
-            <section class="margin-bottom-3">
-                <label class="style-bold">Email:</label>
-                <p>
-                    <span id="email-display">engll.tin25@student.dhbw-heidenheim.de</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
-            </section>
-
-            <section class="margin-bottom-3">
-                <label class="style-bold">Passwort:</label>
-                <p>
-                    <span id="password-display">••••••••</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
-            </section>
-
-            <section class="margin-top-5">
-                <button type="button">Speichern</button>
-            </section>
-        <br>
-        <button class="button-secondary" onclick="closeSettings()">Abbrechen</button>
+        <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
+        <section class="margin-bottom-3">
+            <label for="profile-picture" class="style-bold">Profilbild:</label>
+            <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar" style="width:60px; height:60px; border-radius:50%; margin-top:5px;" onerror="this.src='https://via.placeholder.com/60'">
+            <input type="file" id="profile-picture" accept="image/*">
+        </section>
+        <section class="margin-bottom-3">
+            <label class="style-bold">Username:</label>
+            <p>
+                <span id="username-display">Luca Engl</span>
+                <button type="button" class="button-secondary">Bearbeiten</button>
+            </p>
+        </section>
+        <button class="button-secondary" onclick="closeSettings()">Schließen</button>
     </div>
 </div>
+
 <!-- Kontakt hinzufügen Modal -->
-<div id="addContactModal" class="modal-overlay">
+<div id="addContactModal" class="modal-overlay" style="display: none;">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
-
         <h2>Kontakt hinzufügen</h2>
-        <br>
-
         <p>DHBW E-Mail Adresse:</p>
-        <label>
-            <input type="email" inputmode="email" id="contactEmail"
-                   name="contactEmail" placeholder="max.mustermann@dhbw.de">
-        </label>
-
+        <input type="email" id="contactEmail" placeholder="max.mustermann@dhbw.de">
         <br><br>
         <button onclick="addContact()">Hinzufügen</button>
-        <br><br>
-        <button class="button-secondary" onclick="closeAddContact()">Abbrechen</button>
     </div>
 </div>
+
 <!-- Gruppe hinzufügen Modal -->
-<div id="addGroupModal" class="modal-overlay">
+<div id="addGroupModal" class="modal-overlay" style="display: none;">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
-
         <h2>Gruppe erstellen</h2>
-        <br>
-
         <p>Gruppenname:</p>
-        <label>
-            <input type="text" id="groupName" name="groupName"
-                   placeholder="z.B. Team DHBW" maxlength="50">
-        </label>
-
+        <input type="text" id="groupName" placeholder="z.B. Team DHBW">
         <br><br>
-
         <p>Mitglieder hinzufügen:</p>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <label style="flex: 1;">
-                <input type="email" inputmode="email" id="memberEmail"
-                       name="memberEmail" placeholder="max.mustermann@student.dhbw-heidenheim.de">
-            </label>
-            <button class="button-secondary" onclick="addMemberToList()"
-                    style="white-space: nowrap;">+ Hinzufügen</button>
+            <input type="email" id="memberEmail" placeholder="Email Adresse">
+            <button class="button-secondary" onclick="addMemberToList()">+ Add</button>
         </div>
-
         <br>
-
-        <!-- Mitgliederliste -->
-        <div id="memberList" style="max-height: 200px; overflow-y: auto;">
-            <p style="color: #888; font-size: 0.9rem;">Keine Mitglieder hinzugefügt</p>
-        </div>
-
+        <div id="memberList" style="max-height: 100px; overflow-y: auto;"></div>
         <br>
-        <button onclick="createGroup()">Gruppe erstellen</button>
-        <br><br>
-        <button class="button-secondary" onclick="closeAddGroup()">Abbrechen</button>
+        <button onclick="createGroup()">Erstellen</button>
     </div>
 </div>
+
 <script src="js/chat-page.js"></script>
 </body>
 </html>

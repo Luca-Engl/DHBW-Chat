@@ -14,9 +14,10 @@ function scrollToBottom() {
 
 /**
  * Sendet eine Nachricht und fügt sie dem Chat hinzu.
+ * Wird jetzt per Event Listener aufgerufen.
  */
 function sendMessage(event) {
-    event.preventDefault(); // Verhindert Seite-Neuladen
+    if (event) event.preventDefault(); // Verhindert das Neuladen der Seite
 
     const inputField = document.getElementById("chatmessage");
     const text = inputField.value.trim();
@@ -47,7 +48,7 @@ function sendMessage(event) {
 
 
 /* ==========================================
-   TEIL 2: MODAL & EINSTELLUNGEN (Dein Code)
+   TEIL 2: MODAL & EINSTELLUNGEN
    ========================================== */
 
 // --- Einstellungen ---
@@ -57,11 +58,6 @@ function openSettings() {
 
 function closeSettings() {
     document.getElementById('settingsModal').classList.remove('active');
-}
-
-function saveSettings() {
-    alert('Einstellungen gespeichert!');
-    closeSettings();
 }
 
 // --- Kontakte ---
@@ -88,7 +84,7 @@ function addContact() {
     closeAddContact();
 }
 
-// --- Gruppen (Mitglieder-Liste Logik) ---
+// --- Gruppen ---
 let groupMembers = [];
 
 function openAddGroup() {
@@ -99,14 +95,10 @@ function openAddGroup() {
 
 function closeAddGroup() {
     document.getElementById('addGroupModal').classList.remove('active');
-
-    // Felder zurücksetzen
     const nameField = document.getElementById('groupName');
     if(nameField) nameField.value = '';
-
     const memberField = document.getElementById('memberEmail');
     if(memberField) memberField.value = '';
-
     groupMembers = [];
 }
 
@@ -118,14 +110,12 @@ function addMemberToList() {
         alert('Bitte gib eine E-Mail-Adresse ein!');
         return;
     }
-
     if (groupMembers.includes(email)) {
         alert('Diese E-Mail wurde bereits hinzugefügt!');
         return;
     }
-
     groupMembers.push(email);
-    memberField.value = ''; // Feld leeren
+    memberField.value = '';
     updateMemberList();
 }
 
@@ -164,7 +154,6 @@ function createGroup() {
         alert('Bitte gib einen Gruppennamen ein!');
         return;
     }
-
     if (groupMembers.length === 0) {
         alert('Bitte füge mindestens ein Mitglied hinzu!');
         return;
@@ -176,22 +165,29 @@ function createGroup() {
 
 
 /* ==========================================
-   TEIL 3: EVENT LISTENER (Start & Klicks)
+   TEIL 3: EVENT LISTENER (Initialisierung)
    ========================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
+
     // 1. Chat sofort nach unten scrollen
     scrollToBottom();
 
-    // 2. Event Listener für Klicks außerhalb der Modals (zum Schließen)
-    const modals = ['settingsModal', 'addContactModal', 'addGroupModal'];
+    // 2. Formular-Logik: Verhindert das Neuladen
+    const chatForm = document.getElementById('chatForm');
+    if (chatForm) {
+        chatForm.addEventListener('submit', sendMessage);
+    } else {
+        console.error("Fehler: Chat-Formular mit ID 'chatForm' nicht gefunden!");
+    }
 
+    // 3. Klicks außerhalb der Modals schließen diese
+    const modals = ['settingsModal', 'addContactModal', 'addGroupModal'];
     modals.forEach(modalId => {
         const modal = document.getElementById(modalId);
         if (modal) {
             modal.addEventListener('click', function(e) {
                 if (e.target === this) {
-                    // Passende Schließen-Funktion aufrufen
                     if(modalId === 'settingsModal') closeSettings();
                     if(modalId === 'addContactModal') closeAddContact();
                     if(modalId === 'addGroupModal') closeAddGroup();
