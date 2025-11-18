@@ -753,6 +753,8 @@ button.modal-close:hover::after {
 
 .nav-settings img:hover {
     transform: scale(1.05);
+}
+
 .privacy-box ul {
     list-style: none;
     padding-left: 0;
