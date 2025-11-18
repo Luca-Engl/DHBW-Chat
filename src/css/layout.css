@@ -1419,3 +1419,114 @@ button.modal-close:hover::after {
         height: 30px;
     }
 }
+
+
+
+/* Container für die Nachrichtenliste */
+.chat-messages {
+    flex: 1; /* Füllt den verfügbaren Platz aus */
+    padding: 20px;
+    overflow-y: auto; /* Scrollbar, wenn viele Nachrichten da sind */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Abstand zwischen den Nachrichtenblöcken */
+}
+
+/* Grundstruktur einer Nachricht (Zeit + Bubble) */
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%; /* Bubble darf nicht breiter als 70% sein */
+}
+
+/* Linke Nachricht (Empfangen) */
+.message.received {
+    align-items: flex-start; /* Links bündig */
+    align-self: flex-start;
+}
+
+/* Rechte Nachricht (Gesendet) */
+.message.sent {
+    align-items: flex-end; /* Rechts bündig */
+    align-self: flex-end;
+}
+
+/* Der Zeitstempel über der Bubble */
+.timestamp {
+    font-size: 0.75rem;
+    color: #cccccc; /* Helles Grau für Lesbarkeit auf dunklem Grund */
+    margin-bottom: 4px;
+    margin-left: 5px;  /* Leicht eingerückt */
+    margin-right: 5px;
+}
+
+/* Das Aussehen der Sprechblase */
+.bubble {
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-size: 1rem;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Leichter Schatten */
+    word-wrap: break-word;
+}
+
+/* Farbe für Empfangen (Dunkles Rot wie im Bild) */
+.message.received .bubble {
+    background-color: rgba(226,0,26,0.5); /* Dunkles Weinrot */
+    border-bottom-left-radius: 2px; /* "Zipfel" unten links */
+}
+
+/* Farbe für Gesendet (Helles Rot wie im Bild) */
+.message.sent .bubble {
+    background-color: rgba(226,0,26,1); /* Knalliges Rot */
+    border-bottom-right-radius: 2px; /* "Zipfel" unten rechts */
+}
+
+/* =========================================
+   Custom Scrollbar Design (Subtle Gray)
+   ========================================= */
+
+html {
+    /* Firefox: Schieber (Grau/Transparent) | Hintergrund (Dunkel) */
+    scrollbar-color: var(--secondary-button-color) var(--primary-background-color);
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Der Hintergrund der Leiste */
+::-webkit-scrollbar-track {
+    background: var(--primary-background-color);
+    /* Optional: Entferne die Border komplett für maximalen "Stealth"-Look */
+    border-left: 1px solid transparent;
+}
+
+/* Der Schieberegler (Thumb) */
+::-webkit-scrollbar-thumb {
+    /* Wir nutzen hier die transparente Button-Farbe.
+       Auf dem dunklen Hintergrund ergibt das ein elegantes Grau. */
+    background-color: var(--secondary-button-color);
+
+    border-radius: 10px;
+
+    /* Der Rahmen in Hintergrundfarbe sorgt dafür, dass der Balken schlanker wirkt */
+    border: 3px solid var(--primary-background-color);
+}
+
+/* Hover-Effekt (Grau wird etwas "fester") */
+::-webkit-scrollbar-thumb:hover {
+    /* Wechsel zu der soliden Hintergrundfarbe für subtiles Feedback */
+    background-color: var(--secondary-background-color);
+
+    /* Alternativ: Falls du es beim Hover heller willst (Richtung Textfarbe):
+       background-color: var(--secondary-color);
+       (Das wäre dann das helle Grau #DCD3D3) */
+}
+
+/* Die Ecke unten rechts */
+::-webkit-scrollbar-corner {
+    background: var(--primary-background-color);
+}
