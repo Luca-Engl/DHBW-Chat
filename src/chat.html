@@ -52,34 +52,6 @@
             </button>
         </div>
 
-        <div class="chat-messages" id="chatMessages">
-            <!-- Andere Person -->
-            <div class="message-bubble other">
-                <div class="message-sender">Max Mustermann</div>
-                <div class="message-content">Hey, wie geht's?</div>
-                <div class="message-time">14:23</div>
-            </div>
-
-            <!-- Eigene Nachricht -->
-            <div class="message-bubble own">
-                <div class="message-content">Gut, danke! Und dir?</div>
-                <div class="message-time">14:24</div>
-            </div>
-
-            <!-- Andere Person -->
-            <div class="message-bubble other">
-                <div class="message-sender">Max Mustermann</div>
-                <div class="message-content">Auch gut! Hast du die Projektarbeit schon fertig?</div>
-                <div class="message-time">14:25</div>
-            </div>
-
-            <!-- Eigene Nachricht -->
-            <div class="message-bubble own">
-                <div class="message-content">Ja, fast! Morgen bin ich durch.</div>
-                <div class="message-time">14:26</div>
-            </div>
-        </div>
-
         <form class="chat-input-container background">
             <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text"></textarea>
             <button type=submit class="style-bold">Senden</button>
@@ -210,23 +182,23 @@
 </section>
 
 <!-- Ablage-->
-<aside id="importantPanel" class="important-panel">
-    <div class="important-panel-header">
-        <h3>📌 Wichtige Notizen</h3>
-        <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
-    </div>
-
-    <div class="important-panel-content">
-        <div class="add-note-section">
-            <textarea id="newNoteInput" placeholder="Neue wichtige Notiz..." rows="3"></textarea>
-            <button onclick="addNote()" class="style-bold">Hinzufügen</button>
+    <aside id="importantPanel" class="important-panel">
+        <div class="important-panel-header">
+            <h3>📌 Wichtige Notizen</h3>
+            <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
         </div>
 
+        <!-- Liste der Notizen -->
         <div id="notesList" class="notes-list">
             <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
         </div>
-    </div>
-</aside>
+
+        <!-- Input unten -->
+        <div class="note-input-container background">
+            <textarea id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
+            <button onclick="addNote()" class="style-bold">Senden</button>
+        </div>
+    </aside>
 </main>
 <script src="js/chat-page.js"></script>
 </body>

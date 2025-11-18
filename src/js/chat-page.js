@@ -159,32 +159,23 @@
         const text = input.value.trim();
 
         if (text === '') {
-            alert('Bitte gib eine Notiz ein!');
             return;
         }
 
-        // Notizen aus localStorage laden
         const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
 
-        // Notizen für aktuellen Chat
         if (!allNotes[currentChat]) {
             allNotes[currentChat] = [];
         }
 
-        // Neue Notiz hinzufügen
         allNotes[currentChat].push({
             id: Date.now(),
             text: text,
             date: new Date().toLocaleString('de-DE')
         });
 
-        // Speichern
         localStorage.setItem('chatNotes', JSON.stringify(allNotes));
-
-        // Liste aktualisieren
         loadNotes();
-
-        // Input leeren
         input.value = '';
     }
 
@@ -226,4 +217,81 @@
         currentChat = chatName;
         document.getElementById('currentChatName').textContent = chatName;
         loadNotes(); // Notizen des neuen Chats laden
+    }
+
+    // Enter-Taste für Chat-Textarea
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatInput = document.getElementById('chatmessage');
+
+        if (chatInput) {
+            chatInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    // Hier später die Funktion zum Senden der Chat-Nachricht
+                    console.log('Chat-Nachricht senden');
+                }
+            });
+        }
+
+        // Notiz-Textarea
+        const noteInput = document.getElementById('newNoteInput');
+
+        if (noteInput) {
+            noteInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addNote();
+                }
+            });
+        }
+    });
+
+    // Auto-resize für Textareas
+    function autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, parseInt(getComputedStyle(textarea).maxHeight)) + 'px';
+    }
+
+
+        // Notiz-Textarea
+        const noteInput = document.getElementById('newNoteInput');
+
+        if (noteInput) {
+            noteInput.addEventListener('input', function() {
+                autoResizeTextarea(this);
+            });
+
+            noteInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    addNote();
+                    this.style.height = 'auto';
+                }
+            });
+    };
+
+    function loadNotes() {
+        const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
+        const notes = allNotes[currentChat] || [];
+        const list = document.getElementById('notesList');
+
+        if (notes.length === 0) {
+            list.innerHTML = '<p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>';
+            return;
+        }
+
+        list.innerHTML = notes.map(note => `
+        <div class="note-item">
+            <div class="note-content">
+                <p class="note-text">${note.text}</p>
+                <small class="note-date">${note.date}</small>
+            </div>
+            <button class="note-delete-btn" onclick="deleteNote(${note.id})" title="Löschen">×</button>
+        </div>
+    `).join('');
+
+        // Scroll ganz nach unten mit kleinem Delay
+        setTimeout(() => {
+            list.scrollTop = list.scrollHeight;
+        }, 50);
     }
