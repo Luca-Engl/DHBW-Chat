@@ -151,6 +151,11 @@
                 </div>
             </div>
 
+        <div class="chat-nav-bar">
+            <h2 id="currentChatName">Globalchat</h2>
+            <button class="chat-important-btn" onclick="toggleImportantPanel()">
+                📌 Ablage
+            </button>
         </div>
 
         <form class="chat-input-container background" id="chatForm">
@@ -161,6 +166,7 @@
     </section>
 </main>
 
+<!-- Settings Modal -->
 <div id="settingsModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
@@ -211,6 +217,27 @@
     </div>
 </div>
 
+</section>
+
+<!-- Ablage-->
+    <aside id="importantPanel" class="important-panel">
+        <div class="important-panel-header">
+            <h3>📌 Wichtige Notizen</h3>
+            <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
+        </div>
+
+        <!-- Liste der Notizen -->
+        <div id="notesList" class="notes-list">
+            <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
+        </div>
+
+        <!-- Input unten -->
+        <div class="note-input-container background">
+            <textarea id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
+            <button onclick="addNote()" class="style-bold">Senden</button>
+        </div>
+    </aside>
+</main>
 <script src="js/chat-page.js"></script>
 </body>
 </html>

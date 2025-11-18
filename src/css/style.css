@@ -36,74 +36,6 @@ body {
     background-color: var(--primary-background-color);
 }
 
-.font-secondary {
-    color: var(--secondary-color);
-}
-
-.font-size-landing {
-    font-size: 4rem;
-}
-
-.font-size-landing-small {
-    font-size: 1.5rem;
-}
-
-.font-write {
-    font-family: var(--secondary-font), Arial, sans-serif;
-}
-
-.style-bold {
-    font-weight: 700;
-}
-
-.style-italic {
-    font-style: italic;
-}
-
-.style-oblique {
-    font-style: oblique;
-}
-
-.style-underline {
-    text-decoration-line: underline;
-}
-
-.style-line-through {
-    text-decoration-line: line-through;
-}
-
-.style-hide-link {
-    text-decoration: none;
-}
-
-.align-left {
-    text-align: left;
-}
-
-.align-right {
-    text-align: right;
-}
-
-.align-center {
-    text-align: center;
-}
-
-.align-justify {
-    text-align: justify;
-}
-
-.render-uppercase {
-    text-transform: uppercase;
-}
-
-.render-lowercase {
-    text-transform: lowercase;
-}
-
-.render-capitalize {
-    text-transform: capitalize;
-}
-
 button {
     display: inline-block;
     position: relative;
@@ -220,20 +152,6 @@ textarea {
     line-height: 1.5;
 }
 
-.input-small {
-    width: 100%;
-    max-width: 120px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-
-
-.select-small {
-    width: 100%;
-    max-width: 120px;
-}
-
 a:link {
     color: var(--primary-button-color);
     text-decoration: none;
@@ -253,6 +171,86 @@ a:visited {
 a:visited:hover {
     color: var(--primary-color);
     cursor: pointer;
+}
+
+.font-secondary {
+    color: var(--secondary-color);
+}
+
+.font-size-landing {
+    font-size: 4rem;
+}
+
+.font-size-landing-small {
+    font-size: 1.5rem;
+}
+
+.font-write {
+    font-family: var(--secondary-font), Arial, sans-serif;
+}
+
+.style-bold {
+    font-weight: 700;
+}
+
+.style-italic {
+    font-style: italic;
+}
+
+.style-oblique {
+    font-style: oblique;
+}
+
+.style-underline {
+    text-decoration-line: underline;
+}
+
+.style-line-through {
+    text-decoration-line: line-through;
+}
+
+.style-hide-link {
+    text-decoration: none;
+}
+
+.align-left {
+    text-align: left;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-justify {
+    text-align: justify;
+}
+
+.render-uppercase {
+    text-transform: uppercase;
+}
+
+.render-lowercase {
+    text-transform: lowercase;
+}
+
+.render-capitalize {
+    text-transform: capitalize;
+}
+
+.input-small {
+    width: 100%;
+    max-width: 120px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.select-small {
+    width: 100%;
+    max-width: 120px;
 }
 
 .background {
