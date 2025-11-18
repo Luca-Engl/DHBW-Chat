@@ -1239,46 +1239,49 @@ button.modal-close:hover::after {
 }
 
 /* =========================================
-   Custom Scrollbar Design
+   Custom Scrollbar Design (Subtle Gray)
    ========================================= */
 
-/* Standard für Firefox */
 html {
-    /* Erster Wert: Schieberegler-Farbe, Zweiter Wert: Hintergrund-Farbe */
-    scrollbar-color: var(--primary-button-color) var(--primary-background-color);
+    /* Firefox: Schieber (Grau/Transparent) | Hintergrund (Dunkel) */
+    scrollbar-color: var(--secondary-button-color) var(--primary-background-color);
     scrollbar-width: thin;
 }
 
-/* Für WebKit-Browser (Chrome, Edge, Safari, Opera) */
 ::-webkit-scrollbar {
-    width: 12px; /* Breite der vertikalen Leiste */
-    height: 12px; /* Höhe der horizontalen Leiste (falls vorhanden) */
+    width: 12px;
 }
 
-/* Der Hintergrund der Leiste (Track) */
+/* Der Hintergrund der Leiste */
 ::-webkit-scrollbar-track {
     background: var(--primary-background-color);
-    border-left: 1px solid var(--secondary-background-color); /* Optionale feine Trennlinie */
+    /* Optional: Entferne die Border komplett für maximalen "Stealth"-Look */
+    border-left: 1px solid transparent;
 }
 
 /* Der Schieberegler (Thumb) */
 ::-webkit-scrollbar-thumb {
-    /* Wir nutzen hier das Rot, damit man sofort sieht, wo man ist.
-       Alternativ: var(--secondary-background-color) für dezenteren Look */
+    /* Wir nutzen hier die transparente Button-Farbe.
+       Auf dem dunklen Hintergrund ergibt das ein elegantes Grau. */
     background-color: var(--secondary-button-color);
-    border-radius: 10px; /* Stark abgerundet für modernen Look */
 
-    /* Dieser Rahmen sorgt für einen "Padding"-Effekt, damit der Balken "schwebend" wirkt */
+    border-radius: 10px;
+
+    /* Der Rahmen in Hintergrundfarbe sorgt dafür, dass der Balken schlanker wirkt */
     border: 3px solid var(--primary-background-color);
 }
 
-/* Hover-Effekt für den Schieberegler */
+/* Hover-Effekt (Grau wird etwas "fester") */
 ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--primary-button-color); /* DHBW-Rot beim Interagieren */
-    border-color: var(--primary-background-color);
+    /* Wechsel zu der soliden Hintergrundfarbe für subtiles Feedback */
+    background-color: var(--secondary-background-color);
+
+    /* Alternativ: Falls du es beim Hover heller willst (Richtung Textfarbe):
+       background-color: var(--secondary-color);
+       (Das wäre dann das helle Grau #DCD3D3) */
 }
 
-/* Ecke unten rechts, wo sich Scrollbars treffen (selten sichtbar) */
+/* Die Ecke unten rechts */
 ::-webkit-scrollbar-corner {
     background: var(--primary-background-color);
 }
