@@ -21,7 +21,6 @@
         <section class="chat-nav-center"></section>
         <section class="nav-right">
             <p class="margin-right-5">ExampleUser</p>
-            <!-- WICHTIG: 'return false' verhindert das Springen der Seite beim Klick -->
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
                 <img src="img/default-avatar.png" alt="User-Avatar">
             </a>
@@ -155,6 +154,7 @@
         </div>
 
         <form class="chat-input-container background" id="chatForm">
+            <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
             <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text" aria-label="Nachricht eingeben"></textarea>
             <button type="submit" class="style-bold">Senden</button>
         </form>
@@ -171,22 +171,21 @@
             <input type="file" id="profile-picture" accept="image/*">
         </section>
         <section class="margin-bottom-3">
-            <label class="style-bold">Username:</label>
+            <label for="username-edit" class="style-bold">Username:</label>
             <p>
                 <span id="username-display">Luca Engl</span>
-                <button type="button" class="button-secondary">Bearbeiten</button>
+                <button type="button" id="username-edit" class="button-secondary">Bearbeiten</button>
             </p>
         </section>
         <button class="button-secondary" onclick="closeSettings()">Schließen</button>
     </div>
 </div>
 
-<!-- FIX: style="display: none;" ENTFERNT -->
 <div id="addContactModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
         <h2>Kontakt hinzufügen</h2>
-        <p>DHBW E-Mail Adresse:</p>
+        <p><label for="contactEmail">DHBW E-Mail Adresse:</label></p>
         <input type="email" id="contactEmail" placeholder="max.mustermann@dhbw.de">
         <br><br>
         <button onclick="addContact()">Hinzufügen</button>
@@ -197,10 +196,10 @@
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
         <h2>Gruppe erstellen</h2>
-        <p>Gruppenname:</p>
+        <p><label for="groupName">Gruppenname:</label></p>
         <input type="text" id="groupName" placeholder="z.B. Team DHBW">
         <br><br>
-        <p>Mitglieder hinzufügen:</p>
+        <p><label for="memberEmail">Mitglieder hinzufügen:</label></p>
         <div style="display: flex; gap: 10px; align-items: center;">
             <input type="email" id="memberEmail" placeholder="Email Adresse">
             <button class="button-secondary" onclick="addMemberToList()">+ Add</button>
