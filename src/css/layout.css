@@ -67,7 +67,6 @@ footer {
 }
 
 .chat-page-header {
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -248,13 +247,13 @@ footer {
 }
 
 .popup-box {
-    background: var(--input-background-color);
-    backdrop-filter: blur(3px);
-    border-radius: 15px;
     box-sizing: border-box;
     padding: 20px;
     width: 500px;
-    max-width: 50%;
+    max-width: 80%;
+    background: var(--input-background-color);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
     border: 1px solid rgba(255,255,255,0.1);
     box-shadow:
             inset 0 0 10px rgba(255,255,255,0.05),
@@ -286,8 +285,6 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
     z-index: 2000;
     justify-content: center;
     align-items: center;
@@ -300,25 +297,20 @@ footer {
 
 .modal-content {
     position: relative;
-    background: var(--input-background-color);
-    backdrop-filter: blur(3px);
     border-radius: 15px;
     padding: 30px;
     max-width: 600px;
     width: 90%;
     max-height: 90vh;
     overflow-y: auto;
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow:
-            inset 0 0 10px rgba(255,255,255,0.05),
-            0 0 35px rgba(0,0,0,0.6);
 }
 
 .modal-close {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: transparent;
+    background: none;
+    box-shadow: none;
     border: none;
     font-size: 30px;
     color: #fff;
@@ -327,9 +319,17 @@ footer {
 }
 
 .modal-close:hover {
+    background: none;
+    box-shadow: none;
     transform: rotate(90deg);
     color: #E2001A;
 }
+
+button.modal-close::after,
+button.modal-close:hover::after {
+    background: none;
+}
+
 
 #memberList {
     background: rgba(255,255,255,0.05);
@@ -783,6 +783,10 @@ footer {
     margin-left: 5%;
 }
 
+.margin-bottom-2 {
+    margin-bottom: 2%;
+}
+
 .margin-bottom-7 {
     margin-bottom: 7%;
 }
@@ -841,6 +845,10 @@ footer {
 
 .margin-top-5 {
     margin-top: 5%;
+}
+
+.margin-top-7 {
+    margin-top: 7%;
 }
 
 .margin-top-10 {
