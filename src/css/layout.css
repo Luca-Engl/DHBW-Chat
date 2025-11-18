@@ -1175,6 +1175,8 @@ button.modal-close:hover::after {
     }
 }
 
+
+
 /* Container für die Nachrichtenliste */
 .chat-messages {
     flex: 1; /* Füllt den verfügbaren Platz aus */

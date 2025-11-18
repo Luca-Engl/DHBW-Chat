@@ -2,9 +2,6 @@
    TEIL 1: CHAT FUNKTIONEN (Nachrichten & Scrollen)
    ========================================== */
 
-/**
- * Scrollt den Chat automatisch nach unten.
- */
 function scrollToBottom() {
     const chatHistory = document.getElementById("chat-history");
     if (chatHistory) {
@@ -12,12 +9,8 @@ function scrollToBottom() {
     }
 }
 
-/**
- * Sendet eine Nachricht und fügt sie dem Chat hinzu.
- * Wird jetzt per Event Listener aufgerufen.
- */
 function sendMessage(event) {
-    if (event) event.preventDefault(); // Verhindert das Neuladen der Seite
+    if (event) event.preventDefault();
 
     const inputField = document.getElementById("chatmessage");
     const text = inputField.value.trim();
@@ -25,12 +18,10 @@ function sendMessage(event) {
     if (text !== "") {
         const chatHistory = document.getElementById("chat-history");
 
-        // Zeitstempel generieren (HH:MM)
         const now = new Date();
         const timeString = now.getHours().toString().padStart(2, '0') + ':' +
             now.getMinutes().toString().padStart(2, '0');
 
-        // Neue Bubble HTML
         const newMessageHTML = `
             <div class="message sent">
                 <span class="timestamp">${timeString}</span>
@@ -173,12 +164,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. Chat sofort nach unten scrollen
     scrollToBottom();
 
-    // 2. Formular-Logik: Verhindert das Neuladen
+    // 2. Formular-Logik
     const chatForm = document.getElementById('chatForm');
     if (chatForm) {
         chatForm.addEventListener('submit', sendMessage);
-    } else {
-        console.error("Fehler: Chat-Formular mit ID 'chatForm' nicht gefunden!");
     }
 
     // 3. Klicks außerhalb der Modals schließen diese
@@ -195,4 +184,28 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+
+    // 4. NEU: Globale Fehlerbehandlung für Bilder (Ersatz für onerror)
+    // Wir nutzen hier 'Event Capturing' (das true am Ende), da 'error' Events nicht bubbeln.
+    document.addEventListener('error', function(event) {
+        const target = event.target;
+
+        // Prüfen, ob der Fehler von einem Bild kommt
+        if (target.tagName === 'IMG') {
+
+            // Fall A: Das Logo im Header (soll verschwinden, wenn defekt)
+            if (target.classList.contains('img-logo-nav')) {
+                target.style.display = 'none';
+            }
+
+                // Fall B: Avatar-Bilder (sollen Platzhalter bekommen)
+            // Wir prüfen auf Alt-Text oder Klasse
+            else if (target.alt === 'User-Avatar' || target.alt === 'Avatar' || target.classList.contains('user-avatar-img')) {
+                // Verhindern von Endlos-Schleifen, falls der Platzhalter auch nicht lädt
+                if (!target.src.includes('placeholder.com')) {
+                    target.src = 'https://via.placeholder.com/40';
+                }
+            }
+        }
+    }, true); // <--- WICHTIG: 'true' aktiviert Capturing Phase
 });

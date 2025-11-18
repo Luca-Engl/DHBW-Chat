@@ -15,15 +15,15 @@
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.html">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo" onerror="this.style.display='none'">
-                <span style="font-weight:bold; color:#e2001a; margin-left:10px;">DHBW Chat</span>
+                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
-            <p class="margin-right-5">Luca Engl</p>
-            <a href="#" onclick="openSettings()" class="nav-settings">
-                <img src="img/default-avatar.png" alt="User-Avatar" onerror="this.src='https://via.placeholder.com/40'">
+            <p class="margin-right-5">ExampleUser</p>
+            <!-- WICHTIG: 'return false' verhindert das Springen der Seite beim Klick -->
+            <a href="#" onclick="openSettings(); return false;" class="nav-settings">
+                <img src="img/default-avatar.png" alt="User-Avatar">
             </a>
         </section>
     </nav>
@@ -47,9 +47,7 @@
 
     <section class="chat-main">
 
-        <!-- Chatverlauf Container -->
         <div class="chat-messages" id="chat-history">
-
             <!-- 1. Empfangen -->
             <div class="message received">
                 <span class="timestamp">10:30</span>
@@ -156,22 +154,20 @@
 
         </div>
 
-        <!-- WICHTIG: Hier wurde onsubmit entfernt und ID hinzugefügt -->
         <form class="chat-input-container background" id="chatForm">
-            <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text"></textarea>
+            <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text" aria-label="Nachricht eingeben"></textarea>
             <button type="submit" class="style-bold">Senden</button>
         </form>
     </section>
 </main>
 
-<!-- Settings Modal -->
-<div id="settingsModal" class="modal-overlay" style="display: none;">
+<div id="settingsModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
         <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
         <section class="margin-bottom-3">
             <label for="profile-picture" class="style-bold">Profilbild:</label>
-            <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar" style="width:60px; height:60px; border-radius:50%; margin-top:5px;" onerror="this.src='https://via.placeholder.com/60'">
+            <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar" style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
             <input type="file" id="profile-picture" accept="image/*">
         </section>
         <section class="margin-bottom-3">
@@ -185,8 +181,8 @@
     </div>
 </div>
 
-<!-- Kontakt hinzufügen Modal -->
-<div id="addContactModal" class="modal-overlay" style="display: none;">
+<!-- FIX: style="display: none;" ENTFERNT -->
+<div id="addContactModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
         <h2>Kontakt hinzufügen</h2>
@@ -197,8 +193,7 @@
     </div>
 </div>
 
-<!-- Gruppe hinzufügen Modal -->
-<div id="addGroupModal" class="modal-overlay" style="display: none;">
+<div id="addGroupModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
         <h2>Gruppe erstellen</h2>
