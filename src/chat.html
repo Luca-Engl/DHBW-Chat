@@ -12,7 +12,7 @@
 </head>
 <body>
 <header class="chat-page-header">
-    <nav class="chat-nav-grid margin-right-10">
+    <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.html">
                 <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
@@ -56,70 +56,51 @@
 </main>
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal-overlay">
-    <div class="modal-content">
+    <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
 
-        <h2>Einstellungen</h2>
+            <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
+
+            <section class="margin-bottom-3">
+                <label for="profile-picture" class="style-bold">Profilbild:</label>
+                <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild" style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
+                <input type="file" id="profile-picture" accept="image/*">
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Username:</label>
+                <p>
+                    <span id="username-display">Luca Engl</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Email:</label>
+                <p>
+                    <span id="email-display">engll.tin25@student.dhbw-heidenheim.de</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Passwort:</label>
+                <p>
+                    <span id="password-display">••••••••</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-top-5">
+                <button type="button">Speichern</button>
+            </section>
         <br>
-
-        <p>Benutzername:</p>
-        <label>
-            <input type="text" maxlength="30" pattern="[A-Za-z0-9]+"
-                   title="Nur Buchstaben und Zahlen erlaubt. Maximal 30 Zeichen."
-                   inputmode="text" id="username" name="username" placeholder="">
-        </label>
-        <br>
-
-        <p>DHBW E-Mail Adresse:</p>
-        <label>
-            <input type="email" inputmode="email" id="displayname"
-                   name="displayname" placeholder="">
-        </label>
-        <br><br>
-
-        <p>Studiengang:</p>
-        <label>
-            <select class="select-small" id="faculty" name="faculty">
-                <option value="" selected hidden="">Fakultät ...</option>
-                <option value="T">Technik</option>
-                <option value="W">Wirtschaft</option>
-                <option value="S">Sozialwesen</option>
-                <option value="G">Gesundheit</option>
-                <option value="A">Sonstige</option>
-            </select>
-        </label>
-
-        <label>
-            <select class="select-small" id="cursus" name="cursus">
-                <option value="" selected hidden="">Kurs ...</option>
-                <option value="INF">Angewandte Informatik</option>
-                <option value="MB">Maschinenbau</option>
-                <option value="MT">Mechatronik</option>
-                <option value="WIW">Wirtschaftsingenieurwesen</option>
-            </select>
-        </label>
-
-        <label>
-            <select class="select-small" id="year" name="year">
-                <option value="" selected hidden="">Jahr ...</option>
-                <option value="2025">2025</option>
-                <option value="2024">2024</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-            </select>
-        </label>
-
-        <br><br>
-        <button onclick="saveSettings()">Speichern</button>
-        <br><br>
         <button class="button-secondary" onclick="closeSettings()">Abbrechen</button>
     </div>
 </div>
 <!-- Kontakt hinzufügen Modal -->
 <div id="addContactModal" class="modal-overlay">
-    <div class="modal-content">
+    <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
 
         <h2>Kontakt hinzufügen</h2>
@@ -139,7 +120,7 @@
 </div>
 <!-- Gruppe hinzufügen Modal -->
 <div id="addGroupModal" class="modal-overlay">
-    <div class="modal-content">
+    <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
 
         <h2>Gruppe erstellen</h2>
@@ -157,7 +138,7 @@
         <div style="display: flex; gap: 10px; align-items: center;">
             <label style="flex: 1;">
                 <input type="email" inputmode="email" id="memberEmail"
-                       name="memberEmail" placeholder="max.mustermann@dhbw.de">
+                       name="memberEmail" placeholder="max.mustermann@student.dhbw-heidenheim.de">
             </label>
             <button class="button-secondary" onclick="addMemberToList()"
                     style="white-space: nowrap;">+ Hinzufügen</button>
