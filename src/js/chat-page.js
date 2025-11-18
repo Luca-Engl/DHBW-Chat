@@ -140,3 +140,90 @@
             });
         }
     });
+
+    let currentChat = 'Globalchat'; // Aktueller Chat
+
+    // Panel öffnen/schließen
+    function toggleImportantPanel() {
+        const panel = document.getElementById('importantPanel');
+        panel.classList.toggle('active');
+
+        if (panel.classList.contains('active')) {
+            loadNotes();
+        }
+    }
+
+    // Notiz hinzufügen
+    function addNote() {
+        const input = document.getElementById('newNoteInput');
+        const text = input.value.trim();
+
+        if (text === '') {
+            alert('Bitte gib eine Notiz ein!');
+            return;
+        }
+
+        // Notizen aus localStorage laden
+        const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
+
+        // Notizen für aktuellen Chat
+        if (!allNotes[currentChat]) {
+            allNotes[currentChat] = [];
+        }
+
+        // Neue Notiz hinzufügen
+        allNotes[currentChat].push({
+            id: Date.now(),
+            text: text,
+            date: new Date().toLocaleString('de-DE')
+        });
+
+        // Speichern
+        localStorage.setItem('chatNotes', JSON.stringify(allNotes));
+
+        // Liste aktualisieren
+        loadNotes();
+
+        // Input leeren
+        input.value = '';
+    }
+
+    // Notizen für aktuellen Chat laden
+    function loadNotes() {
+        const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
+        const notes = allNotes[currentChat] || [];
+        const list = document.getElementById('notesList');
+
+        if (notes.length === 0) {
+            list.innerHTML = '<p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>';
+            return;
+        }
+
+        list.innerHTML = notes.map(note => `
+        <div class="note-item">
+            <div class="note-content">
+                <p class="note-text">${note.text}</p>
+                <small class="note-date">${note.date}</small>
+            </div>
+            <button class="note-delete-btn" onclick="deleteNote(${note.id})" title="Löschen">×</button>
+        </div>
+    `).join('');
+    }
+
+    // Notiz löschen
+    function deleteNote(id) {
+        const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
+
+        if (allNotes[currentChat]) {
+            allNotes[currentChat] = allNotes[currentChat].filter(note => note.id !== id);
+            localStorage.setItem('chatNotes', JSON.stringify(allNotes));
+            loadNotes();
+        }
+    }
+
+    // Chat wechseln (später für die Chat-Liste)
+    function switchChat(chatName) {
+        currentChat = chatName;
+        document.getElementById('currentChatName').textContent = chatName;
+        loadNotes(); // Notizen des neuen Chats laden
+    }
