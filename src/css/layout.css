@@ -783,6 +783,10 @@ button.modal-close:hover::after {
     margin-left: 5%;
 }
 
+.margin-bottom-2 {
+    margin-bottom: 2%;
+}
+
 .margin-bottom-7 {
     margin-bottom: 7%;
 }
@@ -841,6 +845,10 @@ button.modal-close:hover::after {
 
 .margin-top-5 {
     margin-top: 5%;
+}
+
+.margin-top-7 {
+    margin-top: 7%;
 }
 
 .margin-top-10 {
