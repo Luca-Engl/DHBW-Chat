@@ -376,17 +376,34 @@ button.modal-close:hover::after {
     height: 100vh;
     width: 100%;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-container:hover {
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chat-sidebar {
     width: 250px;
     padding: 20px;
     border-right: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
     gap: 10px;
     height: 100%;
+    transition: all 0.3s ease-in-out;
 }
+
+.chat-sidebar:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
 
 .chat-sidebar ul {
     list-style: none;
@@ -525,12 +542,20 @@ button.modal-close:hover::after {
 .chat-input-container {
     display: flex;
     gap: 10px;
-    background-color: var(--chat-background-color);
+    background-color: var(--navbar-background-color);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
     flex-shrink: 0;
     margin: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-input-container:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chat-input-container textarea {
@@ -549,9 +574,17 @@ button.modal-close:hover::after {
     padding: 8px 20px;
     background: rgba(255,255,255,0.05);
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     flex-shrink: 0;
     position: relative;
     z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-nav-bar {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chat-nav-bar h2 {
@@ -582,13 +615,18 @@ button.modal-close:hover::after {
     right: -400px;
     width: 380px;
     height: calc(100vh - 70px);
-    background: #1a1a1f;
-    border-left: 1px solid rgba(255,255,255,0.1);
-    box-shadow: -5px 0 20px rgba(0,0,0,0.5);
-    transition: right 0.3s ease-in-out;
+    background-color: var(--chat-background-color);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     z-index: 900;
     display: flex;
     flex-direction: column;
+    transition: all 0.3s ease-in-out;
+}
+
+.important-panel:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .important-panel.active {
