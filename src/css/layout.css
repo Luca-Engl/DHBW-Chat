@@ -418,18 +418,23 @@ button.modal-close:hover::after {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    justify-content: flex-end;
-    gap: 10px;
+    padding: 0;
+    position: relative;
 }
 
 .chat-input-container {
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    right: 0;
     display: flex;
-    width: 100%;
     gap: 10px;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: var(--chat-background-color);
+    border-radius: 0;
+    padding: 15px 20px;
     box-sizing: border-box;
+    z-index: 100;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .chat-content-area {
@@ -505,6 +510,18 @@ button.modal-close:hover::after {
     transition: all 0.2s ease-in-out;
 }
 
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
 .chat-input-container {
     display: flex;
     gap: 10px;
@@ -512,7 +529,8 @@ button.modal-close:hover::after {
     border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
-    margin-top: auto;
+    flex-shrink: 0;
+    margin: 0;
 }
 
 .chat-input-container textarea {
@@ -528,25 +546,28 @@ button.modal-close:hover::after {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 8px 20px;
     background: rgba(255,255,255,0.05);
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1000;
 }
 
 .chat-nav-bar h2 {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .chat-important-btn {
-    padding: 6px 12px;
+    padding: 4px 10px;
     background: rgba(226,0,26,0.2);
     border: 1px solid #E2001A;
     border-radius: 6px;
     color: #fff;
     cursor: pointer;
     transition: all 0.3s;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     white-space: nowrap;
 }
 
@@ -1423,15 +1444,16 @@ button.modal-close:hover::after {
 
 
 
-/* Container für die Nachrichtenliste */
 .chat-messages {
-    flex: 1; /* Füllt den verfügbaren Platz aus */
+    flex: 1;
     padding: 20px;
-    overflow-y: auto; /* Scrollbar, wenn viele Nachrichten da sind */
+    padding-bottom: 90px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Abstand zwischen den Nachrichtenblöcken */
+    gap: 15px;
 }
+
 
 /* Grundstruktur einer Nachricht (Zeit + Bubble) */
 .message {

@@ -46,6 +46,13 @@
 
     <section class="chat-main">
 
+        <div class="chat-nav-bar">
+            <h2 id="currentChatName">Globalchat</h2>
+            <button class="chat-important-btn" onclick="toggleImportantPanel()">
+                📌 Ablage
+            </button>
+        </div>
+
         <div class="chat-messages" id="chat-history">
             <!-- 1. Empfangen -->
             <div class="message received">
@@ -151,19 +158,13 @@
                 </div>
             </div>
 
-        <div class="chat-nav-bar">
-            <h2 id="currentChatName">Globalchat</h2>
-            <button class="chat-important-btn" onclick="toggleImportantPanel()">
-                📌 Ablage
-            </button>
-        </div>
-
         <form class="chat-input-container background" id="chatForm">
             <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
             <textarea id="chatmessage" name="chatmessage" rows="2" placeholder="Nachricht eingeben..." inputmode="text" aria-label="Nachricht eingeben"></textarea>
             <button type="submit" class="style-bold">Senden</button>
         </form>
-    </section>
+        </div>
+        </section>
 </main>
 
 <!-- Settings Modal -->
