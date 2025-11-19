@@ -592,6 +592,20 @@ button.modal-close:hover::after {
     font-size: 1rem;
 }
 
+.nav-username:link,
+.nav-username:visited {
+    color: var(--primary-color);
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.nav-username:hover,
+.nav-username:active {
+    color: var(--primary-color);
+    text-shadow: none;
+    cursor: pointer;
+}
+
 .chat-important-btn {
     padding: 4px 10px;
     background: rgba(226,0,26,0.2);
