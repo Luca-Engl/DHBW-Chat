@@ -20,7 +20,9 @@
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
-            <p class="margin-right-5">ExampleUser</p>
+            <a href="#" class="margin-right-5" onclick="openSettings(); return false;">
+                ExampleUser
+            </a>
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
                 <img src="img/default-avatar.png" alt="User-Avatar">
             </a>
@@ -167,26 +169,53 @@
         </section>
 </main>
 
-<!-- Settings Modal -->
+<!-- Settings Modal (korrigiert) -->
 <div id="settingsModal" class="modal-overlay">
     <div class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
-        <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
-        <section class="margin-bottom-3">
-            <label for="profile-picture" class="style-bold">Profilbild:</label>
-            <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar" style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
-            <input type="file" id="profile-picture" accept="image/*">
+
+        <section class="align-left margin-top-5">
+            <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
+
+            <section class="margin-bottom-3">
+                <label for="profile-picture" class="style-bold">Profilbild:</label>
+                <img id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild"
+                     style="width:60px; height:60px; border-radius:50%; margin-top:5px;">
+                <input type="file" id="profile-picture" accept="image/*">
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Username:</label>
+                <p>
+                    <span id="username-display">Luca Engl</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Email:</label>
+                <p>
+                    <span id="email-display">engll.tin25@student.dhbw-heidenheim.de</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-bottom-3">
+                <label class="style-bold">Passwort:</label>
+                <p>
+                    <span id="password-display">••••••••</span>
+                    <button type="button" class="button-secondary">Bearbeiten</button>
+                </p>
+            </section>
+
+            <section class="margin-top-5">
+                <button type="button" class="button-primary">Speichern</button>
+            </section>
         </section>
-        <section class="margin-bottom-3">
-            <label for="username-edit" class="style-bold">Username:</label>
-            <p>
-                <span id="username-display">Luca Engl</span>
-                <button type="button" id="username-edit" class="button-secondary">Bearbeiten</button>
-            </p>
-        </section>
-        <button class="button-secondary" onclick="closeSettings()">Schließen</button>
+
     </div>
 </div>
+
 
 <div id="addContactModal" class="modal-overlay">
     <div class="modal-content popup-box">
