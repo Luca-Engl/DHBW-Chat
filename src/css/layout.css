@@ -1616,3 +1616,12 @@ html {
 .active-chat {
     background-color: var(--input-hover-border-color);
 }
+
+#newNoteInput {
+    scrollbar-width: none;
+    resize: none;
+}
+
+#newNoteInput::-webkit-scrollbar {
+    display: none;
+}
