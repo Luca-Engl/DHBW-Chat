@@ -418,18 +418,23 @@ button.modal-close:hover::after {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    justify-content: flex-end;
-    gap: 10px;
+    padding: 0;
+    position: relative;
 }
 
 .chat-input-container {
+    position: fixed;
+    bottom: 0;
+    left: 250px;
+    right: 0;
     display: flex;
-    width: 100%;
     gap: 10px;
-    border-radius: 10px;
-    padding: 10px;
+    background-color: var(--chat-background-color);
+    border-radius: 0;
+    padding: 15px 20px;
     box-sizing: border-box;
+    z-index: 100;
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .chat-content-area {
@@ -524,7 +529,8 @@ button.modal-close:hover::after {
     border-radius: 10px;
     padding: 10px;
     box-sizing: border-box;
-    margin-top: auto;
+    flex-shrink: 0;
+    margin: 0;
 }
 
 .chat-input-container textarea {
@@ -1438,15 +1444,16 @@ button.modal-close:hover::after {
 
 
 
-/* Container für die Nachrichtenliste */
 .chat-messages {
-    flex: 1; /* Füllt den verfügbaren Platz aus */
+    flex: 1;
     padding: 20px;
-    overflow-y: auto; /* Scrollbar, wenn viele Nachrichten da sind */
+    padding-bottom: 90px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Abstand zwischen den Nachrichtenblöcken */
+    gap: 15px;
 }
+
 
 /* Grundstruktur einer Nachricht (Zeit + Bubble) */
 .message {
