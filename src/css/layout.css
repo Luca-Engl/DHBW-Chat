@@ -565,6 +565,7 @@ button.modal-close:hover::after {
     max-height: 50px;
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
+    overflow-y: hidden;
 }
 
 .chat-nav-bar {
@@ -710,7 +711,7 @@ button.modal-close:hover::after {
     min-height: 60px;
     max-height: 150px;
     font-family: 'Exo2', Arial, sans-serif;
-    overflow-y: auto;
+    overflow-y: hidden;
     line-height: 1.5;
 }
 
