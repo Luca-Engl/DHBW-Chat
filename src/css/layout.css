@@ -966,8 +966,15 @@ button.modal-close:hover::after {
 }
 
 .faq-item {
+    opacity: 0;
+    transform: translateY(20px);
     position: relative;
     margin-bottom: 2rem
+}
+
+.faq-item.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .faq-item::after {
