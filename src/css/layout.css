@@ -1598,3 +1598,7 @@ html {
 ::-webkit-scrollbar-corner {
     background: var(--primary-background-color);
 }
+
+.active-chat {
+    background-color: var(--input-hover-border-color);
+}
