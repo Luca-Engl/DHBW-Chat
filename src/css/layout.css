@@ -1618,6 +1618,10 @@ html {
     background-color: var(--input-hover-border-color);
 }
 
+.active-chat:hover {
+    background-color: var(--input-hover-border-color) !important;
+}
+
 #newNoteInput {
     scrollbar-width: none;
     resize: none;
