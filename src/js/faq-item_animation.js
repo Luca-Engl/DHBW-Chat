@@ -12,7 +12,39 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             item.style.opacity = '1';
             item.style.transform = 'translateY(0)';
-            item.classList.add('animated'); // Markiere als animiert
-        }, 500 + (150 * index)); // 500ms Initialverzögerung + 150ms zwischen den Items
+            item.classList.add('animated');
+        }, 500 + (150 * index));
+    });
+
+    // Animation für das Ausklappen
+    faqItems.forEach(item => {
+        const animator = item.querySelector('.faq-animator');
+
+        // Setze initiale Styles
+        animator.style.overflow = 'hidden';
+        animator.style.transition = 'height 0.4s ease';
+        animator.style.height = '0px';
+
+        item.addEventListener('toggle', function() {
+            if (item.open) {
+                // ÖFFNEN: Messe die natürliche Höhe
+                animator.style.height = 'auto';
+                const height = animator.offsetHeight;
+                animator.style.height = '0px';
+
+                // Trigger Reflow
+                void animator.offsetHeight;
+
+                // Dann animiere zur Zielhöhe
+                animator.style.height = height + 'px';
+            }
+        });
+
+        // Setze Höhe auf auto nach Animation, damit Inhalt flexibel bleibt
+        animator.addEventListener('transitionend', function() {
+            if (item.open) {
+                animator.style.height = 'auto';
+            }
+        });
     });
 });
