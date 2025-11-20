@@ -16,24 +16,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500 + (150 * index));
     });
 
-    // Animation für das Aus- und Einklappen
+    // Animation für das Ausklappen
     faqItems.forEach(item => {
         const animator = item.querySelector('.faq-animator');
-        const content = item.querySelector('.faq-content');
 
-        // Setze initiale Höhe auf 0
-        animator.style.height = '0px';
+        // Setze initiale Styles
         animator.style.overflow = 'hidden';
         animator.style.transition = 'height 0.4s ease';
+        animator.style.height = '0px';
 
         item.addEventListener('toggle', function() {
             if (item.open) {
-                // Öffnen
-                const contentHeight = content.offsetHeight;
-                animator.style.height = contentHeight + 'px';
-            } else {
-                // Schließen
+                // ÖFFNEN: Messe die natürliche Höhe
+                animator.style.height = 'auto';
+                const height = animator.offsetHeight;
                 animator.style.height = '0px';
+
+                // Trigger Reflow
+                void animator.offsetHeight;
+
+                // Dann animiere zur Zielhöhe
+                animator.style.height = height + 'px';
+            }
+        });
+
+        // Setze Höhe auf auto nach Animation, damit Inhalt flexibel bleibt
+        animator.addEventListener('transitionend', function() {
+            if (item.open) {
+                animator.style.height = 'auto';
             }
         });
     });
