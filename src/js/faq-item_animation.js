@@ -12,7 +12,29 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             item.style.opacity = '1';
             item.style.transform = 'translateY(0)';
-            item.classList.add('animated'); // Markiere als animiert
-        }, 500 + (150 * index)); // 500ms Initialverzögerung + 150ms zwischen den Items
+            item.classList.add('animated');
+        }, 500 + (150 * index));
+    });
+
+    // Animation für das Aus- und Einklappen
+    faqItems.forEach(item => {
+        const animator = item.querySelector('.faq-animator');
+        const content = item.querySelector('.faq-content');
+
+        // Setze initiale Höhe auf 0
+        animator.style.height = '0px';
+        animator.style.overflow = 'hidden';
+        animator.style.transition = 'height 0.4s ease';
+
+        item.addEventListener('toggle', function() {
+            if (item.open) {
+                // Öffnen
+                const contentHeight = content.offsetHeight;
+                animator.style.height = contentHeight + 'px';
+            } else {
+                // Schließen
+                animator.style.height = '0px';
+            }
+        });
     });
 });
