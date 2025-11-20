@@ -452,6 +452,30 @@ button.modal-close:hover::after {
     box-sizing: border-box;
     z-index: 100;
     border-top: 1px solid rgba(255,255,255,0.1);
+    align-items: flex-end;
+
+
+}
+
+#chatmessage {
+    /* Die moderne Lösung: Passt die Höhe automatisch an den Inhalt an */
+    field-sizing: content;
+
+    /* Maximale Höhe auf ca. 5 Zeilen begrenzen */
+    /* Berechnung: (Zeilenhöhe 1.5 * 5 Zeilen) + Padding ≈ 9em */
+    max-height: 9em;
+
+    /* Mindesthöhe für den Start (ca. 2 Zeilen) */
+    min-height: 3rem;
+
+    /* Layout-Basics */
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 1.5;
+    padding: 0.75rem; /* Etwas Luft zum Text */
+
+    /* Verhindert, dass der User das Feld manuell zieht (kollidiert sonst mit Auto-Grow) */
+    resize: none;
 }
 
 .chat-content-area {
