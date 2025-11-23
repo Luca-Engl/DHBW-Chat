@@ -1,7 +1,20 @@
 -- Insert new User
 -- those are just example values
-INSERT INTO user(username,displaynamename,is_studying,password_user)
-VALUES (user123, name123, TIN2025AI, 123abx)
+INSERT INTO "user" (
+    "username",
+    "email",
+    "password_hash",
+    "faculty",
+    "course",
+    "year"
+) VALUES (
+             'MaxMustermann',
+             'max.mustermann@dhbw.de',
+             '$2y$10$abcdefghijklmnopqrstuv',  -- gehashtes Passwort
+             'T',
+             'INF',
+             2024
+         );
 
 
 -- Insert new message

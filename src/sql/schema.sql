@@ -10,7 +10,6 @@ CREATE TABLE "user" (
     "course" VARCHAR(10) DEFAULT NULL,
     "year" YEAR DEFAULT NULL,
 
-    "is_guest" BOOLEAN DEFAULT FALSE,
     "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
