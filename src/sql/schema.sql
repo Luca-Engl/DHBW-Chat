@@ -1,4 +1,4 @@
--- Benutzer
+-- User
 CREATE TABLE "user" (
     "id" INT AUTO_INCREMENT PRIMARY KEY,
     "username" VARCHAR(30) NOT NULL UNIQUE,
@@ -14,14 +14,13 @@ CREATE TABLE "user" (
     "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE "chat_participants"(
+-- Chats (Globalchat, DMs, Groupchats)
+CREATE TABLE "chat" (
     "id" INT AUTO_INCREMENT PRIMARY KEY,
-    "user_id" INT,
-    "chat_id" INT,
-    FOREIGN KEY ("user_id") REFERENCES user(id),
-    FOREIGN KEY (chat_id) REFERENCES chat(id),
-    --UNIQUE (user_id, chat_id)
-)
+    "chat_name" VARCHAR(100) NOT NULL,
+    "chat_type" ENUM('global', 'personal', 'group', 'course') NOT NULL,
+    "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE chat(
     id INT AUTO_INCREMENT PRIMARY KEY,
