@@ -1,5 +1,8 @@
+-- !!!
+-- those are all just example values sometimes you have to queried for like ids
+-- !!!
+
 -- Insert new User
--- those are just example values
 INSERT INTO "user" (
     "username",
     "email",
@@ -51,9 +54,31 @@ INSERT INTO "chat_participant" ("user_id", "chat_id") VALUES
             (1, 2),  -- user id mut be queried for
             (2, 2);  -- user id mus be queried before
 
-
+-- new users for a group chat
 INSERT INTO "chat_participant" ("user_id", "chat_id") VALUES
             (1, 5),  -- user id mut be queried for
             (2, 5),
             (3, 5),
             (4, 5);
+
+-- new message
+INSERT INTO "message" (
+    "chat_id",
+    "sender_id",
+    "content"
+) VALUES (
+             2,
+             1,
+             'Yo, bist du schon in der Uni?'
+         );
+
+-- new note
+INSERT INTO "note" (
+    "chat_id",
+    "user_id",
+    "content"
+) VALUES (
+             2,
+             1,
+             'Meeting am Freitag um 14 Uhr - Raum 301'
+         );
