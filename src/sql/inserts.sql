@@ -17,8 +17,31 @@ INSERT INTO "user" (
          );
 
 
--- Insert new message
-INSERT INTO
+-- Insert Studiengang
+INSERT INTO "user" (
+    "username",
+    "email",
+    "password_hash"
+) VALUES (
+             'MariaM',
+             'maria@dhbw.de',
+             '$2y$10$xyz123...'
+         );
 
+-- Add new private chat
+INSERT INTO "chat" (
+    "chat_name",
+    "chat_type"
+) VALUES (
+             NULL, -- if chat_type is private there is no chat_name
+             'personal'
+         );
 
--- Add new user
+-- add user to globalchat (automatic when registered)
+INSERT INTO "chat_participant" (
+    "user_id",
+    "chat_id"
+) VALUES (
+             1,  -- user id must be queried before
+             1   -- chat id must be queried for should be queird for
+         );

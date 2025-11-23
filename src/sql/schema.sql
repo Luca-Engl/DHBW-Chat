@@ -4,7 +4,7 @@ CREATE TABLE "user" (
     "username" VARCHAR(30) NOT NULL UNIQUE,
     "email" VARCHAR(100) NOT NULL UNIQUE,
     "password_hash" VARCHAR(255) NOT NULL,
-    --"avatar_path" VARCHAR(255) DEFAULT 'img/default-avatar.png',
+    -- "avatar_path" VARCHAR(255) DEFAULT 'img/default-avatar.png',
 
     "faculty" ENUM('T', 'W', 'S', 'G', 'A') DEFAULT NULL,
     "course" VARCHAR(10) DEFAULT NULL,
