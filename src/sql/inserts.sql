@@ -43,5 +43,17 @@ INSERT INTO "chat_participant" (
     "chat_id"
 ) VALUES (
              1,  -- user id must be queried before
-             1   -- chat id must be queried for should be queird for
+             1   -- chat id must be queried for should be queried for
          );
+
+-- new personal chat
+INSERT INTO "chat_participant" ("user_id", "chat_id") VALUES
+            (1, 2),  -- user id mut be queried for
+            (2, 2);  -- user id mus be queried before
+
+
+INSERT INTO "chat_participant" ("user_id", "chat_id") VALUES
+            (1, 5),  -- user id mut be queried for
+            (2, 5),
+            (3, 5),
+            (4, 5);
