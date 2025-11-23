@@ -1,10 +1,18 @@
+-- Benutzer
 CREATE TABLE "user" (
     "id" INT AUTO_INCREMENT PRIMARY KEY,
-    "username" VARCHAR(63) NOT NULL UNIQUE,
-    "displaynamename" VARCHAR(63) NOT NULL UNIQUE,
-    "is_studying" VARCHAR(10) NOT NULL,
-    "password_user" VARCHAR(63) NOT NULL
-)
+    "username" VARCHAR(30) NOT NULL UNIQUE,
+    "email" VARCHAR(100) NOT NULL UNIQUE,
+    "password_hash" VARCHAR(255) NOT NULL,
+    --"avatar_path" VARCHAR(255) DEFAULT 'img/default-avatar.png',
+
+    "faculty" ENUM('T', 'W', 'S', 'G', 'A') DEFAULT NULL,
+    "course" VARCHAR(10) DEFAULT NULL,
+    "year" YEAR DEFAULT NULL,
+
+    "is_guest" BOOLEAN DEFAULT FALSE,
+    "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE "chat_participants"(
     "id" INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,6 +38,7 @@ CREATE TABLE message(
     sender_id INT,
     date_send DATE,
     content TEXT,
+    is_note BOOLEAN,
     FOREIGN KEY (chat_id) REFERENCES chat(id),
     FOREIGN KEY (sender_id) REFERENCES user(id)
 )
