@@ -34,7 +34,7 @@ CREATE TABLE "chat_participant" (
     UNIQUE KEY "unique_user_chat" ("user_id", "chat_id")
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Nachrichten
+-- nessages
 CREATE TABLE "message" (
     "id" INT AUTO_INCREMENT PRIMARY KEY,
     "chat_id" INT NOT NULL,
@@ -44,4 +44,16 @@ CREATE TABLE "message" (
 
     FOREIGN KEY ("chat_id") REFERENCES "chat"("id") ON DELETE CASCADE,
     FOREIGN KEY ("sender_id") REFERENCES "user"("id") ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Notes
+CREATE TABLE "note" (
+    "id" INT AUTO_INCREMENT PRIMARY KEY,
+    "chat_id" INT NOT NULL,
+    "user_id" INT NOT NULL,
+    "content" TEXT NOT NULL,
+    "created_at" DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY ("chat_id") REFERENCES "chat"("id") ON DELETE CASCADE,
+    FOREIGN KEY ("user_id") REFERENCES "user"("id") ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
