@@ -1051,6 +1051,12 @@ button.modal-close:hover::after {
     position: relative;
     width: 40%;
     margin: 0 auto 2rem auto;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.faq-item:hover {
+    transform: scale(1.05) translateY(-5px) !important;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
 }
 
 .faq-item.visible {
