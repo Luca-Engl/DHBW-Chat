@@ -1688,7 +1688,7 @@ html {
 }
 
 .active-chat:hover {
-    background-color: var(--input-hover-border-color) !important;
+    background-color: var(--input-focus-shadow-color);
 }
 
 #newNoteInput {
