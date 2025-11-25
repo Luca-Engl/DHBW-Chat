@@ -133,6 +133,13 @@ footer {
     transform: scale(1.05);
 }
 
+.chat-avatar {
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    margin-top:5px;
+}
+
 .responsive-nav-hamburger {
     display: none;
     flex-direction: column;
@@ -271,6 +278,7 @@ footer {
 .info-box {
     border-radius: 7px;
     transition: all 0.3s ease-in-out;
+    width: 320px;
 }
 
 .info-box:hover {
@@ -328,6 +336,47 @@ footer {
 button.modal-close::after,
 button.modal-close:hover::after {
     background: none;
+}
+
+.settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+
+.settings-edit {
+    margin-left: 20px;
+    white-space: nowrap;
+}
+
+.avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.avatar-wrapper img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-wrapper input {
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
 
@@ -439,23 +488,6 @@ button.modal-close:hover::after {
     position: relative;
 }
 
-.chat-input-container {
-    position: fixed;
-    bottom: 0;
-    left: 250px;
-    right: 0;
-    display: flex;
-    gap: 10px;
-    background-color: var(--chat-background-color);
-    border-radius: 0;
-    padding: 15px 20px;
-    box-sizing: border-box;
-    z-index: 100;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    align-items: flex-end;
-
-
-}
 
 #chatmessage {
     /* Die moderne Lösung: Passt die Höhe automatisch an den Inhalt an */
@@ -558,25 +590,15 @@ button.modal-close:hover::after {
 .chat-input-container {
     display: flex;
     gap: 10px;
-    align-items: stretch;
-    background-color: var(--navbar-background-color);
-    backdrop-filter: blur(5px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    padding: 10px;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 18px;
     box-sizing: border-box;
     flex-shrink: 0;
-    margin: 0;
-    transition: all 0.3s ease-in-out;
-}
-
-.chat-input-container:hover {
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chat-input-container button {
-    height: auto;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -591,6 +613,27 @@ button.modal-close:hover::after {
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
     overflow-y: hidden;
+}
+
+.chat-input-floating {
+    position: fixed;
+    left: 270px;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 14px;
+    border-radius: 18px;
+    display: flex;
+    gap: 10px;
+    background: var(--chat-input-color);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    transition: all 0.3s ease-in-out;
+}
+
+.chat-input-floating:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 }
 
 .chat-nav-bar {
@@ -786,7 +829,7 @@ button.modal-close:hover::after {
     padding: 15px;
     border-top: 1px solid rgba(255,255,255,0.1);
     flex-shrink: 0;
-    align-items: stretch;
+    align-items: center;
 }
 
 .note-input-container textarea {
@@ -794,7 +837,7 @@ button.modal-close:hover::after {
     padding: 10px;
     border-radius: 8px;
     resize: none;
-    min-height: 40px;
+    height: 45px;
     max-height: 120px;
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
@@ -802,8 +845,9 @@ button.modal-close:hover::after {
 }
 
 .note-input-container button {
+    height: 40px;
     padding: 0 15px;
-    align-self: stretch;
+    align-self: center;
 }
 
 .note-content {
@@ -1532,7 +1576,7 @@ button.modal-close:hover::after {
 .chat-messages {
     flex: 1;
     padding: 20px;
-    padding-bottom: 90px;
+    padding-bottom: 120px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -1644,7 +1688,7 @@ html {
 }
 
 .active-chat:hover {
-    background-color: var(--input-hover-border-color) !important;
+    background-color: var(--input-focus-shadow-color);
 }
 
 #newNoteInput {
