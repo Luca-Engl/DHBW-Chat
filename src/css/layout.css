@@ -271,6 +271,7 @@ footer {
 .info-box {
     border-radius: 7px;
     transition: all 0.3s ease-in-out;
+    width: 320px;
 }
 
 .info-box:hover {
