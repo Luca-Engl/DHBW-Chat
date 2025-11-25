@@ -338,6 +338,47 @@ button.modal-close:hover::after {
     background: none;
 }
 
+.settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.settings-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 10px 12px;
+    border-radius: 10px;
+}
+
+.settings-edit {
+    margin-left: 20px;
+    white-space: nowrap;
+}
+
+.avatar-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.avatar-wrapper img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-wrapper input {
+    width: fit-content;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
 
 #memberList {
     background: rgba(255,255,255,0.05);

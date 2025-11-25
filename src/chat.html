@@ -178,40 +178,41 @@
         <section class="align-left margin-top-5">
             <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
 
-            <section class="margin-bottom-3">
+            <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Profilbild:</label>
-                <img class= chat-avatar id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild">
-                <input type="file" id="profile-picture" accept="image/*">
+
+                <div class="avatar-wrapper">
+                    <img class="chat-avatar" id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild">
+                    <input type="file" id="profile-picture" accept="image/*">
+                </div>
             </section>
 
-            <section class="margin-bottom-3">
+            <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Username:</label>
-                <p>
+
+                <div class="settings-field">
                     <span id="username-display">Luca Engl</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
+                    <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
+                </div>
             </section>
 
-            <section class="margin-bottom-3">
+            <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Email:</label>
-                <p>
-                    <span id="email-display">engll.tin25@student.dhbw-heidenheim.de</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
+
+                <div class="settings-field">
+                    <span id="email-display">engl.tin25@student.dhbw-heidenheim.de</span>
+                    <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
+                </div>
             </section>
 
-            <section class="margin-bottom-3">
+            <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Passwort:</label>
-                <p>
-                    <span id="password-display">••••••••</span>
-                    <button type="button" class="button-secondary">Bearbeiten</button>
-                </p>
-            </section>
 
-            <section class="margin-top-5">
-                <button type="button" class="button-primary">Speichern</button>
+                <div class="settings-field">
+                    <span id="password-display">••••••••</span>
+                    <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
+                </div>
             </section>
-        </section>
 
     </div>
 </div>
