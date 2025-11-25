@@ -1045,9 +1045,12 @@ button.modal-close:hover::after {
 
 .faq-item {
     opacity: 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     transform: translateY(20px);
     position: relative;
-    margin-bottom: 2rem
+    width: 40%;
+    margin: 0 auto 2rem auto;
 }
 
 .faq-item.visible {
@@ -1080,8 +1083,8 @@ button.modal-close:hover::after {
 .faq-item summary::before {
     content: '+';
     position: absolute;
-    left: 25rem;
-    top: 1.5rem;
+    left: 1.8rem;
+    top: 1.35rem;
     font-size: 1.5rem;
     font-weight: 400;
     line-height: 1;
@@ -1099,7 +1102,7 @@ button.modal-close:hover::after {
 }
 
 .faq-content {
-    padding: 0 1rem 1.5rem 1rem;
+    padding: 0 3rem 1.5rem 3rem;
 }
 
 .faq-item[open] .faq-animator {
