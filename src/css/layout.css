@@ -133,6 +133,13 @@ footer {
     transform: scale(1.05);
 }
 
+.chat-avatar {
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    margin-top:5px;
+}
+
 .responsive-nav-hamburger {
     display: none;
     flex-direction: column;
