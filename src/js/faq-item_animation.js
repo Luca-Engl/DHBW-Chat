@@ -1,14 +1,12 @@
-// Animation für FAQ-Items beim Laden der Seite
 document.addEventListener('DOMContentLoaded', function() {
     const faqItems = document.querySelectorAll('.faq-item');
 
+    // --- TEIL 1: Eingangs-Animation beim Laden der Seite ---
     faqItems.forEach((item, index) => {
-        // Setze Anfangszustand
         item.style.opacity = '0';
         item.style.transform = 'translateY(20px)';
         item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
 
-        // Starte Animation nacheinander mit Verzögerung
         setTimeout(() => {
             item.style.opacity = '1';
             item.style.transform = 'translateY(0)';
@@ -16,34 +14,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500 + (150 * index));
     });
 
-    // Animation für das Ausklappen
+    // --- TEIL 2: Akkordeon-Animation (Öffnen & Schließen) ---
     faqItems.forEach(item => {
-        const animator = item.querySelector('.faq-animator');
+        const summary = item.querySelector('summary');
+        const content = item.querySelector('.faq-animator');
 
-        // Setze initiale Styles
-        animator.style.overflow = 'hidden';
-        animator.style.transition = 'height 0.4s ease';
-        animator.style.height = '0px';
+        // WICHTIG: CSS Transition muss hier gesetzt sein, oder im CSS File
+        content.style.transition = 'height 0.4s ease';
 
-        item.addEventListener('toggle', function() {
-            if (item.open) {
-                // ÖFFNEN: Messe die natürliche Höhe
-                animator.style.height = 'auto';
-                const height = animator.offsetHeight;
-                animator.style.height = '0px';
+        summary.addEventListener('click', (e) => {
+            // Standard-Verhalten (sofortiges Öffnen/Schließen) verhindern
+            e.preventDefault();
 
-                // Trigger Reflow
-                void animator.offsetHeight;
+            // Überprüfen, ob das Item gerade geöffnet wird oder geschlossen
+            if (item.hasAttribute('open')) {
+                // --- SCHLIESSEN ---
+                // 1. Setze exakte Höhe (damit Transition von X px zu 0 px funktioniert)
+                content.style.height = content.scrollHeight + 'px';
 
-                // Dann animiere zur Zielhöhe
-                animator.style.height = height + 'px';
-            }
-        });
+                // 2. Kurzer Timeout, damit der Browser die Höhe registriert
+                requestAnimationFrame(() => {
+                    content.style.height = '0px';
+                });
 
-        // Setze Höhe auf auto nach Animation, damit Inhalt flexibel bleibt
-        animator.addEventListener('transitionend', function() {
-            if (item.open) {
-                animator.style.height = 'auto';
+                // 3. Warten bis Transition vorbei ist, dann 'open' entfernen
+                content.addEventListener('transitionend', function onEnd() {
+                    item.removeAttribute('open');
+                    content.removeEventListener('transitionend', onEnd);
+                }, { once: true });
+
+            } else {
+                // --- ÖFFNEN ---
+                // 1. Attribut setzen, damit Inhalt gerendert wird
+                item.setAttribute('open', '');
+
+                // 2. Start-Höhe auf 0 setzen
+                content.style.height = '0px';
+
+                // 3. Berechnung der Zielhöhe
+                const height = content.scrollHeight;
+
+                // 4. Animation starten
+                requestAnimationFrame(() => {
+                    content.style.height = height + 'px';
+                });
+
+                // 5. Nach Animation auf 'auto' setzen (für Responsiveness bei Fenstergrößenänderung)
+                content.addEventListener('transitionend', function onEnd() {
+                    content.style.height = 'auto';
+                    content.removeEventListener('transitionend', onEnd);
+                }, { once: true });
             }
         });
     });
