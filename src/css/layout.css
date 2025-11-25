@@ -1058,15 +1058,6 @@ button.modal-close:hover::after {
     transform: translateY(0);
 }
 
-.faq-item::after {
-    content: '';
-    display: block;
-    width: 50%;
-    height: 1px;
-    background-color: #e0e0e0;
-    margin: 0 auto;
-}
-
 .faq-item summary {
     display: block;
     position: relative;
