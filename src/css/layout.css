@@ -1124,8 +1124,8 @@ button.modal-close:hover::after {
 .faq-item summary::before {
     content: '+';
     position: absolute;
-    left: 1.8rem;
-    top: 1.35rem;
+    right: 1.8rem;
+    top: 1.3rem;
     font-size: 1.5rem;
     font-weight: 400;
     line-height: 1;
@@ -1144,6 +1144,10 @@ button.modal-close:hover::after {
 
 .faq-content {
     padding: 0 3rem 1.5rem 3rem;
+    text-align: left;
+}
+
+.faq-question{
     text-align: left;
 }
 
