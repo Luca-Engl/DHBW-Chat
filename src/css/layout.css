@@ -1144,6 +1144,7 @@ button.modal-close:hover::after {
 
 .faq-content {
     padding: 0 3rem 1.5rem 3rem;
+    text-align: left;
 }
 
 .faq-item[open] .faq-animator {
