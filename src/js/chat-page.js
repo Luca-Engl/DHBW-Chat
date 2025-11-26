@@ -363,3 +363,60 @@ document.addEventListener('DOMContentLoaded', function() {
             list.scrollTop = list.scrollHeight;
         }, 50);
     }
+
+// Prüfen ob Mobile
+function isMobile() {
+    return window.innerWidth <= 768;
+}
+
+// Chat öffnen (nur für Mobile relevant)
+function openChat(chatName) {
+    const container = document.querySelector('.chat-container');
+    const chatTitle = document.getElementById('currentChatName');
+
+    // Chat-Name immer setzen
+    if (chatTitle && chatName) {
+        chatTitle.textContent = chatName;
+    }
+
+    // Nur auf Mobile die Klasse hinzufügen
+    if (isMobile()) {
+        container.classList.add('chat-open');
+    }
+}
+
+// Chat schließen / Zurück zur Liste
+function closeChat() {
+    const container = document.querySelector('.chat-container');
+    container.classList.remove('chat-open');
+
+    // Important Panel auch schließen
+    const panel = document.getElementById('importantPanel');
+    if (panel) {
+        panel.classList.remove('active');
+    }
+}
+
+// Bei Resize die Klasse entfernen (falls von Mobile zu Desktop gewechselt wird)
+window.addEventListener('resize', function() {
+    if (!isMobile()) {
+        const container = document.querySelector('.chat-container');
+        container.classList.remove('chat-open');
+    }
+});
+
+// Event Listener für Chat-Liste
+document.addEventListener('DOMContentLoaded', function() {
+    const chatItems = document.querySelectorAll('.chat-sidebar li');
+
+    chatItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Active-Klasse setzen
+            chatItems.forEach(i => i.classList.remove('active-chat'));
+            this.classList.add('active-chat');
+
+            // Chat öffnen mit dem Namen
+            openChat(this.textContent.trim());
+        });
+    });
+});
