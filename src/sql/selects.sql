@@ -1,4 +1,4 @@
--- Select the last n messages 
+-- Select the last n messages
 SELECT
     m."id",
     m."content",
