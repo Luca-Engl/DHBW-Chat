@@ -18,6 +18,8 @@
     --link-shadow-color: rgba(255,255,255,1);
     --chat-background-color: rgba(40, 40, 46, 0.9);
     --chat-input-color: rgba(32, 32, 37,0.9);
+    --chat-message-sent-color: #D7636B;
+    --chat-message-recived-color:  #C24750;
 }
 
 
