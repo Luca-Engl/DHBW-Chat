@@ -20,6 +20,21 @@ main {
     padding-top: 70px;
 }
 
+/* Chat-Seite: Body soll nicht scrollen */
+html.chat-page,
+body.chat-page {
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+main.chat-container {
+    padding-top: 0;
+    margin: 0;
+    height: calc(100vh - 70px);
+}
+
 footer {
     min-height: 50px;
     background-color: var(--navbar-background-color);
@@ -67,6 +82,7 @@ footer {
 }
 
 .chat-page-header {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -138,6 +154,32 @@ footer {
     height:60px;
     border-radius:50%;
     margin-top:5px;
+}
+
+/* Zurück-Button - Standard versteckt (Desktop) */
+.chat-back-btn {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 10px;
+    box-shadow: none;
+}
+
+.chat-back-btn:hover {
+    color: #E2001A;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+}
+
+.chat-back-btn::after {
+    display: none;
 }
 
 .responsive-nav-hamburger {
@@ -420,23 +462,21 @@ button.modal-close:hover::after {
     transform: scale(1.2);
 }
 
+/* ===== CHAT CONTAINER ===== */
 .chat-container {
     display: flex;
-    height: 100vh;
-    width: 100%;
+    flex-direction: row;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    transition: all 0.3s ease-in-out;
-}
-
-.chat-container:hover {
-    backdrop-filter: blur(15px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 .chat-sidebar {
     width: 250px;
+    min-width: 250px;
     padding: 20px;
     border-right: 1px solid rgba(255,255,255,0.1);
     backdrop-filter: blur(5px);
@@ -445,14 +485,13 @@ button.modal-close:hover::after {
     flex-direction: column;
     gap: 10px;
     height: 100%;
-    transition: all 0.3s ease-in-out;
+    background-color: var(--secondary-background-color);
 }
 
 .chat-sidebar:hover {
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
-
 
 .chat-sidebar ul {
     list-style: none;
@@ -486,11 +525,11 @@ button.modal-close:hover::after {
     flex-direction: column;
     padding: 0;
     position: relative;
+    background-color: var(--primary-background-color);
+    height: 100%;
 }
 
-
 #chatmessage {
-    /* Die moderne Lösung: Passt die Höhe automatisch an den Inhalt an */
     field-sizing: content;
     max-height: 9em;
     min-height: 3rem;
@@ -616,8 +655,8 @@ button.modal-close:hover::after {
 }
 
 .chat-input-floating {
-    position: fixed;
-    left: 270px;
+    position: absolute;
+    left: 20px;
     right: 20px;
     bottom: 20px;
     padding: 10px 14px;
@@ -647,11 +686,11 @@ button.modal-close:hover::after {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     flex-shrink: 0;
     position: relative;
-    z-index: 1000;
+    z-index: 100;
     transition: all 0.3s ease-in-out;
 }
 
-.chat-nav-bar {
+.chat-nav-bar:hover {
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
@@ -1355,6 +1394,9 @@ button.modal-close:hover::after {
     gap: 5%;
 }
 
+/* ==========================================
+   MOBILE STYLES - 768px und kleiner
+   ========================================== */
 @media (max-width: 768px) {
     .responsive-nav-desktop-link {
         display: none !important;
@@ -1371,12 +1413,16 @@ button.modal-close:hover::after {
         padding: 0 !important;
     }
 
-    header, main, footer {
+    header, footer {
         max-width: 100vw !important;
         overflow-x: hidden !important;
     }
 
     header {
+        height: 60px !important;
+    }
+
+    .chat-page-header {
         height: 60px !important;
     }
 
@@ -1569,78 +1615,133 @@ button.modal-close:hover::after {
     .img-logo-footer {
         height: 30px;
     }
+
+    /* ==========================================
+       MOBILE CHAT LAYOUT
+       ========================================== */
+
+    /* Chat Container */
+    .chat-container {
+        top: 60px;
+    }
+
+    /* Sidebar - Fullscreen, sichtbar */
+    .chat-sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        z-index: 10;
+        transform: translateX(0);
+        transition: transform 0.3s ease;
+    }
+
+    /* Sidebar verstecken wenn Chat offen */
+    .chat-container.chat-open .chat-sidebar {
+        transform: translateX(-100%);
+    }
+
+    /* Chat Main - Fullscreen, versteckt */
+    .chat-main {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
+
+    /* Chat Main anzeigen wenn offen */
+    .chat-container.chat-open .chat-main {
+        transform: translateX(0);
+    }
+
+    /* Zurück-Button sichtbar */
+    .chat-back-btn {
+        display: flex !important;
+    }
+
+    /* Chat Input */
+    .chat-input-floating {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    /* Important Panel */
+    .important-panel {
+        width: 100%;
+        right: -100%;
+        top: 60px;
+        height: calc(100vh - 60px);
+    }
+
+    .important-panel.active {
+        right: 0;
+    }
 }
 
-
-
+/* ===== CHAT MESSAGES ===== */
 .chat-messages {
     flex: 1;
     padding: 20px;
-    padding-bottom: 120px;
+    padding-bottom: 100px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-
-/* Grundstruktur einer Nachricht (Zeit + Bubble) */
 .message {
     display: flex;
     flex-direction: column;
-    max-width: 70%; /* Bubble darf nicht breiter als 70% sein */
+    max-width: 70%;
 }
 
-/* Linke Nachricht (Empfangen) */
 .message.received {
-    align-items: flex-start; /* Links bündig */
+    align-items: flex-start;
     align-self: flex-start;
 }
 
-/* Rechte Nachricht (Gesendet) */
 .message.sent {
-    align-items: flex-end; /* Rechts bündig */
+    align-items: flex-end;
     align-self: flex-end;
 }
 
-/* Der Zeitstempel über der Bubble */
 .timestamp {
     font-size: 0.75rem;
-    color: #cccccc; /* Helles Grau für Lesbarkeit auf dunklem Grund */
+    color: #cccccc;
     margin-bottom: 4px;
-    margin-left: 5px;  /* Leicht eingerückt */
+    margin-left: 5px;
     margin-right: 5px;
 }
 
-/* Das Aussehen der Sprechblase */
 .bubble {
     padding: 10px 15px;
     border-radius: 10px;
     color: white;
     font-size: 1rem;
     line-height: 1.4;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Leichter Schatten */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     word-wrap: break-word;
 }
 
-/* Farbe für Empfangen (Dunkles Rot wie im Bild) */
 .message.received .bubble {
-    background-color: rgba(226,0,26,0.5); /* Dunkles Weinrot */
-    border-bottom-left-radius: 2px; /* "Zipfel" unten links */
+    background-color: rgba(226,0,26,0.5);
+    border-bottom-left-radius: 2px;
 }
 
-/* Farbe für Gesendet (Helles Rot wie im Bild) */
 .message.sent .bubble {
-    background-color: rgba(226,0,26,1); /* Knalliges Rot */
-    border-bottom-right-radius: 2px; /* "Zipfel" unten rechts */
+    background-color: rgba(226,0,26,1);
+    border-bottom-right-radius: 2px;
 }
 
-/* =========================================
-   Custom Scrollbar Design (Subtle Gray)
-   ========================================= */
-
+/* ===== SCROLLBAR ===== */
 html {
-    /* Firefox: Schieber (Grau/Transparent) | Hintergrund (Dunkel) */
     scrollbar-color: var(--secondary-button-color) var(--primary-background-color);
     scrollbar-width: thin;
 }
@@ -1649,36 +1750,21 @@ html {
     width: 12px;
 }
 
-/* Der Hintergrund der Leiste */
 ::-webkit-scrollbar-track {
     background: var(--primary-background-color);
-    /* Optional: Entferne die Border komplett für maximalen "Stealth"-Look */
     border-left: 1px solid transparent;
 }
 
-/* Der Schieberegler (Thumb) */
 ::-webkit-scrollbar-thumb {
-    /* Wir nutzen hier die transparente Button-Farbe.
-       Auf dem dunklen Hintergrund ergibt das ein elegantes Grau. */
     background-color: var(--secondary-button-color);
-
     border-radius: 10px;
-
-    /* Der Rahmen in Hintergrundfarbe sorgt dafür, dass der Balken schlanker wirkt */
     border: 3px solid var(--primary-background-color);
 }
 
-/* Hover-Effekt (Grau wird etwas "fester") */
 ::-webkit-scrollbar-thumb:hover {
-    /* Wechsel zu der soliden Hintergrundfarbe für subtiles Feedback */
     background-color: var(--secondary-background-color);
-
-    /* Alternativ: Falls du es beim Hover heller willst (Richtung Textfarbe):
-       background-color: var(--secondary-color);
-       (Das wäre dann das helle Grau #DCD3D3) */
 }
 
-/* Die Ecke unten rechts */
 ::-webkit-scrollbar-corner {
     background: var(--primary-background-color);
 }
