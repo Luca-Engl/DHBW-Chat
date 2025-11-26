@@ -827,7 +827,8 @@ button.modal-close:hover::after {
     display: flex;
     gap: 10px;
     padding: 15px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 2px solid rgba(255,255,255,0.1);
+    border-bottom: none;
     flex-shrink: 0;
     align-items: center;
 }
@@ -1623,17 +1624,22 @@ button.modal-close:hover::after {
     word-wrap: break-word;
 }
 
-/* Farbe für Empfangen (Dunkles Rot wie im Bild) */
 .message.received .bubble {
-    background-color: rgba(226,0,26,0.5); /* Dunkles Weinrot */
-    border-bottom-left-radius: 2px; /* "Zipfel" unten links */
+    background-color: var(--chat-message-recived-color);
+    color: #FFFFFF;
+    border-bottom-left-radius: 2px;
 }
 
-/* Farbe für Gesendet (Helles Rot wie im Bild) */
 .message.sent .bubble {
-    background-color: rgba(226,0,26,1); /* Knalliges Rot */
-    border-bottom-right-radius: 2px; /* "Zipfel" unten rechts */
+    background-color: var(--chat-message-sent-color);
+    color: #FFFFFF;
+    border-bottom-right-radius: 2px;
 }
+
+
+
+
+
 
 /* =========================================
    Custom Scrollbar Design (Subtle Gray)
