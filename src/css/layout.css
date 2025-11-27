@@ -1674,6 +1674,10 @@ button.modal-close:hover::after {
     .important-panel.active {
         right: 0;
     }
+
+    .faq-item {
+        width: 90%;
+    }
 }
 
 .chat-messages {
