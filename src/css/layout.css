@@ -170,7 +170,7 @@ footer {
 }
 
 .chat-back-btn:hover {
-    color: #E2001A;
+    color: var(--primary-button-color);
     background: transparent;
     box-shadow: none;
     transform: none;
@@ -277,7 +277,7 @@ footer {
 }
 
 .img-logo-nav:hover {
-    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    filter: drop-shadow(0 0 8px var(--input-hover-border-color));
     transform: scale(1.01);
     cursor: pointer;
 }
@@ -308,7 +308,7 @@ footer {
 }
 
 .img-logo-footer:hover {
-    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    filter: drop-shadow(0 0 8px var(--input-hover-border-color));
     transform: scale(1.01);
     cursor: pointer;
 }
@@ -398,7 +398,7 @@ footer {
     background: none;
     box-shadow: none;
     transform: rotate(90deg);
-    color: #E2001A;
+    color: var(--primary-button-color);
 }
 
 button.modal-close::after,
@@ -476,7 +476,7 @@ button.modal-close:hover::after {
 .member-remove {
     background: transparent;
     border: none;
-    color: #E2001A;
+    color: var(--primary-button-color);
     font-size: 1.2rem;
     cursor: pointer;
     padding: 0 8px;
@@ -600,7 +600,7 @@ button.modal-close:hover::after {
 }
 
 .img-logo-login:hover {
-    filter: drop-shadow(0 0 8px rgba(226,0,26,0.5));
+    filter: drop-shadow(0 0 8px var(--input-hover-border-color));
     transform: scale(1.01);
     cursor: pointer;
 }
@@ -741,7 +741,7 @@ button.modal-close:hover::after {
 .chat-important-btn {
     padding: 4px 10px;
     background: rgba(226,0,26,0.2);
-    border: 1px solid #E2001A;
+    border: 1px solid var(--primary-button-color);
     border-radius: 6px;
     color: #fff;
     cursor: pointer;
@@ -807,7 +807,7 @@ button.modal-close:hover::after {
 
 .panel-close-btn:hover {
     transform: rotate(90deg);
-    color: #E2001A;
+    color: var(--primary-button-color);
 }
 
 .important-panel-content {
@@ -920,7 +920,7 @@ button.modal-close:hover::after {
 
 .note-title {
     font-weight: bold;
-    color: #E2001A;
+    color: var(--primary-color);
     margin: 0 0 6px 0;
     font-size: 0.95rem;
 }
@@ -933,7 +933,7 @@ button.modal-close:hover::after {
 }
 
 .note-date {
-    color: rgba(255,255,255,0.6);
+    color: var(--chat-message-timestamp-text-color);
     font-size: 0.7rem;
     display: block;
     text-align: right;
@@ -942,7 +942,7 @@ button.modal-close:hover::after {
 .note-delete-btn {
     background: transparent;
     border: none;
-    color: #E2001A;
+    color: var(--primary-button-color);
     font-size: 1.3rem;
     cursor: pointer;
     padding: 0;
@@ -979,7 +979,7 @@ button.modal-close:hover::after {
     content: "✓";
     position: absolute;
     left: 0;
-    color: #E2001A;
+    color: var(--primary-button-color);
     font-weight: bold;
     font-size: 1.2rem;
 }
@@ -1704,7 +1704,7 @@ button.modal-close:hover::after {
 
 .timestamp {
     font-size: 0.75rem;
-    color: #cccccc;
+    color: var(--chat-message-timestamp-text-color);
     margin-bottom: 4px;
     margin-left: 5px;
     margin-right: 5px;
@@ -1713,7 +1713,7 @@ button.modal-close:hover::after {
 .bubble {
     padding: 10px 15px;
     border-radius: 10px;
-    color: white;
+    color: var(--primary-color);
     font-size: 1rem;
     line-height: 1.4;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
@@ -1721,14 +1721,14 @@ button.modal-close:hover::after {
 }
 
 .message.received .bubble {
-    background-color: var(--chat-message-recived-color);
-    color: #FFFFFF;
+    background-color: var(--chat-message-recived-background-color);
+    color: var(--chat-message-recived-text-color);
     border-bottom-left-radius: 2px;
 }
 
 .message.sent .bubble {
-    background-color: var(--chat-message-sent-color);
-    color: #FFFFFF;
+    background-color: var(--chat-message-sent-background-color);
+    color: var(--chat-message-sent-text-color);
     border-bottom-right-radius: 2px;
 }
 
