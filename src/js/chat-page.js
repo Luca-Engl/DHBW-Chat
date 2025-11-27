@@ -247,28 +247,6 @@ document.addEventListener('DOMContentLoaded', function() {
         input.value = '';
     }
 
-    // Notizen für aktuellen Chat laden
-    function loadNotes() {
-        const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
-        const notes = allNotes[currentChat] || [];
-        const list = document.getElementById('notesList');
-
-        if (notes.length === 0) {
-            list.innerHTML = '<p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>';
-            return;
-        }
-
-        list.innerHTML = notes.map(note => `
-        <div class="note-item">
-            <div class="note-content">
-                <p class="note-text">${note.text}</p>
-                <small class="note-date">${note.date}</small>
-            </div>
-            <button class="note-delete-btn" onclick="deleteNote(${note.id})" title="Löschen">×</button>
-        </div>
-    `).join('');
-    }
-
     // Notiz löschen
     function deleteNote(id) {
         const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
@@ -336,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     this.style.height = 'auto';
                 }
             });
-    };
+    }
 
     function loadNotes() {
         const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
