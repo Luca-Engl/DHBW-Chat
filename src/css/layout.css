@@ -819,6 +819,41 @@ button.modal-close:hover::after {
     gap: 20px;
 }
 
+.error-message {
+    background: #fee;
+    color: #c33;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #fcc;
+    text-align: center;
+    font-weight: bold;
+}
+
+.success-message {
+    background: #efe;
+    color: #2a7f2a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #cfc;
+    text-align: center;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.form-step {
+    transition: opacity 0.3s ease;
+}
+
+select:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .add-note-section {
     display: flex;
     flex-direction: column;

@@ -1,10 +1,13 @@
 <?php
 require_once __DIR__ . '/../components/db_connect.php';
 
+/** @var PDO $pdo */
+
 $error = '';
 $success = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
+{
     $username = trim($_POST['username']);
     $email = trim($_POST['displayname']);
     $password = isset($_POST['password']) ? $_POST['password'] : '';
@@ -13,26 +16,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $course = !empty($_POST['cursus']) ? $_POST['cursus'] : null;
     $year = !empty($_POST['year']) ? $_POST['year'] : null;
 
-    if (empty($username) || empty($email) || empty($password) || empty($password_rep)) {
+    if (empty($username) || empty($email) || empty($password) || empty($password_rep))
+    {
         $error = "Bitte fülle alle Pflichtfelder aus!";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    }
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+    {
         $error = "Ungültige E-Mail-Adresse!";
-    } elseif (!preg_match('/^[A-Za-z0-9]+$/', $username)) {
+    }
+    elseif (!preg_match('/^[A-Za-z0-9]+$/', $username))
+    {
         $error = "Benutzername darf nur Buchstaben und Zahlen enthalten!";
-    } elseif (strlen($username) > 30) {
+    }
+    elseif (strlen($username) > 30)
+    {
         $error = "Benutzername darf maximal 30 Zeichen haben!";
-    } elseif ($password !== $password_rep) {
+    }
+    elseif ($password !== $password_rep)
+    {
         $error = "Passwörter stimmen nicht überein!";
-    } elseif (strlen($password) < 6) {
+    }
+    elseif (strlen($password) < 6)
+    {
         $error = "Passwort muss mindestens 6 Zeichen lang sein!";
-    } else {
-        try {
+    }
+    else
+    {
+        try
+        {
             $stmt = $pdo->prepare("SELECT id FROM `user` WHERE username = ? OR email = ?");
             $stmt->execute(array($username, $email));
 
-            if ($stmt->fetch()) {
+            if ($stmt->fetch())
+            {
                 $error = "Benutzername oder E-Mail bereits vergeben!";
-            } else {
+            }
+            else
+            {
                 $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
                 $stmt = $pdo->prepare("
@@ -49,16 +69,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $year
                 ));
 
-                $success = "Registrierung erfolgreich! Du wirst weitergeleitet...";
-
                 session_start();
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['username'] = $username;
+                $_SESSION['loggedIn'] = true;
 
-                header("refresh:2;url=chat.php");
+                header("Location: chat.php");
                 exit();
             }
-        } catch (PDOException $e) {
+        }
+        catch (PDOException $e)
+        {
             error_log("Registration error: " . $e->getMessage());
             $error = "Ein Fehler ist aufgetreten. Bitte versuche es später erneut.";
         }
@@ -75,42 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/layout.css"/>
     <title>DHBW Chat - Registrierung</title>
     <link rel="icon" type="image/png" href="../img/favicon.png">
-    <style>
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #fcc;
-            text-align: center;
-            font-weight: bold;
-        }
-        .success-message {
-            background: #efe;
-            color: #2a7f2a;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border: 1px solid #cfc;
-            text-align: center;
-            font-weight: bold;
-        }
-        .hidden {
-            display: none;
-        }
-        .form-step {
-            transition: opacity 0.3s ease;
-        }
-        select:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
 <main class="img-background-login center-box" id="top">
-    <a href="index.php">
+    <a href="../index.php">
         <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-login" alt="DHBW-Chat-Logo">
     </a>
     <section class="popup-box">
