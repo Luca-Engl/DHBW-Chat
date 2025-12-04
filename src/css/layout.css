@@ -1789,3 +1789,9 @@ html {
 #newNoteInput::-webkit-scrollbar {
     display: none;
 }
+
+.active-nav {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #e30613;
+}

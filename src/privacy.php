@@ -11,36 +11,8 @@
     <script src="js/privacy-box_animation.js"></script>
 </head>
 <body>
-<header>
-    <nav class="nav-grid margin-left-10 margin-right-10">
-        <section class="nav-left">
-            <a href="index.php" class="nav-left-a">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
-            </a>
-            <a href="privacy.php" class="responsive-nav-desktop-link">Datenschutz</a>
-            <a href="help.php" class="responsive-nav-desktop-link">Hilfe</a>
-        </section>
-        <section class="nav-center">
-            <button class="responsive-nav-hamburger" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </section>
-        <section class="nav-right margin-right-5 margin-top-3 margin-bottom-3">
-            <a href="login.php">
-                <button class="style-bold">Anmelden</button>
-            </a>
-        </section>
-    </nav>
 
-    <!-- Mobile Menu -->
-    <div class="responsive-nav-mobile-menu">
-        <a href="privacy.php">Datenschutz</a>
-        <a href="help.php">Hilfe</a>
-        <a href="login.php">Anmelden</a>
-    </div>
-</header>
+<?php include 'components/header.php'; ?>
 
 <main class="padding-5" id="top">
 
