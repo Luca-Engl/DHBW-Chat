@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
     <title>DHBW Chat - Datenschutz</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
-    <script src="js/privacy-box_animation.js"></script>
+    <link rel="icon" type="image/png" href="../img/favicon.png">
+    <script src="../js/privacy-box_animation.js"></script>
 </head>
 <body>
 
@@ -89,7 +89,7 @@
 
     </section>
     <section class="footer-center">
-        <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo"
+        <a class="img-logo-footer" href="#top"><img src="../img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo"
                                                     class="img-logo-footer"></a>
         <a href="legal_notice.php">Impressum</a>
         <a href="help.php">Hilfe</a>

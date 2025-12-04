@@ -8,19 +8,19 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
 
     <title>DHBW Chat - Willkommen</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 <header>
     <nav class ="nav-grid margin-left-10 margin-right-10">
         <section class = "nav-left">
             <a href="index.php" class="nav-left-a">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
+                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
                 <a href="privacy.php" class="responsive-nav-desktop-link">Datenschutz</a>
                 <a href="help.php" class="responsive-nav-desktop-link">Hilfe</a>
@@ -68,7 +68,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <section class="index-features-container">
             <article class="feature-box">
                 <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                    <img src="img/feature-box1.png" alt="grid icon" class="feature-icon">
+                    <img src="../img/feature-box1.png" alt="grid icon" class="feature-icon">
                     Alles. An einem Ort.
                 </h3>
                     <p>
@@ -79,7 +79,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
             </article>
                 <article class="feature-box">
                     <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                        <img src="img/feature-box3.png" alt="rocket" class="feature-icon">
+                        <img src="../img/feature-box3.png" alt="rocket" class="feature-icon">
                         Da, wenn andere weg sind
                     </h3>
                     <p>
@@ -89,7 +89,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
                 </article>
                 <article class="feature-box">
                     <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                        <img src="img/feature-box4.png" alt="Community" class="feature-icon">
+                        <img src="../img/feature-box4.png" alt="Community" class="feature-icon">
                         Sprich global
                     </h3>
                     <p>
@@ -101,7 +101,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
     <section>
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Privat bleibt privat.</h2>
-            <img src="img/dfeature-1.png" alt="lock" class="d-feature-text-img">
+            <img src="../img/dfeature-1.png" alt="lock" class="d-feature-text-img">
             <p>
                 Ob Direktnachricht oder Lerngruppe -
                 deine Gespräche sind durchgehend Ende-zu-Ende verschlüsselt.
@@ -112,7 +112,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         </article>
         <article class="d-feature-text">
             <h2 class="font-size-landing-small style-bold">Anonym starten. In Sekunden.</h2>
-            <img src="img/dfeature-2.png" alt="Guy Incognito" class="d-feature-text-r-img">
+            <img src="../img/dfeature-2.png" alt="Guy Incognito" class="d-feature-text-r-img">
             <p>
                 Starte sofort als Gast oder erstelle einen anonymen Account -
                 ganz ohne E-Mail-Zwang. Du behälst die Kontrolle darüber,
@@ -123,7 +123,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         </article>
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Dein Raum. Deine Regeln.</h2>
-            <img src="img/dfeature-3.png " alt="Community" class="d-feature-text-img">
+            <img src="../img/dfeature-3.png " alt="Community" class="d-feature-text-img">
             <p>
                 Erstelle eine private Lerngruppe für dein Projekt oder einen offenen Channel
                 für den ganzen Campus. Mit mächtigen Tools für Rollen, Rechte und Moderation
@@ -132,7 +132,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         </article>
         <article class="d-feature-text">
             <h2 class="font-size-landing-small style-bold">Dein Chat. Dein Look.</h2>
-            <img src="img/dfeature-4.png" alt="Colorpalette" class="d-feature-text-r-img">
+            <img src="../img/dfeature-4.png" alt="Colorpalette" class="d-feature-text-r-img">
             <p>
                 Passe Themes, Farben, Icons und sogar das Layout an.
                 Ob du es minimalistisch magst oder es nicht bunt genug sein kann
@@ -141,7 +141,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         </article>
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Alles teilen. Ohne Umwege.</h2>
-            <img src="img/dfeature-5.png" alt="File and sending arrow" class="d-feature-text-img">
+            <img src="../img/dfeature-5.png" alt="File and sending arrow" class="d-feature-text-img">
             <p>
                 Ob Projektarbeit, Skript oder Video - sende auch große Dateien mühelos.
                 Alles wird sicher Ende-zu-Ende verschlüsselt übertragen.
@@ -156,13 +156,13 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 
     </section>
     <section class="footer-center">
-        <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
+        <a class="img-logo-footer" href="#top"><img src="../img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
                                                     class="img-logo-footer"></a>
         <a href="legal_notice.php">Impressum</a>
         <a href="help.php">Hilfe</a>
         <a href="privacy.php">Datenschutz</a>
     </section>
 </footer>
-<script src="js/index.js"></script>
+<script src="../js/index.js"></script>
 </body>
 </html>

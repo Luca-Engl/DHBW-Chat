@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
     <title>DHBW Chat - Hilfe</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
 
@@ -120,13 +120,13 @@
 
     </section>
     <section class="footer-center">
-    <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
+    <a class="img-logo-footer" href="#top"><img src="../img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
                                                 class="img-logo-footer"></a>
     <a href="legal_notice.php">Impressum</a>
     <a href="help.php">Hilfe</a>
     <a href="privacy.php">Datenschutz</a>
     </section>
 </footer>
-<script src="js/faq-item_animation.js"></script>
+<script src="../js/faq-item_animation.js"></script>
 </body>
 </html>

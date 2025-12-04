@@ -1,5 +1,5 @@
 <?php
-require_once 'auth.php';
+require_once 'php/etc/auth.php';
 
 session_start();
 
@@ -37,19 +37,19 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
 
     <title>DHBW Chat - Chatbereich</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body class="chat-page">
 <header class="chat-page-header">
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.php">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
+                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
         <section class="chat-nav-center"></section>
@@ -64,7 +64,7 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
                 <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
             </a>
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
-                <img src="img/default-avatar.png" alt="User-Avatar">
+                <img src="../img/default-avatar.png" alt="User-Avatar">
             </a>
         </section>
     </nav>
@@ -234,7 +234,7 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
                 <label class="style-bold">Profilbild:</label>
 
                 <div class="avatar-wrapper">
-                    <img class="chat-avatar" id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild">
+                    <img class="chat-avatar" id="avatar-preview" src="../img/default-avatar.png" alt="Avatar Vorschaubild">
                     <input type="file" id="profile-picture" accept="image/*">
                 </div>
             </section>
@@ -320,6 +320,6 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
         </div>
     </aside>
 
-<script src="js/chat-page.js"></script>
+<script src="../js/chat-page.js"></script>
 </body>
 </html>

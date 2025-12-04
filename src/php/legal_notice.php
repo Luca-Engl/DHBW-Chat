@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
     <title>DHBW Chat - Impressum</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 
 <body>
@@ -15,7 +15,7 @@
     <nav class ="nav-grid margin-left-10 margin-right-10">
         <section class = "nav-left">
             <a href="index.php" class="nav-left-a">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
+                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
             <a href="privacy.php">Datenschutz</a>
             <a href="help.php">Hilfe</a>
@@ -109,7 +109,7 @@
 
     </section>
     <section class="footer-center">
-    <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
+    <a class="img-logo-footer" href="#top"><img src="../img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
                                                 class="img-logo-footer"></a>
     <a href="legal_notice.php">Impressum</a>
     <a href="help.php">Hilfe</a>

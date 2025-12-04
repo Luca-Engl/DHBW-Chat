@@ -18,12 +18,12 @@ session_destroy();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
 
     <title>Abmeldung</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <meta http-equiv="refresh" content="2;url=index.php">
 </head>
@@ -32,7 +32,7 @@ session_destroy();
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.php">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
+                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
         <section class="chat-nav-center"></section>
@@ -46,7 +46,7 @@ session_destroy();
             </span>
 
             <span class="nav-settings">
-                <img src="img/default-avatar.png" alt="User-Avatar">
+                <img src="../img/default-avatar.png" alt="User-Avatar">
             </span>
         </section>
     </nav>
