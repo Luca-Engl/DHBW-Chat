@@ -550,6 +550,11 @@ function updatePassword()
 function openAddContact()
 {
     document.getElementById('addContactModal').classList.add('active');
+    const inputField = document.getElementById('contactInput');
+    if (inputField) {
+        inputField.value = '';
+        inputField.style.borderColor = '';
+    }
     const errorDiv = document.getElementById('contact-error');
     const successDiv = document.getElementById('contact-success');
     if (errorDiv) errorDiv.classList.add('hidden');
@@ -560,7 +565,10 @@ function closeAddContact()
 {
     document.getElementById('addContactModal').classList.remove('active');
     const inputField = document.getElementById('contactInput');
-    if(inputField) inputField.value = '';
+    if(inputField) {
+        inputField.value = '';
+        inputField.style.borderColor = '';
+    }
     const errorDiv = document.getElementById('contact-error');
     const successDiv = document.getElementById('contact-success');
     if (errorDiv) errorDiv.classList.add('hidden');
@@ -576,11 +584,24 @@ function addContact()
 
     errorDiv.classList.add('hidden');
     successDiv.classList.add('hidden');
+    inputField.style.borderColor = '';
 
     if (input === '')
     {
         errorDiv.textContent = 'Bitte gib einen Benutzernamen oder E-Mail ein!';
         errorDiv.classList.remove('hidden');
+        inputField.style.borderColor = '#c33';
+        return;
+    }
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+    const isValidUsername = /^[A-Za-z0-9_.-]{3,30}$/.test(input);
+
+    if (!isValidEmail && !isValidUsername)
+    {
+        errorDiv.textContent = 'Ungültiger Benutzername oder E-Mail. Benutzername: 3-30 Zeichen (Buchstaben, Zahlen, _, -, .)';
+        errorDiv.classList.remove('hidden');
+        inputField.style.borderColor = '#c33';
         return;
     }
 
@@ -601,6 +622,7 @@ function addContact()
             {
                 successDiv.textContent = 'Chat mit ' + data.chat_name + ' erstellt!';
                 successDiv.classList.remove('hidden');
+                inputField.style.borderColor = '';
 
                 setTimeout(function()
                 {
@@ -642,6 +664,17 @@ function openAddGroup()
     groupMembers = [];
     updateMemberList();
     document.getElementById('addGroupModal').classList.add('active');
+    const nameField = document.getElementById('groupName');
+    const memberField = document.getElementById('memberInput');
+    if (nameField) nameField.value = '';
+    if (memberField) {
+        memberField.value = '';
+        memberField.style.borderColor = '';
+    }
+    const errorDiv = document.getElementById('group-error');
+    const successDiv = document.getElementById('group-success');
+    if (errorDiv) errorDiv.classList.add('hidden');
+    if (successDiv) successDiv.classList.add('hidden');
 }
 
 function closeAddGroup()
@@ -649,36 +682,59 @@ function closeAddGroup()
     document.getElementById('addGroupModal').classList.remove('active');
     const nameField = document.getElementById('groupName');
     if(nameField) nameField.value = '';
-    const memberField = document.getElementById('memberEmail');
-    if(memberField) memberField.value = '';
+    const memberField = document.getElementById('memberInput');
+    if(memberField) {
+        memberField.value = '';
+        memberField.style.borderColor = '';
+    }
     groupMembers = [];
+    updateMemberList();
 }
 
 function addMemberToList()
 {
-    const memberField = document.getElementById('memberEmail');
-    const email = memberField.value.trim();
+    const memberField = document.getElementById('memberInput');
+    const input = memberField.value.trim();
+    const errorDiv = document.getElementById('group-error');
 
-    if (email === '')
+    errorDiv.classList.add('hidden');
+    memberField.style.borderColor = '';
+
+    if (input === '')
     {
-        alert('Bitte gib eine E-Mail-Adresse ein!');
         return;
     }
-    if (groupMembers.includes(email))
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+    const isValidUsername = /^[A-Za-z0-9_.-]{3,30}$/.test(input);
+
+    if (!isValidEmail && !isValidUsername)
     {
-        alert('Diese E-Mail wurde bereits hinzugefügt!');
+        errorDiv.textContent = 'Ungültiger Benutzername oder E-Mail. Benutzername: 3-30 Zeichen (Buchstaben, Zahlen, _, -, .)';
+        errorDiv.classList.remove('hidden');
+        memberField.style.borderColor = '#c33';
         return;
     }
-    groupMembers.push(email);
+
+    if (groupMembers.includes(input))
+    {
+        errorDiv.textContent = 'Dieses Mitglied wurde bereits hinzugefügt!';
+        errorDiv.classList.remove('hidden');
+        memberField.style.borderColor = '#c33';
+        return;
+    }
+
+    groupMembers.push(input);
     memberField.value = '';
+    memberField.style.borderColor = '';
     updateMemberList();
 }
 
-function removeMember(email)
+function removeMember(member)
 {
-    groupMembers = groupMembers.filter(function(member)
+    groupMembers = groupMembers.filter(function(m)
     {
-        return member !== email;
+        return m !== member;
     });
     updateMemberList();
 }
@@ -695,12 +751,12 @@ function updateMemberList()
     }
 
     let html = '';
-    groupMembers.forEach(function(email)
+    groupMembers.forEach(function(member)
     {
         html += `
         <div class="member-item" style="display:flex; justify-content:space-between; margin-bottom:5px;">
-            <span class="member-email">${email}</span>
-            <button class="member-remove button-secondary" onclick="removeMember('${email}')" title="Entfernen" style="padding:2px 8px; font-size:0.8rem;">×</button>
+            <span class="member-email">${escapeHtml(member)}</span>
+            <button class="member-remove button-secondary" onclick="removeMember('${escapeHtml(member)}')" title="Entfernen" style="padding:2px 8px; font-size:0.8rem;">×</button>
         </div>
         `;
     });
@@ -712,20 +768,75 @@ function createGroup()
 {
     const groupNameField = document.getElementById('groupName');
     const groupName = groupNameField.value.trim();
+    const errorDiv = document.getElementById('group-error');
+    const successDiv = document.getElementById('group-success');
+
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
 
     if (groupName === '')
     {
-        alert('Bitte gib einen Gruppennamen ein!');
+        errorDiv.textContent = 'Bitte gib einen Gruppennamen ein!';
+        errorDiv.classList.remove('hidden');
         return;
     }
     if (groupMembers.length === 0)
     {
-        alert('Bitte füge mindestens ein Mitglied hinzu!');
+        errorDiv.textContent = 'Bitte füge mindestens ein Mitglied hinzu!';
+        errorDiv.classList.remove('hidden');
         return;
     }
 
-    alert(`Gruppe "${groupName}" mit ${groupMembers.length} Mitglied(ern) erstellt!`);
-    closeAddGroup();
+    const formData = new FormData();
+    formData.append('group_name', groupName);
+    formData.append('members', JSON.stringify(groupMembers));
+
+    fetch('/src/components/create_group_chat.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                successDiv.textContent = 'Gruppe "' + data.chat_name + '" erstellt!';
+                successDiv.classList.remove('hidden');
+
+                setTimeout(function()
+                {
+                    closeAddGroup();
+                    loadChats();
+
+                    setTimeout(function()
+                    {
+                        const chatItems = document.querySelectorAll('#chatList li');
+                        chatItems.forEach(function(item)
+                        {
+                            const itemChatId = parseInt(item.getAttribute('data-chat-id'));
+                            if (itemChatId === data.chat_id)
+                            {
+                                item.click();
+                            }
+                        });
+                    }, 500);
+                }, 1000);
+            }
+            else
+            {
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error creating group:', error);
+            errorDiv.textContent = 'Fehler beim Erstellen der Gruppe';
+            errorDiv.classList.remove('hidden');
+        });
 }
 
 function toggleImportantPanel()
@@ -864,6 +975,7 @@ function loadNotes()
             console.error('Error loading notes:', error);
         });
 }
+
 function isMobile()
 {
     return window.innerWidth <= 768;

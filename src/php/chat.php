@@ -275,18 +275,22 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
         <h2>Gruppe erstellen</h2>
+
+        <div id="group-error" class="error-message hidden"></div>
+        <div id="group-success" class="success-message hidden"></div>
+
         <p><label for="groupName">Gruppenname:</label></p>
         <input type="text" id="groupName" placeholder="z.B. Team DHBW">
         <br><br>
-        <p><label for="memberEmail">Mitglieder hinzufügen:</label></p>
+        <p><label for="memberInput">Mitglieder hinzufügen:</label></p>
         <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="email" id="memberEmail" placeholder="Email Adresse">
-            <button class="button-secondary" onclick="addMemberToList()">+ Add</button>
+            <input type="text" id="memberInput" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+            <button class="button-secondary" onclick="addMemberToList()">+ Hinzufügen</button>
         </section>
         <br>
-        <section id="memberList" style="max-height: 100px; overflow-y: auto;"></section>
+        <section id="memberList" style="max-height: 150px; overflow-y: auto;"></section>
         <br>
-        <button onclick="createGroup()">Erstellen</button>
+        <button onclick="createGroup()">Gruppe erstellen</button>
     </section>
 </section>
 
