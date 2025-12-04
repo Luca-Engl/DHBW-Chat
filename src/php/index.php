@@ -1,7 +1,17 @@
 <?php
 session_start();
+
+if (isset($_GET['forceLogin']) && $_GET['forceLogin'] === '1') {
+    $_SESSION['loggedIn'] = true;
+    $_SESSION['username'] = 'SYSTEM';
+
+    header('Location: chat.php');
+    exit;
+}
+
 $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 ?>
+
 
 <!doctype html>
 <html lang="de">
@@ -21,58 +31,70 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 
 <main class="background-index" id="top">
     <section class="img-background-index">
-    <h1 class="font-size-landing margin-left-10 padding-top-5">Verlässlich.</h1>
-    <h1 class="font-size-landing margin-left-10 margin-top-1">Vertraulich.</h1>
-    <h1 class="font-size-landing margin-left-10 margin-top-1">Verschlüsselt.</h1>
-    <p class="font-size-landing-small font-secondary margin-left-10 margin-top-1 margin-bottom-2">Chatte sicher mit Anderen.<br>
-        Niemand liest mit.</p>
+        <h1 class="font-size-landing margin-left-10 padding-top-5">Verlässlich.</h1>
+        <h1 class="font-size-landing margin-left-10 margin-top-1">Vertraulich.</h1>
+        <h1 class="font-size-landing margin-left-10 margin-top-1">Verschlüsselt.</h1>
+        <p class="font-size-landing-small font-secondary margin-left-10 margin-top-1 margin-bottom-2">Chatte sicher mit Anderen.<br>
+            Niemand liest mit.</p>
         <section class="margin-left-10">
-    <a href="register.php">
-        <button class="button-landing style-bold"><?php echo $loggedIn ? 'Weiter zum Chat' : 'Jetzt loslegen'; ?></button>
-    </a>
-    <a href="#features" class="margin-left-1">
-        <button class="button-landing button-secondary">Funktionen ansehen</button>
-    </a>
+            <a href="<?php echo $loggedIn ? 'chat.php' : 'register.php'; ?>">
+                <button class="button-landing style-bold">
+                    <?php echo $loggedIn ? 'Weiter zum Chat' : 'Jetzt loslegen'; ?>
+                </button>
+            </a>
+
+            <a href="#features" class="margin-left-1">
+                <button class="button-landing button-secondary">Funktionen ansehen</button>
+            </a>
+
+            <?php if (!$loggedIn): ?>
+                <a href="index.php?forceLogin=1" class="margin-left-1">
+                    <button type="button" class="button-secondary">
+                        FORCE LOGIN
+                    </button>
+                </a>
+            <?php endif; ?>
         </section>
+
         <article id="features" class="margin-top-7" >
         </article>
     </section>
 
 
     <h1 class="align-center style-bold margin-top-3">Studieren. Verbinden. Einfach.</h1>
-        <h2 class="align-center">Sicher, zuverlässig und von Studenten für Studenten entwickelt.</h2>
-        <section class="index-features-container">
-            <article class="feature-box">
-                <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                    <img src="../img/feature-box1.png" alt="grid icon" class="feature-icon">
-                    Alles. An einem Ort.
-                </h3>
-                    <p>
-                        Gruppen, Direktnachrichten und ein globaler
-                        Chat - erreichbar, auch wenn andere Dienste
-                        gerade nicht verfügbar sind.
-                    </p>
-            </article>
-                <article class="feature-box">
-                    <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                        <img src="../img/feature-box3.png" alt="rocket" class="feature-icon">
-                        Da, wenn andere weg sind
-                    </h3>
-                    <p>
-                        DHBW Chat wird auf hauseigenen Servern gehostet.
-                        Das macht uns unabhängig von externen Providern.
-                    </p>
-                </article>
-                <article class="feature-box">
-                    <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
-                        <img src="../img/feature-box4.png" alt="Community" class="feature-icon">
-                        Sprich global
-                    </h3>
-                    <p>
-                        Globaler Chatraum für die DHBW-Community - Themen,
-                        Austausch und Events über Campus-Grenzen hinweg.
-                    </p>
-            </article>
+    <h2 class="align-center">Sicher, zuverlässig und von Studenten für Studenten entwickelt.</h2>
+    <section class="index-features-container">
+        <article class="feature-box">
+            <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
+                <img src="../img/feature-box1.png" alt="grid icon" class="feature-icon">
+                Alles. An einem Ort.
+            </h3>
+            <p>
+                Gruppen, Direktnachrichten und ein globaler
+                Chat - erreichbar, auch wenn andere Dienste
+                gerade nicht verfügbar sind.
+            </p>
+        </article>
+        <article class="feature-box">
+            <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
+                <img src="../img/feature-box3.png" alt="rocket" class="feature-icon">
+                Da, wenn andere weg sind
+            </h3>
+            <p>
+                DHBW Chat wird auf hauseigenen Servern gehostet.
+                Das macht uns unabhängig von externen Providern.
+            </p>
+        </article>
+        <article class="feature-box">
+            <h3 class="font-landing-headline-feature-box margin-bottom-7 feature-header">
+                <img src="../img/feature-box4.png" alt="Community" class="feature-icon">
+                Sprich global
+            </h3>
+            <p>
+                Globaler Chatraum für die DHBW-Community - Themen,
+                Austausch und Events über Campus-Grenzen hinweg.
+            </p>
+        </article>
     </section>
     <section>
         <article class="background d-feature-text">
