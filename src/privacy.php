@@ -14,11 +14,11 @@
 <header>
     <nav class="nav-grid margin-left-10 margin-right-10">
         <section class="nav-left">
-            <a href="index.html" class="nav-left-a">
+            <a href="index.php" class="nav-left-a">
                 <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
             </a>
-            <a href="privacy.html" class="responsive-nav-desktop-link">Datenschutz</a>
-            <a href="help.html" class="responsive-nav-desktop-link">Hilfe</a>
+            <a href="privacy.php" class="responsive-nav-desktop-link">Datenschutz</a>
+            <a href="help.php" class="responsive-nav-desktop-link">Hilfe</a>
         </section>
         <section class="nav-center">
             <button class="responsive-nav-hamburger" onclick="toggleMobileMenu()">
@@ -28,7 +28,7 @@
             </button>
         </section>
         <section class="nav-right margin-right-5 margin-top-3 margin-bottom-3">
-            <a href="login.html">
+            <a href="login.php">
                 <button class="style-bold">Anmelden</button>
             </a>
         </section>
@@ -36,9 +36,9 @@
 
     <!-- Mobile Menu -->
     <div class="responsive-nav-mobile-menu">
-        <a href="privacy.html">Datenschutz</a>
-        <a href="help.html">Hilfe</a>
-        <a href="login.html">Anmelden</a>
+        <a href="privacy.php">Datenschutz</a>
+        <a href="help.php">Hilfe</a>
+        <a href="login.php">Anmelden</a>
     </div>
 </header>
 
@@ -119,9 +119,9 @@
     <section class="footer-center">
         <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo"
                                                     class="img-logo-footer"></a>
-        <a href="legal_notice.html">Impressum</a>
-        <a href="help.html">Hilfe</a>
-        <a href="privacy.html">Datenschutz</a>
+        <a href="legal_notice.php">Impressum</a>
+        <a href="help.php">Hilfe</a>
+        <a href="privacy.php">Datenschutz</a>
     </section>
 </footer>
 

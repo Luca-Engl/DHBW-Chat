@@ -11,7 +11,7 @@
 </head>
 <body>
 <main class="img-background-login center-box" id="top">
-    <a href="index.html">
+    <a href="index.php">
         <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-login" alt="DHBW-Chat-Logo">
     </a>
     <section class ="popup-box">
@@ -73,14 +73,14 @@
 
 
     <br><br>
-    <a href="chat.html">
+    <a href="chat.php">
         <button>Registrieren</button>
     </a>
     <br>
     <br>
     <h3>oder</h3>
     <br>
-    <a href=login.html>
+    <a href=login.php>
         <button class="button-secondary">Zurück zur Anmeldung</button>
     </a>
         </section>
@@ -92,9 +92,9 @@
     <section class="footer-center">
     <a class="img-logo-footer" href="#top"><img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-CHat logo"
                                                 class="img-logo-footer"></a>
-    <a href="legal_notice.html">Impressum</a>
-    <a href="help.html">Hilfe</a>
-    <a href="privacy.html">Datenschutz</a>
+    <a href="legal_notice.php">Impressum</a>
+    <a href="help.php">Hilfe</a>
+    <a href="privacy.php">Datenschutz</a>
     </section>
 </footer>
 </body>
