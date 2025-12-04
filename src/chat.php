@@ -1,3 +1,37 @@
+<?php
+require_once 'auth.php';
+
+session_start();
+
+if (!empty($_GET['groupcode'])) {
+    $groupcode = preg_replace('/[^A-Za-z0-9]/', '', $_GET['groupcode']);
+
+    if ($groupcode === '') {
+        header('Location: login.php');
+        exit;
+    }
+
+    $_SESSION['isGuest']   = true;
+    $_SESSION['groupcode'] = $groupcode;
+
+    if (empty($_SESSION['username'])) {
+        try {
+            $randSuffix = random_int(100, 999);
+        } catch (Exception $e) {
+            $randSuffix = mt_rand(100, 999);
+        }
+        $_SESSION['username'] = 'Gast_' . substr($groupcode, 0, 3) . '_' . $randSuffix;
+    }
+}
+
+$loggedIn = !empty($_SESSION['loggedIn']);
+$isGuest  = !empty($_SESSION['isGuest']);
+
+$currentUser  = $_SESSION['username'] ?? 'Unbekannt';
+$currentGroup = $_SESSION['groupcode'] ?? null;
+?>
+
+
 <!DOCTYPE html>
 <html lang="de" class="chat-page">
 <head>
@@ -20,8 +54,14 @@
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
+            <?php if ($loggedIn): ?>
+                <a href="logout.php" class="nav-logout margin-right-5" style="color: red; font-weight: bold;">
+                    Abmelden
+                </a>
+            <?php endif; ?>
+
             <a href="#" class="nav-username margin-right-5" onclick="openSettings(); return false;">
-                ExampleUser
+                <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
             </a>
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
                 <img src="img/default-avatar.png" alt="User-Avatar">
