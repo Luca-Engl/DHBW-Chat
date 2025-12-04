@@ -1,30 +1,71 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+require_once 'auth.php';
+
+if (!empty($_GET['groupcode'])) {
+    $groupcode = preg_replace('/[^A-Za-z0-9]/', '', $_GET['groupcode']);
+
+    if ($groupcode === '') {
+        header('Location: login.php');
+        exit;
+    }
+
+    $_SESSION['isGuest']   = true;
+    $_SESSION['groupcode'] = $groupcode;
+
+    if (empty($_SESSION['username'])) {
+        try {
+            $randSuffix = random_int(100, 999);
+        } catch (Exception $e) {
+            $randSuffix = mt_rand(100, 999);
+        }
+        $_SESSION['username'] = 'Gast_' . substr($groupcode, 0, 3) . '_' . $randSuffix;
+    }
+}
+
+$loggedIn = !empty($_SESSION['loggedIn']);
+$isGuest  = !empty($_SESSION['isGuest']);
+
+$currentUser  = $_SESSION['username'] ?? 'Unbekannt';
+$currentGroup = $_SESSION['groupcode'] ?? null;
+?>
+
+
 <!DOCTYPE html>
 <html lang="de" class="chat-page">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/font.css" />
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/layout.css"/>
+    <link rel="stylesheet" href="../css/font.css" />
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../css/layout.css"/>
 
     <title>DHBW Chat - Chatbereich</title>
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body class="chat-page">
 <header class="chat-page-header">
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
             <a href="index.php">
-                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
+                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
+            <?php if ($loggedIn): ?>
+                <a href="logout.php" class="nav-logout margin-right-5 style-bold">
+                    Abmelden
+                </a>
+            <?php endif; ?>
+
             <a href="#" class="nav-username margin-right-5" onclick="openSettings(); return false;">
-                ExampleUser
+                <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
             </a>
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
-                <img src="img/default-avatar.png" alt="User-Avatar">
+                <img src="../img/default-avatar.png" alt="User-Avatar">
             </a>
         </section>
     </nav>
@@ -41,8 +82,15 @@
         </ul>
 
         <section class="chat-sidebar-buttons">
-            <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
-            <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+            <section class="chat-sidebar-buttons">
+                <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
+                <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+
+                <p class="margin-top-5 align-center">
+                    <a href="legal_notice.php" class="font-secondary">Impressum</a>
+                </p>
+            </section>
+
         </section>
     </aside>
 
@@ -187,7 +235,7 @@
                 <label class="style-bold">Profilbild:</label>
 
                 <div class="avatar-wrapper">
-                    <img class="chat-avatar" id="avatar-preview" src="img/default-avatar.png" alt="Avatar Vorschaubild">
+                    <img class="chat-avatar" id="avatar-preview" src="../img/default-avatar.png" alt="Avatar Vorschaubild">
                     <input type="file" id="profile-picture" accept="image/*">
                 </div>
             </section>
@@ -273,6 +321,6 @@
         </div>
     </aside>
 
-<script src="js/chat-page.js"></script>
+<script src="../js/chat-page.js"></script>
 </body>
 </html>
