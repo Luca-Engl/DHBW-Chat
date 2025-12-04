@@ -1,3 +1,8 @@
+<?php
+session_start();
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!doctype html>
 <html lang="de">
 <head>
@@ -29,7 +34,7 @@
         </section>
         <section class = "nav-right margin-right-5 margin-top-3 margin-bottom-3">
             <a href="login.php">
-                <button class = "style-bold">Anmelden</button>
+                <button class = "style-bold"><?php echo $loggedIn ? 'Angemeldet' : 'Anmelden'; ?></button>
             </a>
         </section>
     </nav>
@@ -47,7 +52,7 @@
         Niemand liest mit.</p>
         <section class="margin-left-10">
     <a href="register.php">
-        <button class="button-landing style-bold">Jetzt loslegen</button>
+        <button class="button-landing style-bold"><?php echo $loggedIn ? 'Weiter zum Chat' : 'Jetzt loslegen'; ?></button>
     </a>
     <a href="#features" class="margin-left-1">
         <button class="button-landing button-secondary">Funktionen ansehen</button>
