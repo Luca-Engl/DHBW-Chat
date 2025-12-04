@@ -12,7 +12,7 @@
 
 <body>
 
-<?php include 'components/header.php'; ?>
+<?php include 'components/header_public.php'; ?>
 
 <main class="align-center margin-bottom-1 margin-top-3" id="top">
     <h1 class="align-center margin-bottom-2">404 – Seite nicht gefunden</h1>

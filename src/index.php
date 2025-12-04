@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
-<?php include 'components/header.php'; ?>
+<?php include 'components/header_public.php'; ?>
 <main class="background-index" id="top">
     <section class="img-background-index">
     <h1 class="font-size-landing margin-left-10 padding-top-5">Verlässlich.</h1>

@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<?php include 'components/header.php'; ?>
+<?php include 'components/header_public.php'; ?>
 
 <main class="padding-5" id="top">
 

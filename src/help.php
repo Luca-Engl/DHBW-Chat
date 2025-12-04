@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<<?php include 'components/header.php'; ?>
+<<?php include 'components/header_public.php'; ?>
 
 <main id="top">
     <h1 class="align-center margin-bottom-1 margin-top-3">Hilfe & FAQ</h1>
