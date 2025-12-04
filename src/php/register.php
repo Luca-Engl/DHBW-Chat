@@ -233,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section class="footer-left"></section>
     <section class="footer-center">
         <a class="img-logo-footer" href="#top">
-            <img src="img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo" class="img-logo-footer">
+            <img src="../img/DHBW-Banner-Chat-Red.png" alt="DHBW-Chat logo" class="img-logo-footer">
         </a>
         <a href="legal_notice.php">Impressum</a>
         <a href="help.php">Hilfe</a>
