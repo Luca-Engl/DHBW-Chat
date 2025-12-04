@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/font.css" />
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/layout.css"/>
-    <title>DHBW Chat - 404</title>
+    <title>DHBW Chat - Nicht gefunden</title>
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 

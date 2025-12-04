@@ -3,6 +3,7 @@
     --secondary-font: 'Exo2';
     --primary-color: #FFFFFF;
     --secondary-color: #DCD3D3;
+    --error-color: #B50015;
     --primary-background-color: #202025;
     --secondary-background-color: #28282E;
     --navbar-background-color: rgba(50, 40, 46, 0.85);
@@ -181,6 +182,10 @@ a:visited:hover {
 
 .font-secondary {
     color: var(--secondary-color);
+}
+
+.font-error {
+    color: var(--error-color);
 }
 
 .font-size-landing {

@@ -1,3 +1,8 @@
+<?php
+session_start();
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!doctype html>
 <html lang="de">
 <head>
@@ -11,7 +16,33 @@
     <link rel="icon" type="image/png" href="img/favicon.png">
 </head>
 <body>
-<?php include 'components/header.php'; ?>
+<header>
+    <nav class ="nav-grid margin-left-10 margin-right-10">
+        <section class = "nav-left">
+            <a href="index.php" class="nav-left-a">
+                <img src="img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
+            </a>
+                <a href="privacy.php" class="responsive-nav-desktop-link">Datenschutz</a>
+                <a href="help.php" class="responsive-nav-desktop-link">Hilfe</a>
+        </section>
+        <section class="nav-center">
+            <button class="responsive-nav-hamburger" id="responsiveNavHamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </section>
+        <section class = "nav-right margin-right-5 margin-top-3 margin-bottom-3">
+            <a href="login.php">
+                <button class = "style-bold"><?php echo $loggedIn ? 'Angemeldet' : 'Anmelden'; ?></button>
+            </a>
+        </section>
+    </nav>
+    <div class="responsive-nav-mobile-menu" id="responsiveNavMobileMenu">
+        <a href="privacy.php">Datenschutz</a>
+        <a href="help.php">Hilfe</a>
+    </div>
+</header>
 <main class="background-index" id="top">
     <section class="img-background-index">
     <h1 class="font-size-landing margin-left-10 padding-top-5">Verlässlich.</h1>
@@ -21,7 +52,7 @@
         Niemand liest mit.</p>
         <section class="margin-left-10">
     <a href="register.php">
-        <button class="button-landing style-bold">Jetzt loslegen</button>
+        <button class="button-landing style-bold"><?php echo $loggedIn ? 'Weiter zum Chat' : 'Jetzt loslegen'; ?></button>
     </a>
     <a href="#features" class="margin-left-1">
         <button class="button-landing button-secondary">Funktionen ansehen</button>
