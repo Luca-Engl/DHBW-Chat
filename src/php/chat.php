@@ -1,7 +1,8 @@
 <?php
-require_once 'php/etc/auth.php';
-
-session_start();
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+require_once 'auth.php';
 
 if (!empty($_GET['groupcode'])) {
     $groupcode = preg_replace('/[^A-Za-z0-9]/', '', $_GET['groupcode']);
