@@ -1,6 +1,7 @@
 let currentChatId = null;
 let currentChat = 'Globalchat';
 let messageCheckInterval = null;
+let currentManageGroupId = null;
 
 function escapeHtml(text) {
     const map = {
@@ -40,6 +41,7 @@ function loadChats()
                     li.textContent = chat.chat_name;
                     li.setAttribute('data-chat-id', chat.id);
                     li.setAttribute('data-chat-name', chat.chat_name);
+                    li.setAttribute('data-chat-type', chat.chat_type);
 
                     if (index === 0)
                     {
@@ -47,6 +49,7 @@ function loadChats()
                         currentChatId = chat.id;
                         currentChat = chat.chat_name;
                         document.getElementById('currentChatName').textContent = chat.chat_name;
+                        updateManageButton(chat.chat_type, chat.id, chat.chat_name);
                         loadMessages(chat.id);
                         startAutoReload();
                     }
@@ -63,11 +66,13 @@ function loadChats()
 
                         const chatId = parseInt(this.getAttribute('data-chat-id'));
                         const chatName = this.getAttribute('data-chat-name');
+                        const chatType = this.getAttribute('data-chat-type');
 
                         currentChatId = chatId;
                         currentChat = chatName;
 
                         document.getElementById('currentChatName').textContent = chatName;
+                        updateManageButton(chatType, chatId, chatName);
 
                         loadMessages(chatId);
                         startAutoReload();
@@ -97,6 +102,34 @@ function loadChats()
             console.error('Error loading chats:', error);
             document.getElementById('chatList').innerHTML = '<li style="color: #c33;">Fehler beim Laden</li>';
         });
+}
+
+function updateManageButton(chatType, chatId, chatName)
+{
+    const manageBtn = document.getElementById('manageGroupBtn');
+
+    if (chatType === 'group')
+    {
+        manageBtn.style.display = 'inline-block';
+        manageBtn.setAttribute('data-chat-id', chatId);
+        manageBtn.setAttribute('data-chat-name', chatName);
+    }
+    else
+    {
+        manageBtn.style.display = 'none';
+    }
+}
+
+function openManageGroupFromNav()
+{
+    const manageBtn = document.getElementById('manageGroupBtn');
+    const chatId = parseInt(manageBtn.getAttribute('data-chat-id'));
+    const chatName = manageBtn.getAttribute('data-chat-name');
+
+    if (chatId && chatName)
+    {
+        openManageGroup(chatId, chatName);
+    }
 }
 
 function loadMessages(chatId, isAutoReload)
@@ -839,6 +872,195 @@ function createGroup()
         });
 }
 
+function openManageGroup(chatId, chatName)
+{
+    currentManageGroupId = chatId;
+    document.getElementById('manageGroupTitle').textContent = 'Gruppe verwalten: ' + chatName;
+    document.getElementById('addMemberInput').value = '';
+    document.getElementById('addMemberInput').style.borderColor = '';
+
+    const errorDiv = document.getElementById('manage-group-error');
+    const successDiv = document.getElementById('manage-group-success');
+    if (errorDiv) errorDiv.classList.add('hidden');
+    if (successDiv) successDiv.classList.add('hidden');
+
+    document.getElementById('manageGroupModal').classList.add('active');
+    loadGroupMembers(chatId);
+}
+
+function closeManageGroup()
+{
+    document.getElementById('manageGroupModal').classList.remove('active');
+    currentManageGroupId = null;
+}
+
+function loadGroupMembers(chatId)
+{
+    const membersList = document.getElementById('currentMembersList');
+    membersList.innerHTML = '<p style="color: #888;">Lade Mitglieder...</p>';
+
+    fetch('/src/components/get_group_members.php?chat_id=' + chatId)
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                if (data.members.length === 0)
+                {
+                    membersList.innerHTML = '<p style="color: #888;">Keine Mitglieder</p>';
+                    return;
+                }
+
+                let html = '';
+                data.members.forEach(function(member)
+                {
+                    html += `
+                    <div class="member-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:8px; background:rgba(255,255,255,0.05); border-radius:8px;">
+                        <div style="flex:1;">
+                            <strong>${escapeHtml(member.username)}</strong><br>
+                            <small style="color:#888;">${escapeHtml(member.email)}</small>
+                        </div>
+                        <button class="member-remove button-secondary" onclick="removeGroupMember(${member.id})" title="Entfernen" style="padding:4px 10px; font-size:0.9rem;">Entfernen</button>
+                    </div>
+                    `;
+                });
+
+                membersList.innerHTML = html;
+            }
+            else
+            {
+                membersList.innerHTML = '<p style="color: #c33;">Fehler beim Laden</p>';
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error loading members:', error);
+            membersList.innerHTML = '<p style="color: #c33;">Fehler beim Laden</p>';
+        });
+}
+
+function addGroupMember()
+{
+    if (!currentManageGroupId)
+    {
+        return;
+    }
+
+    const inputField = document.getElementById('addMemberInput');
+    const input = inputField.value.trim();
+    const errorDiv = document.getElementById('manage-group-error');
+    const successDiv = document.getElementById('manage-group-success');
+
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+    inputField.style.borderColor = '';
+
+    if (input === '')
+    {
+        errorDiv.textContent = 'Bitte gib einen Benutzernamen oder E-Mail ein';
+        errorDiv.classList.remove('hidden');
+        inputField.style.borderColor = '#c33';
+        return;
+    }
+
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
+    const isValidUsername = /^[A-Za-z0-9_.-]{3,30}$/.test(input);
+
+    if (!isValidEmail && !isValidUsername)
+    {
+        errorDiv.textContent = 'Ungültiger Benutzername oder E-Mail. Benutzername: 3-30 Zeichen (Buchstaben, Zahlen, _, -, .)';
+        errorDiv.classList.remove('hidden');
+        inputField.style.borderColor = '#c33';
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('chat_id', currentManageGroupId);
+    formData.append('member_input', input);
+
+    fetch('/src/components/add_group_member.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                successDiv.textContent = data.message;
+                successDiv.classList.remove('hidden');
+                inputField.value = '';
+                inputField.style.borderColor = '';
+                loadGroupMembers(currentManageGroupId);
+            }
+            else
+            {
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error adding member:', error);
+            errorDiv.textContent = 'Fehler beim Hinzufügen';
+            errorDiv.classList.remove('hidden');
+        });
+}
+
+function removeGroupMember(memberId)
+{
+    if (!currentManageGroupId)
+    {
+        return;
+    }
+
+    const errorDiv = document.getElementById('manage-group-error');
+    const successDiv = document.getElementById('manage-group-success');
+
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    const formData = new FormData();
+    formData.append('chat_id', currentManageGroupId);
+    formData.append('member_id', memberId);
+
+    fetch('/src/components/remove_group_member.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                successDiv.textContent = data.message;
+                successDiv.classList.remove('hidden');
+                loadGroupMembers(currentManageGroupId);
+                loadChats();
+            }
+            else
+            {
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error removing member:', error);
+            errorDiv.textContent = 'Fehler beim Entfernen';
+            errorDiv.classList.remove('hidden');
+        });
+}
+
 function toggleImportantPanel()
 {
     const panel = document.getElementById('importantPanel');
@@ -1012,7 +1234,7 @@ document.addEventListener('DOMContentLoaded', function()
 {
     loadChats();
 
-    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal'];
+    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'manageGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal'];
     modals.forEach(function(modalId)
     {
         const modal = document.getElementById(modalId);
@@ -1025,6 +1247,7 @@ document.addEventListener('DOMContentLoaded', function()
                     if(modalId === 'settingsModal') closeSettings();
                     if(modalId === 'addContactModal') closeAddContact();
                     if(modalId === 'addGroupModal') closeAddGroup();
+                    if(modalId === 'manageGroupModal') closeManageGroup();
                     if(modalId === 'editUsernameModal') closeEditUsername();
                     if(modalId === 'editEmailModal') closeEditEmail();
                     if(modalId === 'editPasswordModal') closeEditPassword();

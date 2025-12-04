@@ -21,20 +21,15 @@ $user_id = $_SESSION['user_id'];
 try
 {
     $stmt = $pdo->prepare("
-        SELECT DISTINCT c.id, c.chat_name, c.chat_type, c.created_at
+        SELECT c.id, c.chat_name, c.chat_type
         FROM chat c
         INNER JOIN chat_participant cp ON c.id = cp.chat_id
         WHERE cp.user_id = ?
-        ORDER BY c.created_at DESC
+        ORDER BY c.id ASC
     ");
-
     $stmt->execute(array($user_id));
-    $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($chats as &$chat)
-    {
-        $chat['id'] = intval($chat['id']);
-    }
+    $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([
         'success' => true,
@@ -43,7 +38,7 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("Get chats error: " . $e->getMessage());
+    error_log("GET CHATS ERROR: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Laden der Chats'

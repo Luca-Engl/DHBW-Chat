@@ -139,11 +139,14 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
     <section class="chat-main">
         <section class="chat-nav-bar">
-            <section style="display: flex; align-items: center;">
+            <section style="display: flex; align-items: center; gap: 10px;">
                 <button class="chat-back-btn" onclick="closeChat()">
                     ← Zurück
                 </button>
                 <h2 id="currentChatName">Wähle einen Chat</h2>
+                <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
+                    + Mitglied
+                </button>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
                 📌 Ablage
@@ -307,7 +310,26 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <button onclick="addNote()" class="style-bold">Senden</button>
     </section>
 </aside>
+<section id="manageGroupModal" class="modal-overlay">
+    <section class="modal-content popup-box">
+        <button class="modal-close" onclick="closeManageGroup()">&times;</button>
+        <h2 id="manageGroupTitle">Gruppe verwalten</h2>
 
+        <div id="manage-group-error" class="error-message hidden"></div>
+        <div id="manage-group-success" class="success-message hidden"></div>
+
+        <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
+        <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
+            <p style="color: #888;">Lade Mitglieder...</p>
+        </section>
+
+        <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
+        <section style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" id="addMemberInput" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+            <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
+        </section>
+    </section>
+</section>
 <script src="../js/chat-page.js"></script>
 </body>
 </html>
