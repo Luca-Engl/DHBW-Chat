@@ -72,6 +72,12 @@ function loadChats()
                         loadMessages(chatId);
                         startAutoReload();
 
+                        const panel = document.getElementById('importantPanel');
+                        if (panel && panel.classList.contains('active'))
+                        {
+                            loadNotes();
+                        }
+
                         if (isMobile())
                         {
                             document.querySelector('.chat-container').classList.add('chat-open');
@@ -743,99 +749,124 @@ function addNote()
         return;
     }
 
-    const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
-
-    if (!allNotes[currentChat])
+    if (!currentChatId)
     {
-        allNotes[currentChat] = [];
+        return;
     }
 
-    allNotes[currentChat].push({
-        id: Date.now(),
-        text: text,
-        date: new Date().toLocaleString('de-DE')
-    });
+    const formData = new FormData();
+    formData.append('chat_id', currentChatId);
+    formData.append('content', text);
 
-    localStorage.setItem('chatNotes', JSON.stringify(allNotes));
-    loadNotes();
-    input.value = '';
-    input.style.height = 'auto';
+    fetch('/src/components/add_note.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                input.value = '';
+                input.style.height = 'auto';
+                loadNotes();
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error adding note:', error);
+        });
 }
 
 function deleteNote(id)
 {
-    const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
+    const formData = new FormData();
+    formData.append('note_id', id);
 
-    if (allNotes[currentChat])
-    {
-        allNotes[currentChat] = allNotes[currentChat].filter(function(note)
+    fetch('/src/components/delete_note.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
         {
-            return note.id !== id;
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                loadNotes();
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error deleting note:', error);
         });
-        localStorage.setItem('chatNotes', JSON.stringify(allNotes));
-        loadNotes();
-    }
-}
-
-function switchChat(chatName)
-{
-    currentChat = chatName;
-    document.getElementById('currentChatName').textContent = chatName;
-    loadNotes();
 }
 
 function loadNotes()
 {
-    const allNotes = JSON.parse(localStorage.getItem('chatNotes') || '{}');
-    const notes = allNotes[currentChat] || [];
-    const list = document.getElementById('notesList');
-
-    if (notes.length === 0)
+    if (!currentChatId)
     {
-        list.innerHTML = '<p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>';
+        document.getElementById('notesList').innerHTML = '<p class="empty-state">Wähle einen Chat aus</p>';
         return;
     }
 
-    list.innerHTML = notes.map(function(note)
-    {
-        return `
-        <div class="note-item">
-            <div class="note-content">
-                <p class="note-text">${note.text}</p>
-                <small class="note-date">${note.date}</small>
-            </div>
-            <button class="note-delete-btn" onclick="deleteNote(${note.id})" title="Löschen">×</button>
-        </div>
-    `;
-    }).join('');
+    fetch('/src/components/get_notes.php?chat_id=' + currentChatId)
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                const list = document.getElementById('notesList');
 
-    setTimeout(function()
-    {
-        list.scrollTop = list.scrollHeight;
-    }, 50);
+                if (data.notes.length === 0)
+                {
+                    list.innerHTML = '<p class="empty-state">Noch keine Notizen in diesem Chat</p>';
+                    return;
+                }
+
+                list.innerHTML = data.notes.map(function(note)
+                {
+                    const date = new Date(note.created_at);
+                    const timeString = date.getHours().toString().padStart(2, '0') + ':' +
+                        date.getMinutes().toString().padStart(2, '0');
+                    const dateString = date.toLocaleDateString('de-DE');
+
+                    return `
+                    <div class="note-item-full">
+                        <div class="note-header">
+                            <strong class="note-author">${escapeHtml(note.author)}</strong>
+                            <span class="note-time">${dateString} ${timeString}</span>
+                        </div>
+                        <div class="note-content-full">
+                            <p class="note-text">${escapeHtml(note.content)}</p>
+                        </div>
+                        <button class="note-delete-btn-full" onclick="deleteNote(${note.id})" title="Löschen">×</button>
+                    </div>
+                `;
+                }).join('');
+
+                setTimeout(function()
+                {
+                    list.scrollTop = list.scrollHeight;
+                }, 50);
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error loading notes:', error);
+        });
 }
-
 function isMobile()
 {
     return window.innerWidth <= 768;
-}
-
-function openChat(chatName)
-{
-    const container = document.querySelector('.chat-container');
-    const chatTitle = document.getElementById('currentChatName');
-
-    if (chatTitle && chatName)
-    {
-        chatTitle.textContent = chatName;
-    }
-
-    if (isMobile())
-    {
-        container.classList.add('chat-open');
-    }
-
-    switchChat(chatName);
 }
 
 function closeChat()
