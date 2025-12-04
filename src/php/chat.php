@@ -260,8 +260,12 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
         <h2>Kontakt hinzufügen</h2>
-        <p><label for="contactEmail">DHBW E-Mail Adresse:</label></p>
-        <input type="email" id="contactEmail" placeholder="max.mustermann@dhbw.de">
+
+        <div id="contact-error" class="error-message hidden"></div>
+        <div id="contact-success" class="success-message hidden"></div>
+
+        <p><label for="contactInput">Benutzername oder E-Mail:</label></p>
+        <input type="text" id="contactInput" placeholder="z.B. max.mustermann oder max@dhbw.de">
         <br><br>
         <button onclick="addContact()">Hinzufügen</button>
     </section>

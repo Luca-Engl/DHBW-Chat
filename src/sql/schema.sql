@@ -14,7 +14,7 @@ CREATE TABLE `user` (
 CREATE TABLE `chat` (
                         `id` INT AUTO_INCREMENT PRIMARY KEY,
                         `chat_name` VARCHAR(100) NOT NULL,
-                        `chat_type` ENUM('global', 'personal', 'group',) NOT NULL,
+                        `chat_type` ENUM('global', 'personal', 'group') NOT NULL,
                         `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

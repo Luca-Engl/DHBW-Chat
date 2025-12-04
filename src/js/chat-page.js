@@ -2,15 +2,32 @@ let currentChatId = null;
 let currentChat = 'Globalchat';
 let messageCheckInterval = null;
 
+// Hilfsfunktion zum Escapen von HTML
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 function loadChats()
 {
+    console.log('=== loadChats() START ===');
+
     fetch('/src/components/get_chats.php')
         .then(function(response)
         {
+            console.log('Response status:', response.status);
             return response.json();
         })
         .then(function(data)
         {
+            console.log('Chats data:', data);
+
             if (data.success)
             {
                 const chatList = document.getElementById('chatList');
@@ -25,6 +42,8 @@ function loadChats()
 
                 data.chats.forEach(function(chat, index)
                 {
+                    console.log('Adding chat:', chat);
+
                     const li = document.createElement('li');
                     li.textContent = chat.chat_name;
                     li.setAttribute('data-chat-id', chat.id);
@@ -35,6 +54,9 @@ function loadChats()
                         li.classList.add('active-chat');
                         currentChatId = chat.id;
                         currentChat = chat.chat_name;
+
+                        console.log('Setting initial chat:', currentChatId, currentChat);
+
                         document.getElementById('currentChatName').textContent = chat.chat_name;
                         loadMessages(chat.id);
                         startAutoReload();
@@ -42,6 +64,8 @@ function loadChats()
 
                     li.addEventListener('click', function()
                     {
+                        console.log('=== Chat clicked ===');
+
                         const allItems = document.querySelectorAll('#chatList li');
                         allItems.forEach(function(item)
                         {
@@ -52,6 +76,8 @@ function loadChats()
 
                         const chatId = parseInt(this.getAttribute('data-chat-id'));
                         const chatName = this.getAttribute('data-chat-name');
+
+                        console.log('Selected chat:', chatId, chatName);
 
                         currentChatId = chatId;
                         currentChat = chatName;
@@ -72,7 +98,8 @@ function loadChats()
             }
             else
             {
-                document.getElementById('chatList').innerHTML = '<li style="color: #c33;">Fehler beim Laden</li>';
+                console.error('Load chats failed:', data.message);
+                document.getElementById('chatList').innerHTML = '<li style="color: #c33;">Fehler: ' + data.message + '</li>';
             }
         })
         .catch(function(error)
@@ -89,56 +116,93 @@ function loadMessages(chatId, isAutoReload)
         isAutoReload = false;
     }
 
+    console.log('=== loadMessages() START ===');
+    console.log('Chat ID:', chatId, 'Auto-reload:', isAutoReload);
+
     fetch('/src/components/get_messages.php?chat_id=' + chatId)
         .then(function(response)
         {
+            console.log('Messages response status:', response.status);
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
             return response.json();
         })
         .then(function(data)
         {
+            console.log('Messages data:', data);
+
+            // WICHTIG: Prüfe ob data existiert und success true ist
+            if (!data) {
+                throw new Error('Keine Daten empfangen');
+            }
+
             if (data.success)
             {
                 const chatHistory = document.getElementById('chat-history');
                 const currentUserId = data.current_user_id;
                 const existingForm = document.getElementById('chatForm');
 
+                console.log('Current user ID:', currentUserId);
+                console.log('Message count:', data.messages ? data.messages.length : 0);
+
+                // WICHTIG: Prüfe ob messages existiert
+                if (!data.messages) {
+                    console.error('data.messages ist undefined!');
+                    data.messages = []; // Fallback auf leeres Array
+                }
+
                 const wasAtBottom = chatHistory.scrollHeight - chatHistory.scrollTop <= chatHistory.clientHeight + 100;
 
                 let messagesHtml = '';
 
-                data.messages.forEach(function(msg)
+                if (data.messages.length === 0)
                 {
-                    const isSent = msg.sender_id === currentUserId;
-                    const messageClass = isSent ? 'sent' : 'received';
+                    messagesHtml = '<p style="text-align: center; color: #888; padding: 20px;">Noch keine Nachrichten. Schreibe die erste!</p>';
+                }
+                else
+                {
+                    data.messages.forEach(function(msg)
+                    {
+                        const isSent = msg.sender_id === currentUserId;
+                        const messageClass = isSent ? 'sent' : 'received';
 
-                    const date = new Date(msg.sent_at);
-                    const timeString = date.getHours().toString().padStart(2, '0') + ':' +
-                        date.getMinutes().toString().padStart(2, '0');
+                        const date = new Date(msg.sent_at);
+                        const timeString = date.getHours().toString().padStart(2, '0') + ':' +
+                            date.getMinutes().toString().padStart(2, '0');
 
-                    const senderInfo = !isSent ? '<strong>' + msg.sender_name + '</strong><br>' : '';
+                        const senderInfo = !isSent ? '<strong>' + escapeHtml(msg.sender_name) + '</strong><br>' : '';
 
-                    messagesHtml += `
-                    <section class="message ${messageClass}">
-                        <span class="timestamp">${timeString}</span>
-                        <section class="bubble">
-                            ${senderInfo}${msg.content}
+                        messagesHtml += `
+                        <section class="message ${messageClass}">
+                            <span class="timestamp">${timeString}</span>
+                            <section class="bubble">
+                                ${senderInfo}${escapeHtml(msg.content)}
+                            </section>
                         </section>
-                    </section>
-                `;
-                });
+                    `;
+                    });
+                }
 
                 if (isAutoReload && existingForm)
                 {
+                    console.log('Auto-reload: updating messages only');
+
                     const messages = chatHistory.querySelectorAll('.message');
                     messages.forEach(function(msg)
                     {
                         msg.remove();
                     });
 
+                    const emptyMsg = chatHistory.querySelector('p');
+                    if (emptyMsg) emptyMsg.remove();
+
                     existingForm.insertAdjacentHTML('beforebegin', messagesHtml);
                 }
                 else
                 {
+                    console.log('First load: replacing all content');
+
                     messagesHtml += `
                     <form class="chat-input-container chat-input-floating" id="chatForm">
                         <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
@@ -154,38 +218,50 @@ function loadMessages(chatId, isAutoReload)
                     const chatForm = document.getElementById('chatForm');
                     if (chatForm)
                     {
-                        chatForm.addEventListener('submit', sendMessage);
+                        console.log('Binding form submit event');
+                        chatForm.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            sendMessage(e);
+                        });
                     }
 
                     const chatInput = document.getElementById('chatmessage');
                     if (chatInput)
                     {
+                        console.log('Binding input keydown event');
                         chatInput.addEventListener('keydown', function(e)
                         {
                             if (e.key === 'Enter' && !e.shiftKey)
                             {
                                 e.preventDefault();
-                                sendMessage();
+                                sendMessage(e);
                             }
                         });
                     }
                 }
 
-                if (wasAtBottom)
+                if (wasAtBottom || !isAutoReload)
                 {
                     scrollToBottom();
                 }
             }
             else
             {
-                console.error('Error loading messages:', data.message);
+                console.error('Load messages failed:', data.message);
+                // Nicht mit alert nerven, nur in Console loggen
+                console.error('Fehler beim Laden:', data.message);
             }
         })
         .catch(function(error)
         {
             console.error('Error loading messages:', error);
+            // Zeige Fehler nur wenn es kein Auto-Reload ist
+            if (!isAutoReload) {
+                alert('Fehler beim Laden der Nachrichten: ' + error.message);
+            }
         });
 }
+
 
 function scrollToBottom()
 {
@@ -200,6 +276,9 @@ function sendMessage(event)
 {
     if (event) event.preventDefault();
 
+    console.log('=== sendMessage() START ===');
+    console.log('currentChatId:', currentChatId);
+
     if (!currentChatId)
     {
         alert('Bitte wähle zuerst einen Chat aus');
@@ -207,7 +286,14 @@ function sendMessage(event)
     }
 
     const inputField = document.getElementById("chatmessage");
+    if (!inputField) {
+        console.error('Input field not found!');
+        return;
+    }
+
     const text = inputField.value.trim();
+
+    console.log('Message text:', text);
 
     if (text === "")
     {
@@ -218,19 +304,28 @@ function sendMessage(event)
     formData.append('chat_id', currentChatId);
     formData.append('content', text);
 
+    console.log('Sending to /src/components/send_message.php');
+
     fetch('/src/components/send_message.php', {
         method: 'POST',
         body: formData
     })
         .then(function(response)
         {
+            console.log('Send response status:', response.status);
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
             return response.json();
         })
         .then(function(data)
         {
+            console.log('Send response data:', data);
+
             if (data.success)
             {
                 inputField.value = "";
+                inputField.style.height = 'auto';
                 loadMessages(currentChatId);
             }
             else
@@ -241,7 +336,7 @@ function sendMessage(event)
         .catch(function(error)
         {
             console.error('Error sending message:', error);
-            alert('Fehler beim Senden der Nachricht');
+            alert('Fehler beim Senden der Nachricht: ' + error.message);
         });
 }
 
@@ -270,6 +365,7 @@ function stopAutoReload()
     }
 }
 
+// Alle anderen Funktionen (openSettings, addContact, etc.) bleiben gleich
 function openSettings()
 {
     document.getElementById('settingsModal').classList.add('active');
@@ -497,28 +593,103 @@ function updatePassword()
 function openAddContact()
 {
     document.getElementById('addContactModal').classList.add('active');
+    const errorDiv = document.getElementById('contact-error');
+    const successDiv = document.getElementById('contact-success');
+    if (errorDiv) errorDiv.classList.add('hidden');
+    if (successDiv) successDiv.classList.add('hidden');
 }
 
 function closeAddContact()
 {
     document.getElementById('addContactModal').classList.remove('active');
-    const emailField = document.getElementById('contactEmail');
-    if(emailField) emailField.value = '';
+    const inputField = document.getElementById('contactInput');
+    if(inputField) inputField.value = '';
+    const errorDiv = document.getElementById('contact-error');
+    const successDiv = document.getElementById('contact-success');
+    if (errorDiv) errorDiv.classList.add('hidden');
+    if (successDiv) successDiv.classList.add('hidden');
 }
 
 function addContact()
 {
-    const emailField = document.getElementById('contactEmail');
-    const email = emailField ? emailField.value : '';
+    const inputField = document.getElementById('contactInput');
+    const input = inputField ? inputField.value.trim() : '';
+    const errorDiv = document.getElementById('contact-error');
+    const successDiv = document.getElementById('contact-success');
 
-    if (email === '')
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    console.log('addContact() - Input:', input);
+
+    if (input === '')
     {
-        alert('Bitte gib eine E-Mail-Adresse ein!');
+        errorDiv.textContent = 'Bitte gib einen Benutzernamen oder E-Mail ein!';
+        errorDiv.classList.remove('hidden');
         return;
     }
 
-    alert('Kontakt ' + email + ' hinzugefügt!');
-    closeAddContact();
+    const formData = new FormData();
+    formData.append('contact_input', input);
+
+    console.log('Sende Request...');
+
+    fetch('/src/components/create_personal_chat.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            console.log('Response Status:', response.status);
+            return response.json();
+        })
+        .then(function(data)
+        {
+            console.log('Response Data:', data);
+
+            if (data.success)
+            {
+                successDiv.textContent = 'Chat mit ' + data.chat_name + ' erstellt!';
+                successDiv.classList.remove('hidden');
+
+                console.log('Chat erstellt! ID:', data.chat_id);
+
+                setTimeout(function()
+                {
+                    closeAddContact();
+                    console.log('Lade Chats neu...');
+                    loadChats();
+
+                    setTimeout(function()
+                    {
+                        const chatItems = document.querySelectorAll('#chatList li');
+                        console.log('Suche Chat in Liste... Gefunden:', chatItems.length, 'Chats');
+                        chatItems.forEach(function(item)
+                        {
+                            const itemChatId = parseInt(item.getAttribute('data-chat-id'));
+                            console.log('Vergleiche:', itemChatId, 'mit', data.chat_id);
+                            if (itemChatId === data.chat_id)
+                            {
+                                console.log('Chat gefunden! Klicke...');
+                                item.click();
+                            }
+                        });
+                    }, 500);
+                }, 1000);
+            }
+            else
+            {
+                console.log('Fehler:', data.message);
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Fetch Error:', error);
+            errorDiv.textContent = 'Fehler beim Erstellen des Chats: ' + error.message;
+            errorDiv.classList.remove('hidden');
+        });
 }
 
 let groupMembers = [];
@@ -759,6 +930,7 @@ function autoResizeTextarea(textarea)
 
 document.addEventListener('DOMContentLoaded', function()
 {
+    console.log('=== PAGE LOADED ===');
     loadChats();
 
     const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal'];

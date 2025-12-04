@@ -8,13 +8,13 @@ if (session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
+header('Content-Type: application/json');
+
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
     exit;
 }
-
-header('Content-Type: application/json');
 
 $user_id = $_SESSION['user_id'];
 $chat_id = isset($_GET['chat_id']) ? intval($_GET['chat_id']) : 0;
@@ -27,18 +27,22 @@ if ($chat_id <= 0)
 
 try
 {
+    // Prüfen ob Benutzer Zugriff auf diesen Chat hat
     $stmt = $pdo->prepare("
-        SELECT 1 FROM chat_participant 
+        SELECT COUNT(*) as count
+        FROM chat_participant
         WHERE chat_id = ? AND user_id = ?
     ");
     $stmt->execute(array($chat_id, $user_id));
+    $access = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$stmt->fetch())
+    if ($access['count'] == 0)
     {
         echo json_encode(['success' => false, 'message' => 'Kein Zugriff auf diesen Chat']);
         exit;
     }
 
+    // Nachrichten laden
     $stmt = $pdo->prepare("
         SELECT 
             m.id,
@@ -53,12 +57,12 @@ try
     ");
 
     $stmt->execute(array($chat_id));
-    $messages = $stmt->fetchAll();
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     echo json_encode([
         'success' => true,
         'messages' => $messages,
-        'current_user_id' => $user_id
+        'current_user_id' => intval($user_id)
     ]);
 }
 catch (PDOException $e)
@@ -66,7 +70,7 @@ catch (PDOException $e)
     error_log("Get messages error: " . $e->getMessage());
     echo json_encode([
         'success' => false,
-        'message' => 'Fehler beim Laden der Nachrichten'
+        'message' => 'Fehler beim Laden der Nachrichten: ' . $e->getMessage()
     ]);
 }
 ?>

@@ -992,6 +992,40 @@ select:disabled {
     transform: scale(1.3);
 }
 
+.toast-error {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #c33;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
+}
+
+.toast-error.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.modal-error {
+    color: #c33;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
+}
+
+.modal-success {
+    color: #2a7f2a;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
+}
+
 .nav-settings img:hover {
     transform: scale(1.05);
 }
