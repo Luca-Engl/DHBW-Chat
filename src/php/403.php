@@ -1,3 +1,12 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$currentPage = basename($_SERVER['PHP_SELF']);
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -11,24 +20,8 @@
 </head>
 
 <body>
-<header>
-    <nav class="nav-grid margin-left-10 margin-right-10">
-        <section class="nav-left">
-            <a href="index.php" class="nav-left-a">
-                <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav margin-left-3" alt="DHBW-Chat-Logo">
-            </a>
-            <a href="privacy.php">Datenschutz</a>
-            <a href="help.php">Hilfe</a>
-        </section>
-        <section class="nav-center"></section>
 
-        <section class="nav-right margin-right-5 margin-top-3 margin-bottom-3">
-            <a href="login.php">
-                <button class="style-bold">Anmelden</button>
-            </a>
-        </section>
-    </nav>
-</header>
+<?php include '../components/header_public.php'; ?>
 
 <main class="align-center margin-bottom-1 margin-top-3" id="top">
     <h1 class="align-center margin-bottom-2">403 – Zugriff verweigert</h1>

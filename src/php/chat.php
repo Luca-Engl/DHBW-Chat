@@ -96,122 +96,122 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
 
     <section class="chat-main">
 
-        <div class="chat-nav-bar">
-            <div style="display: flex; align-items: center;">
+        <section class="chat-nav-bar">
+            <section style="display: flex; align-items: center;">
                 <button class="chat-back-btn" onclick="closeChat()">
                     ← Zurück
                 </button>
                 <h2 id="currentChatName">Max Mustermann</h2>
-            </div>
+            </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
                 📌 Ablage
             </button>
-        </div>
+        </section>
 
-        <div class="chat-messages" id="chat-history">
+        <section class="chat-messages" id="chat-history">
             <!-- 1. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:30</span>
-                <div class="bubble">
+                <section class="bubble">
                     Yo, bist du schon in der Uni?
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 2. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">10:32</span>
-                <div class="bubble">
+                <section class="bubble">
                     Ja, sitze gerade in der Bib. Versuche noch das Info-Skript von letzter Woche zu raffen 😅
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 3. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:33</span>
-                <div class="bubble">
+                <section class="bubble">
                     Mein Beileid haha. Ich komm erst zur Vorlesung um 12.
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 4. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:34</span>
-                <div class="bubble">
+                <section class="bubble">
                     Wollen wir davor noch was essen? Mensa?
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 5. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">10:36</span>
-                <div class="bubble">
+                <section class="bubble">
                     Klingt gut, hab Mega Hunger. Aber heute gibts glaub nur diesen seltsamen Eintopf... 🍲
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 6. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:37</span>
-                <div class="bubble">
-                    Stimmt 💀 Lass lieber Döner holen gehen.
-                </div>
-            </div>
+                <section class="bubble">
+                    Stimmt 👀 Lass lieber Döner holen gehen.
+                </section>
+            </section>
 
             <!-- 7. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">10:38</span>
-                <div class="bubble">
+                <section class="bubble">
                     Deal! Treffen uns dann 11:45 unten am Eingang?
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 8. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:39</span>
-                <div class="bubble">
+                <section class="bubble">
                     Jo passt. Kannst du mir meinen Block mitbringen? Hab den gestern bei dir im Auto vergessen 🙈
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 9. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">10:40</span>
-                <div class="bubble">
+                <section class="bubble">
                     Klar, liegt schon im Rucksack. Das kostet dich aber eine Cola extra!
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 10. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">10:41</span>
-                <div class="bubble">
+                <section class="bubble">
                     Träum weiter haha. Bis gleich!
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 11. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">11:15</span>
-                <div class="bubble">
+                <section class="bubble">
                     Sag mal, in welchem Raum sind wir nachher eigentlich? Wieder 204?
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 12. Empfangen -->
-            <div class="message received">
+            <section class="message received">
                 <span class="timestamp">11:16</span>
-                <div class="bubble">
+                <section class="bubble">
                     Ne, schau mal in den Plan. Wir müssen in den E01 wegen dem Gastvortrag.
-                </div>
-            </div>
+                </section>
+            </section>
 
             <!-- 13. Gesendet -->
-            <div class="message sent">
+            <section class="message sent">
                 <span class="timestamp">11:17</span>
-                <div class="bubble">
+                <section class="bubble">
                     Ach stimmt, ganz vergessen. Danke, ich pack zusammen und komm runter.
-                </div>
-            </div>
+                </section>
+            </section>
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
@@ -220,12 +220,12 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
                           inputmode="text" aria-label="Nachricht eingeben"></textarea>
                 <button type="submit" class="style-bold">Senden</button>
             </form>
-        </div>
         </section>
+    </section>
 </main>
 
-<div id="settingsModal" class="modal-overlay">
-    <div class="modal-content popup-box">
+<section id="settingsModal" class="modal-overlay">
+    <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeSettings()">&times;</button>
 
         <section class="align-left margin-top-5">
@@ -234,92 +234,92 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
             <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Profilbild:</label>
 
-                <div class="avatar-wrapper">
+                <section class="avatar-wrapper">
                     <img class="chat-avatar" id="avatar-preview" src="../img/default-avatar.png" alt="Avatar Vorschaubild">
                     <input type="file" id="profile-picture" accept="image/*">
-                </div>
+                </section>
             </section>
 
             <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Username:</label>
 
-                <div class="settings-field">
+                <section class="settings-field">
                     <span id="username-display">Luca Engl</span>
                     <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
-                </div>
+                </section>
             </section>
 
             <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Email:</label>
 
-                <div class="settings-field">
+                <section class="settings-field">
                     <span id="email-display">engl.tin25@student.dhbw-heidenheim.de</span>
                     <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
-                </div>
+                </section>
             </section>
 
             <section class="margin-bottom-3 settings-row">
                 <label class="style-bold">Passwort:</label>
 
-                <div class="settings-field">
+                <section class="settings-field">
                     <span id="password-display">••••••••</span>
                     <button type="button" class="button-secondary settings-edit">Bearbeiten</button>
-                </div>
+                </section>
             </section>
         </section>
-    </div>
-</div>
+    </section>
+</section>
 
 
-<div id="addContactModal" class="modal-overlay">
-    <div class="modal-content popup-box">
+<section id="addContactModal" class="modal-overlay">
+    <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddContact()">&times;</button>
         <h2>Kontakt hinzufügen</h2>
         <p><label for="contactEmail">DHBW E-Mail Adresse:</label></p>
         <input type="email" id="contactEmail" placeholder="max.mustermann@dhbw.de">
         <br><br>
         <button onclick="addContact()">Hinzufügen</button>
-    </div>
-</div>
+    </section>
+</section>
 
-<div id="addGroupModal" class="modal-overlay">
-    <div class="modal-content popup-box">
+<section id="addGroupModal" class="modal-overlay">
+    <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeAddGroup()">&times;</button>
         <h2>Gruppe erstellen</h2>
         <p><label for="groupName">Gruppenname:</label></p>
         <input type="text" id="groupName" placeholder="z.B. Team DHBW">
         <br><br>
         <p><label for="memberEmail">Mitglieder hinzufügen:</label></p>
-        <div style="display: flex; gap: 10px; align-items: center;">
+        <section style="display: flex; gap: 10px; align-items: center;">
             <input type="email" id="memberEmail" placeholder="Email Adresse">
             <button class="button-secondary" onclick="addMemberToList()">+ Add</button>
-        </div>
+        </section>
         <br>
-        <div id="memberList" style="max-height: 100px; overflow-y: auto;"></div>
+        <section id="memberList" style="max-height: 100px; overflow-y: auto;"></section>
         <br>
         <button onclick="createGroup()">Erstellen</button>
-    </div>
-</div>
+    </section>
+</section>
 
 
 <!-- Ablage-->
-    <aside id="importantPanel" class="important-panel">
-        <div class="important-panel-header">
-            <h3>📌 Wichtige Notizen</h3>
-            <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
-        </div>
+<aside id="importantPanel" class="important-panel">
+    <section class="important-panel-header">
+        <h3>📌 Wichtige Notizen</h3>
+        <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
+    </section>
 
-        <!-- Liste der Notizen -->
-        <div id="notesList" class="notes-list">
-            <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
-        </div>
+    <!-- Liste der Notizen -->
+    <section id="notesList" class="notes-list">
+        <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
+    </section>
 
-        <!-- Input unten -->
-        <div class="note-input-container">
-            <textarea aria-label="Neue Notiz" id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
-            <button onclick="addNote()" class="style-bold">Senden</button>
-        </div>
-    </aside>
+    <!-- Input unten -->
+    <section class="note-input-container">
+        <textarea aria-label="Neue Notiz" id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
+        <button onclick="addNote()" class="style-bold">Senden</button>
+    </section>
+</aside>
 
 <script src="../js/chat-page.js"></script>
 </body>

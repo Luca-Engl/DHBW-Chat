@@ -1,3 +1,12 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$currentPage = basename($_SERVER['PHP_SELF']);
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!doctype html>
 <html lang="de">
 <head>
@@ -12,7 +21,7 @@
 </head>
 <body>
 
-<?php include 'components/header.php'; ?>
+<?php include '../components/header_public.php'; ?>
 
 <main class="padding-5" id="top">
 
@@ -24,8 +33,8 @@
     </p>
 
     <section class="flex-center flex-wrap gap-5 margin-bottom-5 privacy-container">
-        <div class="privacy-row">
-            <div class="align-center privacy-box background fixed-height-13rem">
+        <section class="privacy-row">
+            <section class="align-center privacy-box background fixed-height-13rem">
                 <h2>Was wir brauchen:</h2>
                 <ul>
                     <li>Registrierungsdatum</li>
@@ -33,52 +42,52 @@
                     <li>Temporäre IP-Logs zur Abuse-Prevention</li>
                     <li>Verschlüsselte Chat-Inhalte</li>
                 </ul>
-            </div>
+            </section>
 
-            <div class="align-center privacy-box background fixed-height-13rem">
+            <section class="align-center privacy-box background fixed-height-13rem">
                 <h2>Was bei dir bleibt:</h2>
                 <ul class="align-left">
                     <li>Inhalte der Nachrichten</li>
                     <li>Adressbuch mit Kontakten</li>
                     <li>Standortdaten</li>
                 </ul>
-            </div>
-        </div>
+            </section>
+        </section>
     </section>
 
     <section class="flex-center flex-wrap gap-5 margin-bottom-5 privacy-container">
 
-        <div class="privacy-row">
-            <div class="align-center privacy-box background margin-bottom-3 fixed-height-10rem">
+        <section class="privacy-row">
+            <section class="align-center privacy-box background margin-bottom-3 fixed-height-10rem">
                 <h2>Ende-zu-Ende-Verschlüsselung</h2>
                 <p class="align-left">
                     Alle Chats sind Ende-zu-Ende verschlüsselt. Nur du und deine Gesprächspartner können die Nachrichten lesen. Bei uns liegen nur verschlüsselte Daten.
                 </p>
-            </div>
+            </section>
 
-            <div class="align-center privacy-box background margin-bottom-3 fixed-height-10rem">
+            <section class="align-center privacy-box background margin-bottom-3 fixed-height-10rem">
                 <h2>Gruppen & Schlüsselverwaltung</h2>
                 <p class="align-left">
                     Gruppen werden mit eigenen Verschlüsselungsschlüsseln geschützt. Neue Mitglieder erhalten diese verschlüsselt, alte Mitglieder können keine bereits verschickten Nachrichten sehen.
                 </p>
-            </div>
-        </div>
+            </section>
+        </section>
 
-        <div class="privacy-row">
-            <div class="align-center privacy-box background fixed-height-10rem">
+        <section class="privacy-row">
+            <section class="align-center privacy-box background fixed-height-10rem">
                 <h2>Deine Rechte & Kontrolle</h2>
                 <p class="align-left">
                     Du kannst deine Daten jederzeit in den Einstellungen exportieren oder löschen.
                 </p>
-            </div>
+            </section>
 
-            <div class="align-center privacy-box background fixed-height-10rem">
+            <section class="align-center privacy-box background fixed-height-10rem">
                 <h2>Sicherheit / Bug Reporting</h2>
                 <p class="align-left">
                     Sicherheitslücken können über example.tin25@student.dhbw-heidenheim.de gemeldet werden. Wir prüfen Meldungen schnellstmöglich und danken für Hinweise.
                 </p>
-            </div>
-        </div>
+            </section>
+        </section>
 
     </section>
 

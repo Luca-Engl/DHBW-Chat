@@ -1,3 +1,12 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$currentPage = basename($_SERVER['PHP_SELF']);
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -12,7 +21,7 @@
 
 <body>
 
-<?php include 'components/header.php'; ?>
+<?php include 'components/header_public.php'; ?>
 
 <main class="align-center margin-bottom-1 margin-top-3" id="top">
     <h1 class="align-center margin-bottom-2">404 – Seite nicht gefunden</h1>
