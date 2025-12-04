@@ -69,11 +69,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                         $year
                 ));
 
+                $new_user_id = $pdo->lastInsertId();
+
+                $stmt = $pdo->prepare("
+                    SELECT id FROM chat WHERE chat_type = 'global' LIMIT 1
+                ");
+                $stmt->execute();
+                $globalChat = $stmt->fetch();
+
+                if ($globalChat)
+                {
+                    $stmt = $pdo->prepare("
+                        INSERT INTO chat_participant (user_id, chat_id)
+                        VALUES (?, ?)
+                    ");
+                    $stmt->execute(array($new_user_id, $globalChat['id']));
+                }
+
                 session_start();
-                $_SESSION['user_id'] = $pdo->lastInsertId();
+                $_SESSION['user_id'] = $new_user_id;
                 $_SESSION['username'] = $username;
                 $_SESSION['loggedIn'] = true;
-
                 header("Location: chat.php");
                 exit();
             }

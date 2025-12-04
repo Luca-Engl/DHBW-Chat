@@ -82,8 +82,13 @@ function loadChats()
         });
 }
 
-function loadMessages(chatId)
+function loadMessages(chatId, isAutoReload)
 {
+    if (typeof isAutoReload === 'undefined')
+    {
+        isAutoReload = false;
+    }
+
     fetch('/src/components/get_messages.php?chat_id=' + chatId)
         .then(function(response)
         {
@@ -95,6 +100,7 @@ function loadMessages(chatId)
             {
                 const chatHistory = document.getElementById('chat-history');
                 const currentUserId = data.current_user_id;
+                const existingForm = document.getElementById('chatForm');
 
                 const wasAtBottom = chatHistory.scrollHeight - chatHistory.scrollTop <= chatHistory.clientHeight + 100;
 
@@ -121,35 +127,48 @@ function loadMessages(chatId)
                 `;
                 });
 
-                messagesHtml += `
-                <form class="chat-input-container chat-input-floating" id="chatForm">
-                    <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
-                    <textarea id="chatmessage" name="chatmessage" rows="2"
-                              placeholder="Nachricht eingeben..."
-                              inputmode="text" aria-label="Nachricht eingeben"></textarea>
-                    <button type="submit" class="style-bold">Senden</button>
-                </form>
-            `;
-
-                chatHistory.innerHTML = messagesHtml;
-
-                const chatForm = document.getElementById('chatForm');
-                if (chatForm)
+                if (isAutoReload && existingForm)
                 {
-                    chatForm.addEventListener('submit', sendMessage);
-                }
-
-                const chatInput = document.getElementById('chatmessage');
-                if (chatInput)
-                {
-                    chatInput.addEventListener('keydown', function(e)
+                    const messages = chatHistory.querySelectorAll('.message');
+                    messages.forEach(function(msg)
                     {
-                        if (e.key === 'Enter' && !e.shiftKey)
-                        {
-                            e.preventDefault();
-                            sendMessage();
-                        }
+                        msg.remove();
                     });
+
+                    existingForm.insertAdjacentHTML('beforebegin', messagesHtml);
+                }
+                else
+                {
+                    messagesHtml += `
+                    <form class="chat-input-container chat-input-floating" id="chatForm">
+                        <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
+                        <textarea id="chatmessage" name="chatmessage" rows="2"
+                                  placeholder="Nachricht eingeben..."
+                                  inputmode="text" aria-label="Nachricht eingeben"></textarea>
+                        <button type="submit" class="style-bold">Senden</button>
+                    </form>
+                `;
+
+                    chatHistory.innerHTML = messagesHtml;
+
+                    const chatForm = document.getElementById('chatForm');
+                    if (chatForm)
+                    {
+                        chatForm.addEventListener('submit', sendMessage);
+                    }
+
+                    const chatInput = document.getElementById('chatmessage');
+                    if (chatInput)
+                    {
+                        chatInput.addEventListener('keydown', function(e)
+                        {
+                            if (e.key === 'Enter' && !e.shiftKey)
+                            {
+                                e.preventDefault();
+                                sendMessage();
+                            }
+                        });
+                    }
                 }
 
                 if (wasAtBottom)
@@ -237,7 +256,7 @@ function startAutoReload()
     {
         if (currentChatId)
         {
-            loadMessages(currentChatId);
+            loadMessages(currentChatId, true);
         }
     }, 3000);
 }
