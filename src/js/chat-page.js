@@ -1,3 +1,173 @@
+let currentChatId = null;
+let currentChat = 'Globalchat';
+let messageCheckInterval = null;
+
+function loadChats()
+{
+    fetch('/src/components/get_chats.php')
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                const chatList = document.getElementById('chatList');
+
+                if (data.chats.length === 0)
+                {
+                    chatList.innerHTML = '<li style="color: #888;">Keine Chats verfügbar</li>';
+                    return;
+                }
+
+                chatList.innerHTML = '';
+
+                data.chats.forEach(function(chat, index)
+                {
+                    const li = document.createElement('li');
+                    li.textContent = chat.chat_name;
+                    li.setAttribute('data-chat-id', chat.id);
+                    li.setAttribute('data-chat-name', chat.chat_name);
+
+                    if (index === 0)
+                    {
+                        li.classList.add('active-chat');
+                        currentChatId = chat.id;
+                        currentChat = chat.chat_name;
+                        document.getElementById('currentChatName').textContent = chat.chat_name;
+                        loadMessages(chat.id);
+                        startAutoReload();
+                    }
+
+                    li.addEventListener('click', function()
+                    {
+                        const allItems = document.querySelectorAll('#chatList li');
+                        allItems.forEach(function(item)
+                        {
+                            item.classList.remove('active-chat');
+                        });
+
+                        this.classList.add('active-chat');
+
+                        const chatId = parseInt(this.getAttribute('data-chat-id'));
+                        const chatName = this.getAttribute('data-chat-name');
+
+                        currentChatId = chatId;
+                        currentChat = chatName;
+
+                        document.getElementById('currentChatName').textContent = chatName;
+
+                        loadMessages(chatId);
+                        startAutoReload();
+
+                        if (isMobile())
+                        {
+                            document.querySelector('.chat-container').classList.add('chat-open');
+                        }
+                    });
+
+                    chatList.appendChild(li);
+                });
+            }
+            else
+            {
+                document.getElementById('chatList').innerHTML = '<li style="color: #c33;">Fehler beim Laden</li>';
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error loading chats:', error);
+            document.getElementById('chatList').innerHTML = '<li style="color: #c33;">Fehler beim Laden</li>';
+        });
+}
+
+function loadMessages(chatId)
+{
+    fetch('/src/components/get_messages.php?chat_id=' + chatId)
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                const chatHistory = document.getElementById('chat-history');
+                const currentUserId = data.current_user_id;
+
+                const wasAtBottom = chatHistory.scrollHeight - chatHistory.scrollTop <= chatHistory.clientHeight + 100;
+
+                let messagesHtml = '';
+
+                data.messages.forEach(function(msg)
+                {
+                    const isSent = msg.sender_id === currentUserId;
+                    const messageClass = isSent ? 'sent' : 'received';
+
+                    const date = new Date(msg.sent_at);
+                    const timeString = date.getHours().toString().padStart(2, '0') + ':' +
+                        date.getMinutes().toString().padStart(2, '0');
+
+                    const senderInfo = !isSent ? '<strong>' + msg.sender_name + '</strong><br>' : '';
+
+                    messagesHtml += `
+                    <section class="message ${messageClass}">
+                        <span class="timestamp">${timeString}</span>
+                        <section class="bubble">
+                            ${senderInfo}${msg.content}
+                        </section>
+                    </section>
+                `;
+                });
+
+                messagesHtml += `
+                <form class="chat-input-container chat-input-floating" id="chatForm">
+                    <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
+                    <textarea id="chatmessage" name="chatmessage" rows="2"
+                              placeholder="Nachricht eingeben..."
+                              inputmode="text" aria-label="Nachricht eingeben"></textarea>
+                    <button type="submit" class="style-bold">Senden</button>
+                </form>
+            `;
+
+                chatHistory.innerHTML = messagesHtml;
+
+                const chatForm = document.getElementById('chatForm');
+                if (chatForm)
+                {
+                    chatForm.addEventListener('submit', sendMessage);
+                }
+
+                const chatInput = document.getElementById('chatmessage');
+                if (chatInput)
+                {
+                    chatInput.addEventListener('keydown', function(e)
+                    {
+                        if (e.key === 'Enter' && !e.shiftKey)
+                        {
+                            e.preventDefault();
+                            sendMessage();
+                        }
+                    });
+                }
+
+                if (wasAtBottom)
+                {
+                    scrollToBottom();
+                }
+            }
+            else
+            {
+                console.error('Error loading messages:', data.message);
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error loading messages:', error);
+        });
+}
+
 function scrollToBottom()
 {
     const chatHistory = document.getElementById("chat-history");
@@ -11,29 +181,73 @@ function sendMessage(event)
 {
     if (event) event.preventDefault();
 
+    if (!currentChatId)
+    {
+        alert('Bitte wähle zuerst einen Chat aus');
+        return;
+    }
+
     const inputField = document.getElementById("chatmessage");
     const text = inputField.value.trim();
 
-    if (text !== "")
+    if (text === "")
     {
-        const chatHistory = document.getElementById("chat-history");
+        return;
+    }
 
-        const now = new Date();
-        const timeString = now.getHours().toString().padStart(2, '0') + ':' +
-            now.getMinutes().toString().padStart(2, '0');
+    const formData = new FormData();
+    formData.append('chat_id', currentChatId);
+    formData.append('content', text);
 
-        const newMessageHTML = `
-            <div class="message sent">
-                <span class="timestamp">${timeString}</span>
-                <div class="bubble">
-                    ${text}
-                </div>
-            </div>
-        `;
+    fetch('/src/components/send_message.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data.success)
+            {
+                inputField.value = "";
+                loadMessages(currentChatId);
+            }
+            else
+            {
+                alert('Fehler beim Senden: ' + data.message);
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error sending message:', error);
+            alert('Fehler beim Senden der Nachricht');
+        });
+}
 
-        chatHistory.insertAdjacentHTML('beforeend', newMessageHTML);
-        inputField.value = "";
-        scrollToBottom();
+function startAutoReload()
+{
+    if (messageCheckInterval)
+    {
+        clearInterval(messageCheckInterval);
+    }
+
+    messageCheckInterval = setInterval(function()
+    {
+        if (currentChatId)
+        {
+            loadMessages(currentChatId);
+        }
+    }, 3000);
+}
+
+function stopAutoReload()
+{
+    if (messageCheckInterval)
+    {
+        clearInterval(messageCheckInterval);
+        messageCheckInterval = null;
     }
 }
 
@@ -108,7 +322,7 @@ function updateUsername()
     formData.append('action', 'update_username');
     formData.append('new_username', newUsername);
 
-    fetch('../components/update_user.php', {
+    fetch('/src/components/update_user.php', {
         method: 'POST',
         body: formData
     })
@@ -162,7 +376,7 @@ function updateEmail()
     formData.append('action', 'update_email');
     formData.append('new_email', newEmail);
 
-    fetch('../components/update_user.php', {
+    fetch('/src/components/update_user.php', {
         method: 'POST',
         body: formData
     })
@@ -226,7 +440,7 @@ function updatePassword()
     formData.append('new_password', newPassword);
     formData.append('new_password_confirm', newPasswordConfirm);
 
-    fetch('../components/update_user.php', {
+    fetch('/src/components/update_user.php', {
         method: 'POST',
         body: formData
     })
@@ -381,8 +595,6 @@ function createGroup()
     closeAddGroup();
 }
 
-let currentChat = 'Globalchat';
-
 function toggleImportantPanel()
 {
     const panel = document.getElementById('importantPanel');
@@ -528,13 +740,7 @@ function autoResizeTextarea(textarea)
 
 document.addEventListener('DOMContentLoaded', function()
 {
-    scrollToBottom();
-
-    const chatForm = document.getElementById('chatForm');
-    if (chatForm)
-    {
-        chatForm.addEventListener('submit', sendMessage);
-    }
+    loadChats();
 
     const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal'];
     modals.forEach(function(modalId)
@@ -577,19 +783,6 @@ document.addEventListener('DOMContentLoaded', function()
         }
     }, true);
 
-    const chatInput = document.getElementById('chatmessage');
-    if (chatInput)
-    {
-        chatInput.addEventListener('keydown', function(e)
-        {
-            if (e.key === 'Enter' && !e.shiftKey)
-            {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-    }
-
     const noteInput = document.getElementById('newNoteInput');
     if (noteInput)
     {
@@ -608,18 +801,9 @@ document.addEventListener('DOMContentLoaded', function()
             }
         });
     }
+});
 
-    const chatItems = document.querySelectorAll('.chat-sidebar li');
-    chatItems.forEach(function(item)
-    {
-        item.addEventListener('click', function()
-        {
-            chatItems.forEach(function(i)
-            {
-                i.classList.remove('active-chat');
-            });
-            this.classList.add('active-chat');
-            openChat(this.textContent.trim());
-        });
-    });
+window.addEventListener('beforeunload', function()
+{
+    stopAutoReload();
 });

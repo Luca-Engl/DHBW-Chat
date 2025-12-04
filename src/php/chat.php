@@ -38,6 +38,12 @@ if (!empty($_GET['groupcode']))
 $loggedIn = !empty($_SESSION['loggedIn']);
 $isGuest  = !empty($_SESSION['isGuest']);
 
+if (!$loggedIn && !$isGuest)
+{
+    header('Location: login.php');
+    exit;
+}
+
 $currentUser  = isset($_SESSION['username']) ? $_SESSION['username'] : 'Unbekannt';
 $currentEmail = 'E-Mail nicht verfügbar';
 
@@ -52,6 +58,21 @@ if ($loggedIn && !$isGuest && isset($_SESSION['user_id']))
         if ($userData)
         {
             $currentEmail = $userData['email'];
+        }
+
+        $stmt = $pdo->prepare("
+            SELECT id FROM chat WHERE chat_type = 'global' LIMIT 1
+        ");
+        $stmt->execute();
+        $globalChat = $stmt->fetch();
+
+        if ($globalChat)
+        {
+            $stmt = $pdo->prepare("
+                INSERT IGNORE INTO chat_participant (user_id, chat_id)
+                VALUES (?, ?)
+            ");
+            $stmt->execute(array($_SESSION['user_id'], $globalChat['id']));
         }
     }
     catch (PDOException $e)
@@ -102,11 +123,8 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 <main class="chat-container">
     <aside class="chat-sidebar background">
         <h2>Chats</h2>
-        <ul>
-            <li onclick="openChat('Globalchat')">Globalchat</li>
-            <li class="active-chat" onclick="openChat('Max Mustermann')">Max Mustermann</li>
-            <li onclick="openChat('Maria Musterfrau')">Maria Musterfrau</li>
-            <li onclick="openChat('Team DHBW')">Team DHBW</li>
+        <ul id="chatList">
+            <li>Lädt Chats...</li>
         </ul>
 
         <section class="chat-sidebar-buttons">
@@ -125,7 +143,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 <button class="chat-back-btn" onclick="closeChat()">
                     ← Zurück
                 </button>
-                <h2 id="currentChatName">Max Mustermann</h2>
+                <h2 id="currentChatName">Wähle einen Chat</h2>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
                 📌 Ablage
@@ -133,19 +151,9 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         </section>
 
         <section class="chat-messages" id="chat-history">
-            <section class="message received">
-                <span class="timestamp">10:30</span>
-                <section class="bubble">
-                    Yo, bist du schon in der Uni?
-                </section>
-            </section>
-
-            <section class="message sent">
-                <span class="timestamp">10:32</span>
-                <section class="bubble">
-                    Ja, sitze gerade in der Bib. Versuche noch das Info-Skript von letzter Woche zu raffen 😅
-                </section>
-            </section>
+            <p style="text-align: center; color: #888; padding: 20px;">
+                Wähle einen Chat aus der Liste
+            </p>
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>

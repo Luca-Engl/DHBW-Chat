@@ -50,3 +50,21 @@ CREATE TABLE `note` (
                         FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON DELETE CASCADE,
                         FOREIGN KEY (`user_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Add global chat
+INSERT INTO `chat` (chat_name, chat_type)
+SELECT 'Global Chat', 'global'
+    WHERE NOT EXISTS (
+    SELECT 1 FROM `chat` WHERE chat_type = 'global'
+);
+
+-- Add all users to global chat
+INSERT INTO `chat_participant` (user_id, chat_id)
+SELECT u.id, c.id
+FROM `user` u
+         CROSS JOIN `chat` c
+WHERE c.chat_type = 'global'
+  AND NOT EXISTS (
+    SELECT 1 FROM `chat_participant` cp
+    WHERE cp.user_id = u.id AND cp.chat_id = c.id
+);
