@@ -55,7 +55,7 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
         <section class="chat-nav-center"></section>
         <section class="nav-right">
             <?php if ($loggedIn): ?>
-                <a href="logout.php" class="nav-logout margin-right-5" style="color: red; font-weight: bold;">
+                <a href="logout.php" class="nav-logout margin-right-5 style-bold">
                     Abmelden
                 </a>
             <?php endif; ?>
@@ -81,8 +81,15 @@ $currentGroup = $_SESSION['groupcode'] ?? null;
         </ul>
 
         <section class="chat-sidebar-buttons">
-            <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
-            <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+            <section class="chat-sidebar-buttons">
+                <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
+                <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+
+                <p class="margin-top-5 align-center">
+                    <a href="legal_notice.php" class="font-secondary">Impressum</a>
+                </p>
+            </section>
+
         </section>
     </aside>
 
