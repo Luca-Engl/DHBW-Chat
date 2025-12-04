@@ -1,3 +1,12 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$currentPage = basename($_SERVER['PHP_SELF']);
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!DOCTYPE html>
 <html lang="de">
 <head>

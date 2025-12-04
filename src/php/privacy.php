@@ -1,3 +1,12 @@
+<?php
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
+$currentPage = basename($_SERVER['PHP_SELF']);
+$loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
+?>
+
 <!doctype html>
 <html lang="de">
 <head>
@@ -12,7 +21,7 @@
 </head>
 <body>
 
-<?php include 'components/header_public.php'; ?>
+<?php include '../components/header_public.php'; ?>
 
 <main class="padding-5" id="top">
 
