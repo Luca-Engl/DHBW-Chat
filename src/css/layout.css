@@ -854,45 +854,13 @@ select:disabled {
     cursor: not-allowed;
 }
 
-.add-note-section {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.add-note-section input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    font-family: 'Exo2', Arial, sans-serif;
-    font-size: 0.95rem;
-    font-weight: bold;
-}
-
-.add-note-section textarea {
-    width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    resize: none;
-    min-height: 60px;
-    max-height: 150px;
-    font-family: 'Exo2', Arial, sans-serif;
-    overflow-y: hidden;
-    line-height: 1.5;
-}
-
-.add-note-section button {
-    align-self: flex-end;
-    padding: 8px 20px;
-}
-
 .notes-list {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0;
 }
 
 .empty-state {
@@ -902,23 +870,86 @@ select:disabled {
     font-style: italic;
 }
 
-.note-item {
-    max-width: 90%;
-    align-self: flex-start;
-    background: rgba(255,255,255,0.1);
-    border-radius: 16px;
-    border-bottom-left-radius: 4px;
-    padding: 12px 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
-    transition: background 0.3s;
-    animation: messageSlideIn 0.3s ease-out;
+.note-item-full {
+    position: relative;
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 45px 14px 14px;
+    margin-bottom: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
-.note-item:hover {
-    background: rgba(255,255,255,0.15);
+.note-item-full:hover {
+    background: rgba(255,255,255,0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.note-author {
+    color: var(--primary-button-color);
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.note-time {
+    color: #999;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.note-content-full {
+    width: 100%;
+}
+
+.note-text {
+    margin: 0;
+    color: #fff;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.note-delete-btn-full {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary-button-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.note-delete-btn-full:hover {
+    background: #a00;
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.note-delete-btn-full::after {
+    display: none;
 }
 
 .note-input-container {
@@ -949,47 +980,38 @@ select:disabled {
     align-self: center;
 }
 
-.note-content {
-    flex: 1;
+.toast-error {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #c33;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    z-index: 10000;
+    opacity: 0;
+    transform: translateX(400px);
+    transition: all 0.3s ease;
 }
 
-.note-title {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin: 0 0 6px 0;
-    font-size: 0.95rem;
+.toast-error.show {
+    opacity: 1;
+    transform: translateX(0);
 }
 
-.note-text {
-    margin: 0 0 6px 0;
-    word-wrap: break-word;
-    font-size: 0.95rem;
-    line-height: 1.4;
+.modal-error {
+    color: #c33;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
 }
 
-.note-date {
-    color: var(--chat-message-timestamp-text-color);
-    font-size: 0.7rem;
-    display: block;
-    text-align: right;
-}
-
-.note-delete-btn {
-    background: transparent;
-    border: none;
-    color: var(--primary-button-color);
-    font-size: 1.3rem;
-    cursor: pointer;
-    padding: 0;
-    width: 20px;
-    height: 20px;
-    line-height: 1;
-    transition: transform 0.2s;
-    flex-shrink: 0;
-}
-
-.note-delete-btn:hover {
-    transform: scale(1.3);
+.modal-success {
+    color: #2a7f2a;
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: none;
 }
 
 .nav-settings img:hover {
@@ -1283,6 +1305,135 @@ select:disabled {
     margin-left: 5%;
 }
 
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    padding-bottom: 100px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+
+.message.received {
+    align-items: flex-start;
+    align-self: flex-start;
+}
+
+.message.sent {
+    align-items: flex-end;
+    align-self: flex-end;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    color: var(--chat-message-timestamp-text-color);
+    margin-bottom: 4px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.bubble {
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: var(--primary-color);
+    font-size: 1rem;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    word-wrap: break-word;
+}
+
+.message.received .bubble {
+    background-color: var(--chat-message-recived-background-color);
+    color: var(--chat-message-recived-text-color);
+    border-bottom-left-radius: 2px;
+}
+
+.message.sent .bubble {
+    background-color: var(--chat-message-sent-background-color);
+    color: var(--chat-message-sent-text-color);
+    border-bottom-right-radius: 2px;
+}
+
+html {
+    scrollbar-color: var(--secondary-button-color) var(--primary-background-color);
+    scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-background-color);
+    border-left: 1px solid transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--secondary-button-color);
+    border-radius: 10px;
+    border: 3px solid var(--primary-background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary-background-color);
+}
+
+::-webkit-scrollbar-corner {
+    background: var(--primary-background-color);
+}
+
+.active-chat {
+    background-color: var(--input-hover-border-color);
+}
+
+.active-chat:hover {
+    background-color: var(--input-focus-shadow-color);
+}
+
+#newNoteInput {
+    scrollbar-width: none;
+    resize: none;
+}
+
+#newNoteInput::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-manage-btn {
+    padding: 4px 12px;
+    background: rgba(226,0,26,0.2);
+    border: 1px solid var(--primary-button-color);
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: none;
+}
+
+.chat-manage-btn:hover {
+    background: rgba(226,0,26,0.4);
+    transform: translateY(-2px);
+}
+
+.chat-manage-btn::after {
+    display: none;
+}
+
+.active-nav {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #e30613;
+}
+
 .margin-bottom-2 {
     margin-bottom: 2%;
 }
@@ -1530,23 +1681,18 @@ select:disabled {
         width: 20px !important;
         height: 2px !important;
     }
-
     .responsive-nav-hamburger span:nth-child(1) {
         top: 0 !important;
     }
-
     .responsive-nav-hamburger span:nth-child(2) {
         top: 8px !important;
     }
-
     .responsive-nav-hamburger span:nth-child(3) {
         top: 16px !important;
     }
-
     .responsive-nav-hamburger.active span:nth-child(1) {
         top: 8px !important;
     }
-
     .responsive-nav-hamburger.active span:nth-child(3) {
         top: 8px !important;
     }
@@ -1709,124 +1855,30 @@ select:disabled {
     .important-panel.active {
         right: 0;
     }
-
     .faq-item {
         width: 90%;
     }
-}
-
-.chat-messages {
-    flex: 1;
-    padding: 20px;
-    padding-bottom: 100px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.message {
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
-}
-
-.message.received {
-    align-items: flex-start;
-    align-self: flex-start;
-}
-
-.message.sent {
-    align-items: flex-end;
-    align-self: flex-end;
-}
-
-.timestamp {
-    font-size: 0.75rem;
-    color: var(--chat-message-timestamp-text-color);
-    margin-bottom: 4px;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.bubble {
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: var(--primary-color);
-    font-size: 1rem;
-    line-height: 1.4;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    word-wrap: break-word;
-}
-
-.message.received .bubble {
-    background-color: var(--chat-message-recived-background-color);
-    color: var(--chat-message-recived-text-color);
-    border-bottom-left-radius: 2px;
-}
-
-.message.sent .bubble {
-    background-color: var(--chat-message-sent-background-color);
-    color: var(--chat-message-sent-text-color);
-    border-bottom-right-radius: 2px;
-}
-
-
-
-
-
-
-/* =========================================
-   Custom Scrollbar Design (Subtle Gray)
-   ========================================= */
-
-html {
-    scrollbar-color: var(--secondary-button-color) var(--primary-background-color);
-    scrollbar-width: thin;
-}
-
-::-webkit-scrollbar {
-    width: 12px;
-}
-
-::-webkit-scrollbar-track {
-    background: var(--primary-background-color);
-    border-left: 1px solid transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: var(--secondary-button-color);
-    border-radius: 10px;
-    border: 3px solid var(--primary-background-color);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background-color: var(--secondary-background-color);
-}
-
-::-webkit-scrollbar-corner {
-    background: var(--primary-background-color);
-}
-
-.active-chat {
-    background-color: var(--input-hover-border-color);
-}
-
-.active-chat:hover {
-    background-color: var(--input-focus-shadow-color);
-}
-
-#newNoteInput {
-    scrollbar-width: none;
-    resize: none;
-}
-
-#newNoteInput::-webkit-scrollbar {
-    display: none;
-}
-
-.active-nav {
-    text-decoration: underline;
-    font-weight: bold;
-    color: #e30613;
+    .note-item-full {
+        padding: 12px 40px 12px 12px;
+    }
+    .note-delete-btn-full {
+        width: 24px;
+        height: 24px;
+        font-size: 1.1rem;
+        top: 8px;
+        right: 8px;
+    }
+    .note-author {
+        font-size: 0.85rem;
+    }
+    .note-time {
+        font-size: 0.7rem;
+    }
+    .note-text {
+        font-size: 0.9rem;
+    }
+    .chat-manage-btn {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+    }
 }
