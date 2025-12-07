@@ -24,7 +24,7 @@ session_destroy();
     <link rel="stylesheet" href="../css/style.css"/>
     <link rel="stylesheet" href="../css/layout.css"/>
 
-    <title>Abmeldung</title>
+    <title>DHBW Chat - Abmelden</title>
     <link rel="icon" type="image/png" href="../img/favicon.png">
 
     <meta http-equiv="refresh" content="2;url=index.php">
@@ -39,11 +39,11 @@ session_destroy();
         </section>
         <section class="chat-nav-center"></section>
         <section class="nav-right">
-            <span class="nav-logout margin-right-5" style="color: var(--error-color); font-weight: bold;">
+            <span class="nav-logout margin-right-5 font-secondary">
                 Abmelden
             </span>
 
-            <span class="nav-username margin-right-5">
+            <span class="nav-username margin-right-5 style-bold ">
                 <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
             </span>
 
@@ -53,15 +53,18 @@ session_destroy();
         </section>
     </nav>
 </header>
-
+<body>
 <main class="img-background-login center-box">
-    <section class="popup-box align-center margin-top-3">
-        <h2 class="style-bold margin-bottom-3">Du wirst abgemeldet ...</h2>
-        <p class="font-secondary margin-bottom-3">
+    <a href="./index.php">
+        <img src="../img/DHBW-Banner-Chat-Red.png" class="margin-top-10 img-logo-login" alt="DHBW-Chat-Logo">
+    </a>
+    <section class="popup-box">
+        <h2 class="margin-bottom-5">Abmeldung wird ausgeführt ...</h2>
+        <h3 class="margin-bottom-3">
             Bis bald, <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>.
-        </p>
-        <p class="margin-top-3 font-secondary" style="font-size: 0.85rem;">
-            Du wirst zur Startseite weitergeleitet.
+        </h3>
+        <p class="margin-top-3 font-secondary">
+            Du wirst in Kürze automatisch zur Startseite weitergeleitet.
         </p>
     </section>
 </main>
