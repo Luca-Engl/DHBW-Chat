@@ -42,6 +42,14 @@ try
         exit;
     }
 
+    // Nachrichten löschen, die älter als 7 Tage sind
+    $stmt = $pdo->prepare("
+        DELETE FROM message
+        WHERE chat_id = ?
+        AND sent_at < DATE_SUB(NOW(), INTERVAL 7 DAY)
+    ");
+    $stmt->execute(array($chat_id));
+
     // Nachrichten laden
     $stmt = $pdo->prepare("
         SELECT 
