@@ -118,16 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <a href="../index.php">
         <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-login" alt="DHBW-Chat-Logo">
     </a>
+
     <section class="popup-box">
         <h2>Registrieren</h2>
-        <br>
+        <div class="margin-bottom-3"></div>
 
         <?php if ($error): ?>
-            <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+            <div class="error-message margin-bottom-3"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
 
         <?php if ($success): ?>
-            <div class="success-message"><?php echo htmlspecialchars($success); ?></div>
+            <div class="success-message margin-bottom-3"><?php echo htmlspecialchars($success); ?></div>
         <?php endif; ?>
 
         <form method="POST" action="register.php" id="registerForm">
@@ -146,7 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>"
                            required>
                 </label>
-                <br>
+
+                <div class="margin-bottom-3"></div>
 
                 <p>DHBW E-Mail Adresse:</p>
                 <label>
@@ -158,7 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            value="<?php echo isset($_POST['displayname']) ? htmlspecialchars($_POST['displayname']) : ''; ?>"
                            required>
                 </label>
-                <br><br>
+
+                <div class="margin-bottom-5"></div>
 
                 <p>Studiengang:</p>
 
@@ -185,14 +188,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                     </select>
                 </label>
 
-                <br><br>
+                <div class="margin-bottom-5"></div>
 
                 <button type="button" id="nextBtn" onclick="showStep2()">Weiter</button>
 
-                <br>
-                <br>
+                <div class="margin-bottom-5"></div>
+
                 <h3>oder</h3>
-                <br>
+
+                <div class="margin-bottom-5"></div>
+
                 <a href="login.php">
                     <button class="button-secondary" type="button">Zurück zur Anmeldung</button>
                 </a>
@@ -208,7 +213,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            autocomplete="new-password"
                            minlength="6">
                 </label>
-                <br>
+
+                <div class="margin-bottom-3"></div>
 
                 <p>Passwort wiederholen:</p>
                 <label>
@@ -220,20 +226,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            minlength="6">
                 </label>
 
-                <br><br>
+                <div class="margin-bottom-5"></div>
 
                 <button type="submit">Registrieren</button>
 
-                <br>
-                <br>
+                <div class="margin-bottom-5"></div>
+
                 <h3>oder</h3>
-                <br>
+
+                <div class="margin-bottom-5"></div>
+
                 <button class="button-secondary" type="button" onclick="showStep1()">Zurück</button>
             </div>
 
         </form>
     </section>
 </main>
+
 <footer class="footer-grid">
     <section class="footer-left"></section>
     <section class="footer-center">
@@ -247,6 +256,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 </footer>
 
 <script src="../js/register.js"></script>
-
 </body>
 </html>
