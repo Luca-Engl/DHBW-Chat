@@ -16,11 +16,12 @@
     --input-focus-shadow-color: rgba(226,0,26,0.3);
     --input-hover-border-color: rgba(226,0,26,0.5);
     --input-hover-shadow-color: rgba(226,0,26,0.1);
+    --popup-background-color: rgba(32,32,37,0.9);
     --link-shadow-color: rgba(255,255,255,1);
     --chat-background-color: rgba(40, 40, 46, 0.9);
     --chat-input-color: rgba(32, 32, 37,0.9);
-    --chat-message-sent-background-color: #dc2626;
-    --chat-message-recived-background-color: #ae2532;
+    --chat-message-sent-background-color: #E2001A;
+    --chat-message-recived-background-color: #8B1016;
     --chat-message-sent-text-color: #FFFFFF;
     --chat-message-recived-text-color: #FFFFFF;
     --chat-message-timestamp-text-color: #cccccc;
@@ -181,11 +182,11 @@ a:visited:hover {
 }
 
 .font-secondary {
-    color: var(--secondary-color);
+    color: var(--secondary-color) !important;
 }
 
 .font-error {
-    color: var(--error-color);
+    color: var(--error-color) !important;
 }
 
 .font-size-landing {

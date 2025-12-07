@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-if (isset($_GET['forceLogin']) && $_GET['forceLogin'] === '1') {
-    $_SESSION['loggedIn'] = true;
-    $_SESSION['username'] = 'SYSTEM';
-
-    header('Location: chat.php');
-    exit;
-}
-
 $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 ?>
 
@@ -42,20 +34,10 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
                     <?php echo $loggedIn ? 'Weiter zum Chat' : 'Jetzt loslegen'; ?>
                 </button>
             </a>
-
             <a href="#features" class="margin-left-1">
                 <button class="button-landing button-secondary">Funktionen ansehen</button>
             </a>
-
-            <?php if (!$loggedIn): ?>
-                <a href="index.php?forceLogin=1" class="margin-left-1">
-                    <button type="button" class="button-secondary">
-                        FORCE LOGIN
-                    </button>
-                </a>
-            <?php endif; ?>
         </section>
-
         <article id="features" class="margin-top-7" >
         </article>
     </section>

@@ -14,15 +14,6 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true)
     exit;
 }
 
-// DEBUG: Force-Login
-if (isset($_GET['forceLogin']) && $_GET['forceLogin'] === '1')
-{
-    $_SESSION['loggedIn'] = true;
-    $_SESSION['username'] = 'SYSTEM';
-    header('Location: chat.php');
-    exit;
-}
-
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -76,17 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <link rel="icon" type="image/png" href="../img/favicon.png">
 </head>
 <body>
-<main class="img-background-login center-box" id="top">
-    <a href="../index.php">
+<main class="img-background-login center-box">
+    <a href="./index.php">
         <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-login" alt="DHBW-Chat-Logo">
     </a>
     <section class="popup-box">
         <form method="post" action="login.php">
             <h2>Anmelden</h2>
-            <br>
+
+            <div class="margin-bottom-3"></div>
 
             <?php if (!empty($error)): ?>
-                <div class="error-message">
+                <div class="error-message margin-bottom-3">
                     <?php echo htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?>
                 </div>
             <?php endif; ?>
@@ -104,7 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                        value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>"
                        required>
             </label>
-            <br>
+
+            <div class="margin-bottom-3"></div>
 
             <p>Passwort:</p>
             <label>
@@ -119,27 +112,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                        autocomplete="current-password"
                        required>
             </label>
-            <br>
-            <br>
+
+            <div class="margin-bottom-5"></div>
 
             <button type="submit" class="style-bold">Anmelden</button>
         </form>
 
-        <br>
-        <br>
+        <div class="margin-bottom-5"></div>
+
         <h3>oder</h3>
-        <br>
+
+        <div class="margin-bottom-5"></div>
+
         <a href="register.php">
             <button class="button-secondary">Account erstellen</button>
         </a>
 
-        <br>
-        <br>
-        <br>
+        <div class="margin-bottom-7"></div>
 
         <form method="get" action="chat.php">
             <h2>Gruppenchat als Gast beitreten:</h2>
-            <br>
+
+            <div class="margin-bottom-3"></div>
+
             <p>Gruppencode eingeben:</p>
             <label>
                 <input class="input-small"
@@ -152,15 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                        name="groupcode"
                        placeholder="* * * * * *">
             </label>
-            <br>
-            <br>
+
+            <div class="margin-bottom-5"></div>
+
             <button type="submit" class="style-bold">Gruppenchat beitreten</button>
         </form>
-
-        <br><br>
-        <a href="login.php?forceLogin=1">
-            <button type="button" class="button-secondary">FORCE LOGIN</button>
-        </a>
     </section>
 </main>
 

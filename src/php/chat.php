@@ -105,12 +105,12 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <section class="chat-nav-center"></section>
         <section class="nav-right">
             <?php if ($loggedIn): ?>
-                <a href="logout.php" class="nav-logout margin-right-5 style-bold">
+                <a href="logout.php" class="font-secondary nav-logout margin-right-5">
                     Abmelden
                 </a>
             <?php endif; ?>
 
-            <a href="#" class="nav-username margin-right-5" onclick="openSettings(); return false;">
+            <a href="#" class="nav-username margin-right-5 style-bold" onclick="openSettings(); return false;">
                 <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
             </a>
             <a href="#" onclick="openSettings(); return false;" class="nav-settings">
