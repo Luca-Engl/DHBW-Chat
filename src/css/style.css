@@ -182,11 +182,11 @@ a:visited:hover {
 }
 
 .font-secondary {
-    color: var(--secondary-color);
+    color: var(--secondary-color) !important;
 }
 
 .font-error {
-    color: var(--error-color);
+    color: var(--error-color) !important;
 }
 
 .font-size-landing {
