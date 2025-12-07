@@ -14,15 +14,6 @@ if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true)
     exit;
 }
 
-// DEBUG: Force-Login
-if (isset($_GET['forceLogin']) && $_GET['forceLogin'] === '1')
-{
-    $_SESSION['loggedIn'] = true;
-    $_SESSION['username'] = 'SYSTEM';
-    header('Location: chat.php');
-    exit;
-}
-
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
@@ -156,11 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             <br>
             <button type="submit" class="style-bold">Gruppenchat beitreten</button>
         </form>
-
-        <br><br>
-        <a href="login.php?forceLogin=1">
-            <button type="button" class="button-secondary">FORCE LOGIN</button>
-        </a>
     </section>
 </main>
 
