@@ -98,7 +98,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 <header class="chat-page-header">
     <nav class="chat-nav-grid margin-right-1">
         <section class="chat-nav-left">
-            <a href="../index.php">
+            <a href="./index.php">
                 <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-nav" alt="DHBW-Chat-Logo">
             </a>
         </section>
