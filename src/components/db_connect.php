@@ -9,5 +9,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
-    die("Verbindung fehlgeschlagen: " . $e->getMessage());
+    header('Content-Type: application/json');
+    echo json_encode(['success' => false, 'message' => 'Datenbankverbindung fehlgeschlagen']);
+    exit;
 }

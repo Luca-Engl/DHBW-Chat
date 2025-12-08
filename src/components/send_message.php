@@ -1,8 +1,7 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/db_connect.php';
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
@@ -77,10 +76,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("Send message error: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Senden der Nachricht'
     ]);
 }
-?>

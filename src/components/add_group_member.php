@@ -1,8 +1,9 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/db_connect.php';
+error_reporting(0);
+ini_set('display_errors', 0);
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
@@ -33,7 +34,6 @@ if (empty($member_input))
 
 try
 {
-    // Prüfen ob der User in der Gruppe ist
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as count
         FROM chat_participant
@@ -48,7 +48,6 @@ try
         exit;
     }
 
-    // Prüfen ob es eine Gruppe ist
     $stmt = $pdo->prepare("
         SELECT chat_type, chat_name
         FROM chat
@@ -69,7 +68,6 @@ try
         exit;
     }
 
-    // Neues Mitglied suchen
     if (filter_var($member_input, FILTER_VALIDATE_EMAIL))
     {
         $stmt = $pdo->prepare("SELECT id, username FROM `user` WHERE email = ?");
@@ -117,10 +115,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("ADD GROUP MEMBER ERROR: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Hinzufügen des Mitglieds'
     ]);
 }
-?>
