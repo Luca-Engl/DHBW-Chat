@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 </head>
 <body>
 <main class="img-background-login center-box" id="top">
-    <a href="../index.php">
+    <a href="./index.php">
         <img src="../img/DHBW-Banner-Chat-Red.png" class="img-logo-login" alt="DHBW-Chat-Logo">
     </a>
 
