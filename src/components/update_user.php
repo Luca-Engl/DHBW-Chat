@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once __DIR__ . '/db_connect.php';
 
 /** @var PDO $pdo */
@@ -13,8 +14,6 @@ if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
     exit;
 }
-
-header('Content-Type: application/json');
 
 $user_id = $_SESSION['user_id'];
 $action = $_POST['action'] ?? '';

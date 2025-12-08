@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 require_once __DIR__ . '/db_connect.php';
 
 /** @var PDO $pdo */
@@ -7,8 +8,6 @@ if (session_status() !== PHP_SESSION_ACTIVE)
 {
     session_start();
 }
-
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
