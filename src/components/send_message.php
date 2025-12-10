@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__ . '/db_connect.php';
+header('Content-Type: application/json');
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
@@ -13,8 +13,6 @@ if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
     exit;
 }
-
-header('Content-Type: application/json');
 
 $user_id = $_SESSION['user_id'];
 $chat_id = isset($_POST['chat_id']) ? intval($_POST['chat_id']) : 0;
@@ -78,10 +76,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("Send message error: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Senden der Nachricht'
     ]);
 }
-?>

@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/db_connect.php';
+header('Content-Type: application/json');
+error_reporting(0);
+ini_set('display_errors', 0);
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
     session_start();
 }
-
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
@@ -28,7 +28,6 @@ if ($chat_id <= 0 || $member_id <= 0)
 
 try
 {
-    // Prüfen ob der User in der Gruppe ist
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as count
         FROM chat_participant
@@ -43,7 +42,6 @@ try
         exit;
     }
 
-    // Prüfen ob es eine Gruppe ist
     $stmt = $pdo->prepare("
         SELECT chat_type
         FROM chat
@@ -64,7 +62,6 @@ try
         exit;
     }
 
-    // Prüfen ob das zu entfernende Mitglied in der Gruppe ist
     $stmt = $pdo->prepare("
         SELECT u.username
         FROM user u
@@ -80,7 +77,6 @@ try
         exit;
     }
 
-    // Anzahl der Mitglieder prüfen
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as count
         FROM chat_participant
@@ -95,7 +91,6 @@ try
         exit;
     }
 
-    // Mitglied aus der Gruppe entfernen
     $stmt = $pdo->prepare("
         DELETE FROM chat_participant
         WHERE chat_id = ? AND user_id = ?
@@ -109,10 +104,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("REMOVE GROUP MEMBER ERROR: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Entfernen des Mitglieds'
     ]);
 }
-?>

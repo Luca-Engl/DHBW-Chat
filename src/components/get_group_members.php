@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/db_connect.php';
+header('Content-Type: application/json');
+error_reporting(0);
+ini_set('display_errors', 0);
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
     session_start();
 }
-
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
@@ -27,7 +27,6 @@ if ($chat_id <= 0)
 
 try
 {
-    // Prüfen ob der User Zugriff hat
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as count
         FROM chat_participant
@@ -42,7 +41,6 @@ try
         exit;
     }
 
-    // Mitglieder laden
     $stmt = $pdo->prepare("
         SELECT u.id, u.username, u.email, cp.joined_at
         FROM user u
@@ -60,10 +58,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("GET GROUP MEMBERS ERROR: " . $e->getMessage());
     echo json_encode([
         'success' => false,
         'message' => 'Fehler beim Laden der Mitglieder'
     ]);
 }
-?>

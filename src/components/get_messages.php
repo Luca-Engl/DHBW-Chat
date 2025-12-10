@@ -1,14 +1,14 @@
 <?php
-require_once __DIR__ . '/db_connect.php';
+header('Content-Type: application/json');
+error_reporting(0);
+ini_set('display_errors', 0);
 
-/** @var PDO $pdo */
+require_once __DIR__ . '/db_connect.php';
 
 if (session_status() !== PHP_SESSION_ACTIVE)
 {
     session_start();
 }
-
-header('Content-Type: application/json');
 
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
@@ -27,7 +27,6 @@ if ($chat_id <= 0)
 
 try
 {
-    // Prüfen ob Benutzer Zugriff auf diesen Chat hat
     $stmt = $pdo->prepare("
         SELECT COUNT(*) as count
         FROM chat_participant
@@ -42,7 +41,6 @@ try
         exit;
     }
 
-    // Nachrichten löschen, die älter als 7 Tage sind
     $stmt = $pdo->prepare("
         DELETE FROM message
         WHERE chat_id = ?
@@ -50,7 +48,6 @@ try
     ");
     $stmt->execute(array($chat_id));
 
-    // Nachrichten laden
     $stmt = $pdo->prepare("
         SELECT 
             m.id,
@@ -75,10 +72,8 @@ try
 }
 catch (PDOException $e)
 {
-    error_log("Get messages error: " . $e->getMessage());
     echo json_encode([
         'success' => false,
-        'message' => 'Fehler beim Laden der Nachrichten: ' . $e->getMessage()
+        'message' => 'Fehler beim Laden der Nachrichten'
     ]);
 }
-?>

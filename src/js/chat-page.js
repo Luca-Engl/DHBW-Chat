@@ -19,6 +19,13 @@ function loadChats()
     fetch('/src/components/get_chats.php')
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -144,6 +151,10 @@ function loadMessages(chatId, isAutoReload)
         {
             if (!response.ok) {
                 throw new Error('HTTP ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
             }
             return response.json();
         })
@@ -309,6 +320,10 @@ function sendMessage(event)
             if (!response.ok) {
                 throw new Error('HTTP ' + response.status);
             }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -433,6 +448,13 @@ function updateUsername()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -487,6 +509,13 @@ function updateEmail()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -551,6 +580,13 @@ function updatePassword()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -647,6 +683,13 @@ function addContact()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -830,6 +873,13 @@ function createGroup()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -902,6 +952,13 @@ function loadGroupMembers(chatId)
     fetch('/src/components/get_group_members.php?chat_id=' + chatId)
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -987,6 +1044,13 @@ function addGroupMember()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -1036,6 +1100,13 @@ function removeGroupMember(memberId)
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -1097,6 +1168,13 @@ function addNote()
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -1125,6 +1203,13 @@ function deleteNote(id)
     })
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
@@ -1151,6 +1236,13 @@ function loadNotes()
     fetch('/src/components/get_notes.php?chat_id=' + currentChatId)
         .then(function(response)
         {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
             return response.json();
         })
         .then(function(data)
