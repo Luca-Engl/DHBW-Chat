@@ -34,32 +34,52 @@ DHBW Chat ist eine webbasierte Kommunikationsplattform mit Fokus auf Datenschutz
 
 ### Einrichtung
 
-1. **Repository klonen**
-   ```bash
-   git clone https://github.com/Luca-Engl/dhbw-chat.git
-   cd dhbw-chat
-   ```
+### 1. XAMPP herunterladen und starten
 
-2. **Datenbank einrichten**
-   ```sql
-   CREATE DATABASE dhbw_chat CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-   ```
+1. Neueste Version von XAMPP herunterladen:  
+   https://www.apachefriends.org/de/download.html
+2. Das XAMPP Control Panel ausführen.
+3. Den Service **„Apache“** starten.
+4. Den Service **„MySQL“** starten (ggf. als Admin bestätigen).
 
-3. **Datenbankverbindung konfigurieren**
-   
-   Bearbeite `components/db_connect.php` mit deinen Zugangsdaten:
-   ```php
-   $pdo = new PDO('mysql:host=localhost;dbname=dhbw_chat', 'username', 'password');
-   ```
+### 2. phpMyAdmin öffnen
 
-4. **Apache konfigurieren**
-   
-   Stelle sicher, dass `mod_rewrite` aktiviert ist und der DocumentRoot auf das Projektverzeichnis zeigt.
+- Klick auf **„Admin“** bei MySQL im XAMPP Control Panel.
 
-5. **Berechtigungen setzen**
-   ```bash
-   chmod 755 -R /path/to/dhbw-chat
-   ```
+### 3. Neues Benutzerkonto mit Datenbank anlegen
+
+Unter **Benutzerkonten → Benutzerkonto hinzufügen** folgende Daten eintragen:
+
+- **Benutzername:** `web-eng_dhbw-chat`  
+- **Hostname:** beliebig / lokal (`127.0.0.1`)  
+- **Passwort:** `chat`  
+- **Option aktivieren:** „Erstelle eine Datenbank mit gleichem Namen und gewähre alle Rechte.“
+
+Dadurch entstehen:
+
+- **Datenbankname:** `web-eng_dhbw-chat`  
+- **Benutzername:** `web-eng_dhbw-chat`  
+- **Passwort:** `chat`  
+
+### 4. Datenbankschema importieren
+
+1. Die neu erstellte Datenbank links auswählen.
+2. Oben den Reiter **„SQL“** anklicken.
+3. Dateiinhalt von `src/sql/schema.sql` kopieren.
+4. In die SQL-Befehls-Eingabemaske einfügen.
+5. Mit **OK** ausführen.
+
+### 5. Datenbankverbindung konfigurieren
+
+In `components/db_connect.php` eintragen:
+
+```php
+$pdo = new PDO(
+    'mysql:host=127.0.0.1;dbname=web-eng_dhbw-chat;charset=utf8mb4',
+    'web-eng_dhbw-chat',
+    'chat'
+);
+```
 
 ## Funktionen
 
