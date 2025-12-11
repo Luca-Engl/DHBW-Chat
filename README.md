@@ -18,7 +18,7 @@ DHBW Chat ist eine webbasierte Kommunikationsplattform mit Fokus auf Datenschutz
 | Komponente | Technologie |
 |------------|-------------|
 | Backend | PHP 8.x |
-| Datenbank | MySQL / MariaDB |
+| Datenbank | MySQL |
 | Frontend | HTML5, CSS3, JavaScript |
 | Server | Apache (XAMPP) |
 | Fonts | Rubik, Exo2 |
@@ -28,7 +28,7 @@ DHBW Chat ist eine webbasierte Kommunikationsplattform mit Fokus auf Datenschutz
 ### Voraussetzungen
 
 - PHP 8.0 oder höher
-- MySQL 5.7+ / MariaDB 10.3+
+- MySQL 5.7+
 - Apache Webserver (oder XAMPP/MAMP)
 - PDO MySQL Extension
 
@@ -36,7 +36,7 @@ DHBW Chat ist eine webbasierte Kommunikationsplattform mit Fokus auf Datenschutz
 
 1. **Repository klonen**
    ```bash
-   git clone https://github.com/[username]/dhbw-chat.git
+   git clone https://github.com/Luca-Engl/dhbw-chat.git
    cd dhbw-chat
    ```
 
