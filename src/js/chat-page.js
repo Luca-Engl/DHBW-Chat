@@ -269,9 +269,6 @@ function loadMessages(chatId, isAutoReload)
         .catch(function(error)
         {
             console.error('Error loading messages:', error);
-            if (!isAutoReload) {
-                alert('Fehler beim Laden der Nachrichten: ' + error.message);
-            }
         });
 }
 
@@ -290,7 +287,6 @@ function sendMessage(event)
 
     if (!currentChatId)
     {
-        alert('Bitte wähle zuerst einen Chat aus');
         return;
     }
 
@@ -334,15 +330,10 @@ function sendMessage(event)
                 inputField.style.height = 'auto';
                 loadMessages(currentChatId);
             }
-            else
-            {
-                alert('Fehler beim Senden: ' + data.message);
-            }
         })
         .catch(function(error)
         {
             console.error('Error sending message:', error);
-            alert('Fehler beim Senden der Nachricht: ' + error.message);
         });
 }
 

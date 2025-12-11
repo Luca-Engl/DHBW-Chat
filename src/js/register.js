@@ -28,6 +28,39 @@ var coursesByFaculty = {
     ]
 };
 
+function showError(message) {
+    const existingError = document.querySelector('.error-message-box');
+    if (existingError) {
+        existingError.remove();
+    }
+
+    const errorBox = document.createElement('div');
+    errorBox.className = 'error-message-box';
+    errorBox.innerHTML = `
+        <span class="error-icon">⚠</span>
+        <span class="error-text">${message}</span>
+        <button class="error-close" onclick="this.parentElement.remove()">×</button>
+    `;
+
+    const form = document.querySelector('form');
+    if (form) {
+        form.insertBefore(errorBox, form.firstChild);
+        errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        setTimeout(() => {
+            if (errorBox && errorBox.parentElement) {
+                errorBox.style.opacity = '0';
+                errorBox.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    if (errorBox && errorBox.parentElement) {
+                        errorBox.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
+}
+
 function updateCourses() {
     var faculty = document.getElementById('faculty').value;
     var cursusSelect = document.getElementById('cursus');
@@ -80,34 +113,34 @@ function showStep2() {
     var year = document.getElementById('year').value;
 
     if (!username || !email) {
-        alert('Bitte fülle Benutzername und E-Mail aus!');
+        showError('Bitte fülle Benutzername und E-Mail aus!');
         return;
     }
 
     var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-        alert('Bitte gib eine gültige E-Mail-Adresse ein!');
+        showError('Bitte gib eine gültige E-Mail-Adresse ein!');
         return;
     }
 
     var usernamePattern = /^[A-Za-z0-9]+$/;
     if (!usernamePattern.test(username)) {
-        alert('Benutzername darf nur Buchstaben und Zahlen enthalten!');
+        showError('Benutzername darf nur Buchstaben und Zahlen enthalten!');
         return;
     }
 
     if (!faculty) {
-        alert('Bitte wähle eine Fakultät!');
+        showError('Bitte wähle eine Fakultät!');
         return;
     }
 
     if (!cursus) {
-        alert('Bitte wähle einen Studiengang!');
+        showError('Bitte wähle einen Studiengang!');
         return;
     }
 
     if (!year) {
-        alert('Bitte wähle einen Jahrgang!');
+        showError('Bitte wähle einen Jahrgang!');
         return;
     }
 
