@@ -801,6 +801,14 @@ button.modal-close:hover::after {
 .panel-close-btn:hover {
     transform: rotate(90deg);
     color: var(--primary-button-color);
+    background: transparent;
+    box-shadow: none;
+}
+
+.panel-close-btn::after,
+.panel-close-btn:hover::after {
+    display: none !important;
+    content: none;
 }
 
 .important-panel-content {
