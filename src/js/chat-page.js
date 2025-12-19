@@ -1896,7 +1896,7 @@ function copyInviteCodeToClipboard()
                 copyBtn.style.background = '';
             }, 2000);
         } catch (err) {
-            alert('Code: ' + currentInviteCode);
+            showToast('Kopieren fehlgeschlagen. Code: ' + currentInviteCode, 'error');
         }
         document.body.removeChild(textArea);
     }
