@@ -15,6 +15,7 @@ CREATE TABLE `chat` (
                         `id` INT AUTO_INCREMENT PRIMARY KEY,
                         `chat_name` VARCHAR(100) NOT NULL,
                         `chat_type` ENUM('global', 'personal', 'group') NOT NULL,
+                        `invite_code` VARCHAR(6) DEFAULT NULL UNIQUE,
                         `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `message` (
                                          `sent_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
                                          `edited_at` DATETIME NULL DEFAULT NULL,
                                          FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON DELETE CASCADE,
-                                        FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Notes

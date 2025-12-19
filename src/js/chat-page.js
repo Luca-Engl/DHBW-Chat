@@ -16,8 +16,52 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+function validateId(id) {
+    const num = parseInt(id);
+    return !isNaN(num) && num > 0 ? num : null;
+}
+
+function buildUrl(baseUrl, params) {
+    const url = new URL(baseUrl, window.location.origin);
+    Object.keys(params).forEach(key => {
+        url.searchParams.append(key, params[key]);
+    });
+    return url.toString();
+}
+
 function loadChats()
 {
+    if (isGuest && guestChatId) {
+        console.log('Gast-Modus: Chat bereits geladen');
+
+        currentChatId = guestChatId;
+        currentChat = guestChatName || 'Gruppenchat';
+
+        const guestChatItem = document.querySelector('.chat-item[data-chat-id="' + guestChatId + '"]');
+        if (guestChatItem) {
+            guestChatItem.classList.add('active-chat');
+
+            document.getElementById('currentChatName').textContent = guestChatName || 'Gruppenchat';
+
+            updateManageButton('group', guestChatId, guestChatName);
+
+            loadMessages(guestChatId);
+            startAutoReload();
+
+            guestChatItem.addEventListener('click', function() {
+                loadMessages(guestChatId);
+                startAutoReload();
+
+                const panel = document.getElementById('importantPanel');
+                if (panel && panel.classList.contains('active')) {
+                    loadNotes();
+                }
+            });
+        }
+
+        return;
+    }
+
     fetch('/src/components/get_chats.php')
         .then(function(response)
         {
@@ -47,10 +91,19 @@ function loadChats()
                 data.chats.forEach(function(chat, index)
                 {
                     const li = document.createElement('li');
-                    li.textContent = chat.chat_name;
                     li.setAttribute('data-chat-id', chat.id);
                     li.setAttribute('data-chat-name', chat.chat_name);
                     li.setAttribute('data-chat-type', chat.chat_type);
+                    li.classList.add('chat-item');
+
+                    let icon = '💬';
+                    if (chat.chat_type === 'global') {
+                        icon = '🌍';
+                    } else if (chat.chat_type === 'group') {
+                        icon = '👥';
+                    }
+
+                    li.innerHTML = '<span class="chat-icon">' + icon + '</span><span class="chat-name">' + escapeHtml(chat.chat_name) + '</span>';
 
                     if (index === 0)
                     {
@@ -143,12 +196,20 @@ function openManageGroupFromNav()
 
 function loadMessages(chatId, isAutoReload)
 {
+    const validChatId = validateId(chatId);
+    if (!validChatId) {
+        console.error('Ungültige Chat-ID');
+        return;
+    }
+
     if (typeof isAutoReload === 'undefined')
     {
         isAutoReload = false;
     }
 
-    fetch('/src/components/get_messages.php?chat_id=' + chatId)
+    const url = buildUrl('/src/components/get_messages.php', { chat_id: validChatId });
+
+    fetch(url)
         .then(function(response)
         {
             if (!response.ok) {
@@ -307,14 +368,20 @@ function sendMessage()
         return;
     }
 
-    if (!currentChatId)
+    const validChatId = validateId(currentChatId);
+    if (!validChatId)
     {
         showToast('Bitte wähle einen Chat aus', 'error');
         return;
     }
 
+    if (message.length > 2048) {
+        showToast('Nachricht zu lang (max. 2048 Zeichen)', 'error');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('chat_id', currentChatId);
+    formData.append('chat_id', validChatId);
     formData.append('content', message);
 
     fetch('/src/components/send_message.php', {
@@ -419,6 +486,12 @@ function updateUsername()
         return;
     }
 
+    if (newUsername.length < 3 || newUsername.length > 30) {
+        errorDiv.textContent = 'Benutzername muss 3-30 Zeichen lang sein';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
     const formData = new FormData();
     formData.append('action', 'update_username');
     formData.append('new_username', newUsername);
@@ -492,6 +565,19 @@ function updateEmail()
     if (!newEmail)
     {
         errorDiv.textContent = 'Bitte gib eine E-Mail ein';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newEmail)) {
+        errorDiv.textContent = 'Ungültige E-Mail-Adresse';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    if (newEmail.length > 100) {
+        errorDiv.textContent = 'E-Mail zu lang (max. 100 Zeichen)';
         errorDiv.classList.remove('hidden');
         return;
     }
@@ -579,6 +665,12 @@ function updatePassword()
     if (newPassword !== newPasswordConfirm)
     {
         errorDiv.textContent = 'Neue Passwörter stimmen nicht überein';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    if (newPassword.length < 6 || newPassword.length > 30) {
+        errorDiv.textContent = 'Passwort muss 6-30 Zeichen lang sein';
         errorDiv.classList.remove('hidden');
         return;
     }
@@ -869,6 +961,12 @@ function createGroup()
         return;
     }
 
+    if (groupName.length > 100) {
+        errorDiv.textContent = 'Gruppenname zu lang (max. 100 Zeichen)';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
     if (groupMembers.length === 0)
     {
         errorDiv.textContent = 'Bitte füge mindestens ein Mitglied hinzu!';
@@ -938,7 +1036,6 @@ function createGroup()
 function openManageGroup(chatId, chatName)
 {
     currentManageGroupId = chatId;
-
     document.getElementById('manageGroupModal').classList.add('active');
     document.getElementById('manageGroupTitle').textContent = 'Gruppe verwalten: ' + chatName;
 
@@ -951,6 +1048,7 @@ function openManageGroup(chatId, chatName)
     if (inputField) inputField.value = '';
 
     loadGroupMembers(chatId);
+    loadInviteCode(chatId);
 }
 
 function closeManageGroup()
@@ -961,10 +1059,18 @@ function closeManageGroup()
 
 function loadGroupMembers(chatId)
 {
+    const validChatId = validateId(chatId);
+    if (!validChatId) {
+        console.error('Ungültige Chat-ID');
+        return;
+    }
+
     const membersList = document.getElementById('currentMembersList');
     membersList.innerHTML = '<p style="color: #888;">Lade Mitglieder...</p>';
 
-    fetch('/src/components/get_group_members.php?chat_id=' + chatId)
+    const url = buildUrl('/src/components/get_group_members.php', { chat_id: validChatId });
+
+    fetch(url)
         .then(function(response)
         {
             if (!response.ok) {
@@ -1031,15 +1137,25 @@ function addGroupMember()
         return;
     }
 
-    if (!currentManageGroupId)
+    const validChatId = validateId(currentManageGroupId);
+    if (!validChatId)
     {
         errorDiv.textContent = 'Keine Gruppe ausgewählt';
         errorDiv.classList.remove('hidden');
         return;
     }
 
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(memberInput);
+    const isValidUsername = /^[A-Za-z0-9_.-]{3,30}$/.test(memberInput);
+
+    if (!isValidEmail && !isValidUsername) {
+        errorDiv.textContent = 'Ungültiger Benutzername oder E-Mail';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('chat_id', currentManageGroupId);
+    formData.append('chat_id', validChatId);
     formData.append('member_input', memberInput);
 
     fetch('/src/components/add_group_member.php', {
@@ -1093,6 +1209,14 @@ function removeGroupMember(memberId, memberName)
         return;
     }
 
+    const validChatId = validateId(currentManageGroupId);
+    const validMemberId = validateId(memberId);
+
+    if (!validChatId || !validMemberId) {
+        console.error('Ungültige IDs');
+        return;
+    }
+
     const errorDiv = document.getElementById('manage-group-error');
     const successDiv = document.getElementById('manage-group-success');
 
@@ -1100,8 +1224,8 @@ function removeGroupMember(memberId, memberName)
     successDiv.classList.add('hidden');
 
     const formData = new FormData();
-    formData.append('chat_id', currentManageGroupId);
-    formData.append('member_id', memberId);
+    formData.append('chat_id', validChatId);
+    formData.append('member_id', validMemberId);
 
     fetch('/src/components/remove_group_member.php', {
         method: 'POST',
@@ -1171,14 +1295,20 @@ function addNote()
         return;
     }
 
-    if (!currentChatId)
+    const validChatId = validateId(currentChatId);
+    if (!validChatId)
     {
         showToast('Bitte wähle einen Chat aus', 'error');
         return;
     }
 
+    if (text.length > 1024) {
+        showToast('Notiz zu lang (max. 1024 Zeichen)', 'error');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('chat_id', currentChatId);
+    formData.append('chat_id', validChatId);
     formData.append('content', text);
 
     fetch('/src/components/add_note.php', {
@@ -1213,8 +1343,14 @@ function addNote()
 
 function deleteNote(id)
 {
+    const validId = validateId(id);
+    if (!validId) {
+        console.error('Ungültige Notiz-ID');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('note_id', id);
+    formData.append('note_id', validId);
 
     fetch('/src/components/delete_note.php', {
         method: 'POST',
@@ -1246,13 +1382,16 @@ function deleteNote(id)
 
 function loadNotes()
 {
-    if (!currentChatId)
+    const validChatId = validateId(currentChatId);
+    if (!validChatId)
     {
         document.getElementById('notesList').innerHTML = '<p class="empty-state">Wähle einen Chat aus</p>';
         return;
     }
 
-    fetch('/src/components/get_notes.php?chat_id=' + currentChatId)
+    const url = buildUrl('/src/components/get_notes.php', { chat_id: validChatId });
+
+    fetch(url)
         .then(function(response)
         {
             if (!response.ok) {
@@ -1342,7 +1481,13 @@ function autoResizeTextarea(textarea)
 }
 
 function openEditMessage(messageId, currentContent) {
-    editingMessageId = messageId;
+    const validId = validateId(messageId);
+    if (!validId) {
+        console.error('Ungültige Message-ID');
+        return;
+    }
+
+    editingMessageId = validId;
     document.getElementById('editMessageModal').classList.add('active');
     const textarea = document.getElementById('editMessageText');
 
@@ -1381,8 +1526,21 @@ function saveEditedMessage() {
         return;
     }
 
+    if (newContent.length > 2048) {
+        errorDiv.textContent = 'Nachricht zu lang (max. 2048 Zeichen)';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    const validId = validateId(editingMessageId);
+    if (!validId) {
+        errorDiv.textContent = 'Ungültige Message-ID';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('message_id', editingMessageId);
+    formData.append('message_id', validId);
     formData.append('content', newContent);
 
     fetch('/src/components/edit_message.php', {
@@ -1412,7 +1570,13 @@ function saveEditedMessage() {
 }
 
 function openDeleteMessage(messageId) {
-    deletingMessageId = messageId;
+    const validId = validateId(messageId);
+    if (!validId) {
+        console.error('Ungültige Message-ID');
+        return;
+    }
+
+    deletingMessageId = validId;
     document.getElementById('deleteMessageModal').classList.add('active');
     document.getElementById('delete-error').classList.add('hidden');
 }
@@ -1427,8 +1591,14 @@ function confirmDeleteMessage() {
         return;
     }
 
+    const validId = validateId(deletingMessageId);
+    if (!validId) {
+        console.error('Ungültige Message-ID');
+        return;
+    }
+
     const formData = new FormData();
-    formData.append('message_id', deletingMessageId);
+    formData.append('message_id', validId);
 
     fetch('/src/components/delete_message.php', {
         method: 'POST',
@@ -1470,6 +1640,101 @@ function showToast(message, type) {
             toast.remove();
         }, 300);
     }, 2000);
+}
+
+let currentInviteCode = null;
+
+function loadInviteCode(chatId)
+{
+    const validChatId = validateId(chatId);
+    if (!validChatId) {
+        console.error('Ungültige Chat-ID');
+        return;
+    }
+
+    const codeDisplay = document.getElementById('inviteCodeDisplay');
+    const copyBtn = document.getElementById('copyInviteCodeBtn');
+
+    if (!codeDisplay) return;
+
+    codeDisplay.value = 'Lade...';
+    if (copyBtn) copyBtn.disabled = true;
+
+    const url = buildUrl('/src/components/get_invite_code.php', { chat_id: validChatId });
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.invite_code) {
+                currentInviteCode = data.invite_code;
+                codeDisplay.value = data.invite_code;
+                if (copyBtn) copyBtn.disabled = false;
+            } else {
+                codeDisplay.value = 'Kein Code';
+                currentInviteCode = null;
+                if (copyBtn) copyBtn.disabled = true;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            codeDisplay.value = 'Fehler';
+            currentInviteCode = null;
+            if (copyBtn) copyBtn.disabled = true;
+        });
+}
+
+function copyInviteCodeToClipboard()
+{
+    if (!currentInviteCode) {
+        showToast('Kein Code verfügbar', 'error');
+        return;
+    }
+
+    const copyBtn = document.getElementById('copyInviteCodeBtn');
+
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentInviteCode).then(() => {
+            showToast('Code kopiert: ' + currentInviteCode, 'success');
+
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '✓ Kopiert!';
+            copyBtn.style.background = '#2a7f2a';
+
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = '';
+            }, 2000);
+        }).catch(() => {
+            fallbackCopy();
+        });
+    } else {
+        fallbackCopy();
+    }
+
+    function fallbackCopy() {
+        const textArea = document.createElement('textarea');
+        textArea.value = currentInviteCode;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast('Code kopiert: ' + currentInviteCode, 'success');
+
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '✓ Kopiert!';
+            copyBtn.style.background = '#2a7f2a';
+
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+                copyBtn.style.background = '';
+            }, 2000);
+        } catch (err) {
+            alert('Code: ' + currentInviteCode);
+        }
+        document.body.removeChild(textArea);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function()

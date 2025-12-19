@@ -8,7 +8,10 @@ if (session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
-if (!empty($_GET['groupcode']))
+$guestChatId = null;
+$guestChatName = null;
+
+if (! empty($_GET['groupcode']))
 {
     $groupcode = preg_replace('/[^A-Za-z0-9]/', '', $_GET['groupcode']);
 
@@ -18,27 +21,46 @@ if (!empty($_GET['groupcode']))
         exit;
     }
 
-    $_SESSION['isGuest']   = true;
-    $_SESSION['groupcode'] = $groupcode;
+    try {
+        $stmt = $pdo->prepare("
+            SELECT id, chat_name 
+            FROM chat 
+            WHERE invite_code = ?  AND chat_type = 'group'
+        ");
+        $stmt->execute(array(strtoupper($groupcode)));
+        $group = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (empty($_SESSION['username']))
-    {
-        try
-        {
-            $randSuffix = random_int(100, 999);
+        if (!$group) {
+            header('Location: login.php?error=invalid_code');
+            exit;
         }
-        catch (Exception $e)
-        {
-            $randSuffix = mt_rand(100, 999);
-        }
-        $_SESSION['username'] = 'Gast_' . substr($groupcode, 0, 3) . '_' . $randSuffix;
+
+        $_SESSION['isGuest'] = true;
+        $_SESSION['groupcode'] = $groupcode;
+        $_SESSION['guest_chat_id'] = $group['id'];
+        $_SESSION['guest_chat_name'] = $group['chat_name'];
+        $_SESSION['username'] = 'Gastaccount';
+
+        $guestChatId = $group['id'];
+        $guestChatName = $group['chat_name'];
+
+    } catch (PDOException $e) {
+        error_log("Error joining group: " . $e->getMessage());
+        header('Location: login.php');
+        exit;
     }
 }
 
-$loggedIn = !empty($_SESSION['loggedIn']);
+if (! empty($_SESSION['isGuest']) && ! empty($_SESSION['guest_chat_id']))
+{
+    $guestChatId = $_SESSION['guest_chat_id'];
+    $guestChatName = $_SESSION['guest_chat_name'] ?? 'Gruppenchat';
+}
+
+$loggedIn = ! empty($_SESSION['loggedIn']);
 $isGuest  = !empty($_SESSION['isGuest']);
 
-if (!$loggedIn && !$isGuest)
+if (! $loggedIn && !$isGuest)
 {
     header('Location: login.php');
     exit;
@@ -47,7 +69,7 @@ if (!$loggedIn && !$isGuest)
 $currentUser  = isset($_SESSION['username']) ? $_SESSION['username'] : 'Unbekannt';
 $currentEmail = 'E-Mail nicht verfügbar';
 
-if ($loggedIn && !$isGuest && isset($_SESSION['user_id']))
+if ($loggedIn && ! $isGuest && isset($_SESSION['user_id']))
 {
     try
     {
@@ -77,7 +99,7 @@ if ($loggedIn && !$isGuest && isset($_SESSION['user_id']))
     }
     catch (PDOException $e)
     {
-        error_log("Error fetching user data: " . $e->getMessage());
+        error_log("Error fetching user data: " .  $e->getMessage());
     }
 }
 
@@ -108,14 +130,27 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 <a href="logout.php" class="font-secondary nav-logout margin-right-5">
                     Abmelden
                 </a>
+            <?php elseif ($isGuest): ?>
+                <a href="logout.php" class="font-secondary nav-logout margin-right-5">
+                    Verlassen
+                </a>
             <?php endif; ?>
 
-            <a href="#" class="nav-username margin-right-5 style-bold" onclick="openSettings(); return false;">
-                <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
-            </a>
-            <a href="#" onclick="openSettings(); return false;" class="nav-settings">
-                <img src="../img/default-avatar.png" alt="User-Avatar">
-            </a>
+            <?php if (! $isGuest): ?>
+                <a href="#" class="nav-username margin-right-5 style-bold" onclick="openSettings(); return false;">
+                    <?php echo htmlspecialchars($currentUser, ENT_QUOTES, 'UTF-8'); ?>
+                </a>
+                <a href="#" onclick="openSettings(); return false;" class="nav-settings">
+                    <img src="../img/default-avatar.png" alt="User-Avatar">
+                </a>
+            <?php else: ?>
+                <span class="nav-username margin-right-5 style-bold">
+                    Gastaccount
+                </span>
+                <span class="nav-settings">
+                    <img src="../img/default-avatar.png" alt="User-Avatar">
+                </span>
+            <?php endif; ?>
         </section>
     </nav>
 </header>
@@ -124,17 +159,34 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     <aside class="chat-sidebar background">
         <h2>Chats</h2>
         <ul id="chatList">
-            <li>Lädt Chats...</li>
+            <?php if ($isGuest && $guestChatName): ?>
+                <li class="chat-item active" data-chat-id="<?php echo $guestChatId; ?>" data-chat-type="group">
+                    <span class="chat-name"><?php echo htmlspecialchars($guestChatName); ?></span>
+                </li>
+            <?php elseif (!$isGuest): ?>
+                <li>Lädt Chats...</li>
+            <?php endif; ?>
         </ul>
 
-        <section class="chat-sidebar-buttons">
-            <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
-            <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+        <?php if (! $isGuest): ?>
+            <section class="chat-sidebar-buttons">
+                <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
+                <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
 
-            <p class="margin-top-5 align-center">
-                <a href="legal_notice.php" class="font-secondary">Impressum</a>
-            </p>
-        </section>
+                <p class="margin-top-5 align-center">
+                    <a href="legal_notice.php" class="font-secondary">Impressum</a>
+                </p>
+            </section>
+        <?php else: ?>
+            <section class="chat-sidebar-buttons">
+                <p class="margin-top-5 align-center" style="color: #888; font-size: 0.9rem;">
+                    👤 Du bist als Gast beigetreten
+                </p>
+                <p class="margin-top-3 align-center">
+                    <a href="legal_notice.php" class="font-secondary">Impressum</a>
+                </p>
+            </section>
+        <?php endif; ?>
     </aside>
 
     <section class="chat-main">
@@ -143,10 +195,12 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 <button class="chat-back-btn" onclick="closeChat()">
                     ← Zurück
                 </button>
-                <h2 id="currentChatName">Wähle einen Chat</h2>
-                <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
-                    + Mitglied
-                </button>
+                <h2 id="currentChatName"><?php echo $isGuest && $guestChatName ? htmlspecialchars($guestChatName) : 'Wähle einen Chat'; ?></h2>
+                <?php if (! $isGuest): ?>
+                    <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
+                        + Mitglied
+                    </button>
+                <?php endif; ?>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
                 📌 Ablage
@@ -155,7 +209,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
         <section class="chat-messages" id="chat-history">
             <p style="text-align: center; color: #888; padding: 20px;">
-                Wähle einen Chat aus der Liste
+                <?php echo $isGuest ? 'Lade Nachrichten...' : 'Wähle einen Chat aus der Liste'; ?>
             </p>
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
@@ -169,133 +223,211 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     </section>
 </main>
 
-<section id="settingsModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeSettings()">&times;</button>
+<?php if (! $isGuest): ?>
+    <section id="settingsModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeSettings()">&times;</button>
 
-        <section class="align-left margin-top-5">
-            <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
+            <section class="align-left margin-top-5">
+                <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
 
-            <section class="margin-bottom-3 settings-row">
-                <label class="style-bold">Profilbild:</label>
-                <section class="avatar-wrapper">
-                    <img class="chat-avatar" id="avatar-preview" src="../img/default-avatar.png" alt="Avatar Vorschaubild">
-                    <input type="file" id="profile-picture" accept="image/*">
+                <section class="margin-bottom-3 settings-row">
+                    <label class="style-bold">Profilbild:</label>
+                    <section class="avatar-wrapper">
+                        <img class="chat-avatar" id="avatar-preview" src="../img/default-avatar.png" alt="Avatar Vorschaubild">
+                        <input type="file" id="profile-picture" accept="image/*">
+                    </section>
                 </section>
-            </section>
 
-            <section class="margin-bottom-3 settings-row">
-                <label class="style-bold">Username:</label>
-                <section class="settings-field">
-                    <span id="username-display"><?php echo htmlspecialchars($currentUser); ?></span>
-                    <button type="button" class="button-secondary settings-edit" onclick="openEditUsername()">Bearbeiten</button>
+                <section class="margin-bottom-3 settings-row">
+                    <label class="style-bold">Username:</label>
+                    <section class="settings-field">
+                        <span id="username-display"><?php echo htmlspecialchars($currentUser); ?></span>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditUsername()">Bearbeiten</button>
+                    </section>
                 </section>
-            </section>
 
-            <section class="margin-bottom-3 settings-row">
-                <label class="style-bold">Email:</label>
-                <section class="settings-field">
-                    <span id="email-display"><?php echo htmlspecialchars($currentEmail); ?></span>
-                    <button type="button" class="button-secondary settings-edit" onclick="openEditEmail()">Bearbeiten</button>
+                <section class="margin-bottom-3 settings-row">
+                    <label class="style-bold">Email:</label>
+                    <section class="settings-field">
+                        <span id="email-display"><?php echo htmlspecialchars($currentEmail); ?></span>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditEmail()">Bearbeiten</button>
+                    </section>
                 </section>
-            </section>
 
-            <section class="margin-bottom-3 settings-row">
-                <label class="style-bold">Passwort:</label>
-                <section class="settings-field">
-                    <span id="password-display">••••••••</span>
-                    <button type="button" class="button-secondary settings-edit" onclick="openEditPassword()">Bearbeiten</button>
+                <section class="margin-bottom-3 settings-row">
+                    <label class="style-bold">Passwort:</label>
+                    <section class="settings-field">
+                        <span id="password-display">••••••••</span>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditPassword()">Bearbeiten</button>
+                    </section>
                 </section>
             </section>
         </section>
     </section>
-</section>
 
-<section id="editUsernameModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeEditUsername()">&times;</button>
-        <h2>Benutzername ändern</h2>
-        <br>
-        <div id="username-error" class="error-message hidden"></div>
-        <div id="username-success" class="success-message hidden"></div>
-        <p><label for="newUsername">Neuer Benutzername:</label></p>
-        <input type="text" id="newUsername" maxlength="30" pattern="[A-Za-z0-9]+" placeholder="Neuer Benutzername">
-        <br><br>
-        <button onclick="updateUsername()">Speichern</button>
-    </section>
-</section>
-
-<section id="editEmailModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeEditEmail()">&times;</button>
-        <h2>E-Mail ändern</h2>
-        <br>
-        <div id="email-error" class="error-message hidden"></div>
-        <div id="email-success" class="success-message hidden"></div>
-        <p><label for="newEmail">Neue E-Mail:</label></p>
-        <input type="email" maxlength="30" id="newEmail" placeholder="neue@email.de">
-        <br><br>
-        <button onclick="updateEmail()">Speichern</button>
-    </section>
-</section>
-
-<section id="editPasswordModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeEditPassword()">&times;</button>
-        <h2>Passwort ändern</h2>
-        <br>
-        <div id="password-error" class="error-message hidden"></div>
-        <div id="password-success" class="success-message hidden"></div>
-        <p><label for="oldPassword">Altes Passwort:</label></p>
-        <input type="password" id="oldPassword" minlength="6" maxlength="30" placeholder="Altes Passwort">
-        <br>
-        <p><label for="newPassword">Neues Passwort:</label></p>
-        <input type="password" id="newPassword" minlength="6" maxlength="30" placeholder="Neues Passwort">
-        <br>
-        <p><label for="newPasswordConfirm">Passwort wiederholen:</label></p>
-        <input type="password" id="newPasswordConfirm" minlength="6" maxlength="30" placeholder="Passwort wiederholen">
-        <br><br>
-        <button onclick="updatePassword()">Speichern</button>
-    </section>
-</section>
-
-<section id="addContactModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeAddContact()">&times;</button>
-        <h2>Kontakt hinzufügen</h2>
-
-        <div id="contact-error" class="error-message hidden"></div>
-        <div id="contact-success" class="success-message hidden"></div>
-
-        <p><label for="contactInput">Benutzername oder E-Mail:</label></p>
-        <input type="text" id="contactInput" maxlength="30" placeholder="z.B. max.mustermann oder max@dhbw.de">
-        <br><br>
-        <button onclick="addContact()">Hinzufügen</button>
-    </section>
-</section>
-
-<section id="addGroupModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeAddGroup()">&times;</button>
-        <h2>Gruppe erstellen</h2>
-
-        <div id="group-error" class="error-message hidden"></div>
-        <div id="group-success" class="success-message hidden"></div>
-
-        <p><label for="groupName">Gruppenname:</label></p>
-        <input type="text" minlength="15" id="groupName" placeholder="z.B. Team DHBW">
-        <br><br>
-        <p><label for="memberInput">Mitglieder hinzufügen:</label></p>
-        <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="memberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
-            <button class="button-secondary" onclick="addMemberToList()">+ Hinzufügen</button>
+    <section id="editUsernameModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeEditUsername()">&times;</button>
+            <h2>Benutzername ändern</h2>
+            <br>
+            <div id="username-error" class="error-message hidden"></div>
+            <div id="username-success" class="success-message hidden"></div>
+            <p><label for="newUsername">Neuer Benutzername:</label></p>
+            <input type="text" id="newUsername" maxlength="30" pattern="[A-Za-z0-9]+" placeholder="Neuer Benutzername">
+            <br><br>
+            <button onclick="updateUsername()">Speichern</button>
         </section>
-        <br>
-        <section id="memberList" style="max-height: 150px; overflow-y: auto;"></section>
-        <br>
-        <button onclick="createGroup()">Gruppe erstellen</button>
     </section>
-</section>
+
+    <section id="editEmailModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeEditEmail()">&times;</button>
+            <h2>E-Mail ändern</h2>
+            <br>
+            <div id="email-error" class="error-message hidden"></div>
+            <div id="email-success" class="success-message hidden"></div>
+            <p><label for="newEmail">Neue E-Mail:</label></p>
+            <input type="email" maxlength="30" id="newEmail" placeholder="neue@email.de">
+            <br><br>
+            <button onclick="updateEmail()">Speichern</button>
+        </section>
+    </section>
+
+    <section id="editPasswordModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeEditPassword()">&times;</button>
+            <h2>Passwort ändern</h2>
+            <br>
+            <div id="password-error" class="error-message hidden"></div>
+            <div id="password-success" class="success-message hidden"></div>
+            <p><label for="oldPassword">Altes Passwort:</label></p>
+            <input type="password" id="oldPassword" minlength="6" maxlength="30" placeholder="Altes Passwort">
+            <br>
+            <p><label for="newPassword">Neues Passwort:</label></p>
+            <input type="password" id="newPassword" minlength="6" maxlength="30" placeholder="Neues Passwort">
+            <br>
+            <p><label for="newPasswordConfirm">Passwort wiederholen:</label></p>
+            <input type="password" id="newPasswordConfirm" minlength="6" maxlength="30" placeholder="Passwort wiederholen">
+            <br><br>
+            <button onclick="updatePassword()">Speichern</button>
+        </section>
+    </section>
+
+    <section id="addContactModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeAddContact()">&times;</button>
+            <h2>Kontakt hinzufügen</h2>
+
+            <div id="contact-error" class="error-message hidden"></div>
+            <div id="contact-success" class="success-message hidden"></div>
+
+            <p><label for="contactInput">Benutzername oder E-Mail:</label></p>
+            <input type="text" id="contactInput" maxlength="30" placeholder="z.B. max.mustermann oder max@dhbw.de">
+            <br><br>
+            <button onclick="addContact()">Hinzufügen</button>
+        </section>
+    </section>
+
+    <section id="addGroupModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeAddGroup()">&times;</button>
+            <h2>Gruppe erstellen</h2>
+
+            <div id="group-error" class="error-message hidden"></div>
+            <div id="group-success" class="success-message hidden"></div>
+
+            <p><label for="groupName">Gruppenname:</label></p>
+            <input type="text" id="groupName" maxlength="50" placeholder="z.B. Team DHBW">
+            <br><br>
+            <p><label for="memberInput">Mitglieder hinzufügen:</label></p>
+            <section style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="memberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+                <button class="button-secondary" onclick="addMemberToList()">+ Hinzufügen</button>
+            </section>
+            <br>
+            <section id="memberList" style="max-height: 150px; overflow-y: auto;"></section>
+            <br>
+            <button onclick="createGroup()">Gruppe erstellen</button>
+        </section>
+    </section>
+
+    <section id="manageGroupModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeManageGroup()">&times;</button>
+            <h2 id="manageGroupTitle">Gruppe verwalten</h2>
+
+            <div id="manage-group-error" class="error-message hidden"></div>
+            <div id="manage-group-success" class="success-message hidden"></div>
+
+            <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
+            <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
+                <p style="color: #888;">Lade Mitglieder...</p>
+            </section>
+
+            <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
+            <section style="display: flex; gap: 10px; align-items: center;">
+                <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+                <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
+            </section>
+            <section class="settings-row margin-bottom-3">
+                <h3 class="style-bold">Einladungscode für Gäste</h3>
+                <p class="font-secondary" style="font-size: 0.9rem; margin-bottom: 10px;">
+                </p>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input
+                            type="text"
+                            id="inviteCodeDisplay"
+                            readonly
+                            value="Lade Code..."
+                            style="text-align: center; font-size: 1.5rem; letter-spacing: 0.3rem; font-weight: bold; font-family: 'Courier New', monospace;"
+                    >
+                    <button
+                            type="button"
+                            class="button-secondary"
+                            onclick="copyInviteCodeToClipboard()"
+                            id="copyInviteCodeBtn"
+                            style="white-space: nowrap; min-width: auto;"
+                    >
+                        📋 Kopieren
+                    </button>
+                </div>
+            </section>
+        </section>
+    </section>
+
+    <section id="editMessageModal" class="modal-overlay">
+        <section class="modal-content popup-box">
+            <button class="modal-close" onclick="closeEditMessage()">&times;</button>
+            <h2>Nachricht bearbeiten</h2>
+            <br>
+            <div id="edit-error" class="error-message hidden"></div>
+            <div id="edit-success" class="success-message hidden"></div>
+
+            <p><label for="editMessageText">Nachricht:</label></p>
+            <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
+            <br><br>
+
+            <section>
+                <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
+                <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
+            </section>
+        </section>
+    </section>
+
+    <div id="deleteMessageModal" class="modal-overlay">
+        <div class="modal-content popup-box">
+            <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
+            <h2>Nachricht löschen?</h2>
+            <p>Möchtest du diese Nachricht wirklich löschen?</p>
+            <div id="delete-error" class="error-message hidden"></div>
+            <div class="button-container">
+                <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
+                <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
 <aside id="importantPanel" class="important-panel">
     <section class="important-panel-header">
@@ -311,60 +443,11 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     </section>
 </aside>
 
-<section id="manageGroupModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeManageGroup()">&times;</button>
-        <h2 id="manageGroupTitle">Gruppe verwalten</h2>
-
-        <div id="manage-group-error" class="error-message hidden"></div>
-        <div id="manage-group-success" class="success-message hidden"></div>
-
-        <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
-        <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
-            <p style="color: #888;">Lade Mitglieder...</p>
-        </section>
-
-        <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
-        <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
-            <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
-        </section>
-    </section>
-</section>
-
-<section id="editMessageModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeEditMessage()">&times;</button>
-        <h2>Nachricht bearbeiten</h2>
-        <br>
-        <div id="edit-error" class="error-message hidden"></div>
-        <div id="edit-success" class="success-message hidden"></div>
-
-        <p><label for="editMessageText">Nachricht:</label></p>
-        <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
-        <br><br>
-
-        <section>
-            <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
-            <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
-        </section>
-    </section>
-</section>
-
-<div id="deleteMessageModal" class="modal-overlay">
-    <div class="modal-content popup-box">
-        <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
-        <h2>Nachricht löschen?</h2>
-        <p>Möchtest du diese Nachricht wirklich löschen?</p>
-        <div id="delete-error" class="error-message hidden"></div>
-        <div class="button-container">
-            <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
-            <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
-        </div>
-    </div>
-</div>
-
-
+<script>
+    var isGuest = <?php echo $isGuest ? 'true' : 'false'; ?>;
+    var guestChatId = <?php echo $guestChatId ? $guestChatId : 'null'; ?>;
+    var guestChatName = <?php echo $guestChatName ? '"' . addslashes($guestChatName) . '"' : 'null'; ?>;
+</script>
 <script src="../js/chat-page.js"></script>
 </body>
 </html>

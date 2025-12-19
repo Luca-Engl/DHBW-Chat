@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: application/json');
+header('Content-Type:  application/json');
 error_reporting(0);
 ini_set('display_errors', 0);
 
@@ -10,7 +10,7 @@ if (session_status() !== PHP_SESSION_ACTIVE)
     session_start();
 }
 
-if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
+if (! isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
     echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
     exit;
@@ -56,7 +56,7 @@ try
             $stmt->execute(array($member_input));
         }
 
-        $member = $stmt->fetch(PDO::FETCH_ASSOC);
+        $member = $stmt->fetch(PDO:: FETCH_ASSOC);
 
         if ($member)
         {
@@ -75,7 +75,7 @@ try
         exit;
     }
 
-    if (!in_array($user_id, $member_ids))
+    if (! in_array($user_id, $member_ids))
     {
         $member_ids[] = $user_id;
     }
@@ -90,11 +90,14 @@ try
 
     $pdo->beginTransaction();
 
+    // Generiere einen einzigartigen 6-stelligen Invite-Code
+    $invite_code = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6));
+
     $stmt = $pdo->prepare("
-        INSERT INTO chat (chat_name, chat_type, created_at)
-        VALUES (?, 'group', NOW())
+        INSERT INTO chat (chat_name, chat_type, invite_code, created_at)
+        VALUES (?, 'group', ?, NOW())
     ");
-    $stmt->execute(array($group_name));
+    $stmt->execute(array($group_name, $invite_code));
 
     $chat_id = $pdo->lastInsertId();
 
@@ -114,7 +117,8 @@ try
         'success' => true,
         'message' => 'Gruppe erfolgreich erstellt',
         'chat_id' => intval($chat_id),
-        'chat_name' => $group_name
+        'chat_name' => $group_name,
+        'invite_code' => $invite_code
     ]);
 }
 catch (PDOException $e)
