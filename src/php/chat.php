@@ -310,6 +310,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <button onclick="addNote()" class="style-bold">Senden</button>
     </section>
 </aside>
+
 <section id="manageGroupModal" class="modal-overlay">
     <section class="modal-content popup-box">
         <button class="modal-close" onclick="closeManageGroup()">&times;</button>
@@ -330,6 +331,26 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         </section>
     </section>
 </section>
+
+<section id="editMessageModal" class="modal-overlay">
+    <section class="modal-content popup-box">
+        <button class="modal-close" onclick="closeEditMessage()">&times;</button>
+        <h2>Nachricht bearbeiten</h2>
+        <br>
+        <div id="edit-error" class="error-message hidden"></div>
+        <div id="edit-success" class="success-message hidden"></div>
+
+        <p><label for="editMessageText">Nachricht:</label></p>
+        <textarea id="editMessageText" rows="2" maxlength="5000" placeholder="Nachricht bearbeiten..."></textarea>
+        <br><br>
+
+        <section>
+            <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
+            <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
+        </section>
+    </section>
+</section>
+
 <script src="../js/chat-page.js"></script>
 </body>
 </html>

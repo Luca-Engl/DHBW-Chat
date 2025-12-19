@@ -2,6 +2,7 @@ let currentChatId = null;
 let currentChat = 'Globalchat';
 let messageCheckInterval = null;
 let currentManageGroupId = null;
+let editingMessageId = null;
 
 function escapeHtml(text) {
     const map = {
@@ -195,14 +196,50 @@ function loadMessages(chatId, isAutoReload)
 
                         const senderInfo = !isSent ? '<strong>' + escapeHtml(msg.sender_name) + '</strong><br>' : '';
 
+                        let editButton = '';
+                        if (isSent) {
+                            const contentBase64 = btoa(unescape(encodeURIComponent(msg.content)));
+                            editButton = `<button class="edit-message-btn" data-message-id="${msg.id}" data-content="${contentBase64}">✏️</button>`;
+                        }
+
+                        let timeDisplay = '';
+                        if (msg.edited_at) {
+                            const editDate = new Date(msg.edited_at);
+                            const editTimeString = editDate.getHours().toString().padStart(2, '0') + ':' +
+                                editDate.getMinutes().toString().padStart(2, '0');
+                            timeDisplay = `<span class="edited-time">${editTimeString} <span class="original-time">(${timeString})</span></span>`;
+                        } else {
+                            timeDisplay = `<span class="timestamp">${timeString}</span>`;
+                        }
+
+                        let footerContent = '';
+                        if (isSent) {
+                            footerContent = `
+        <section class="message-footer message-footer-sent">
+            <section class="message-footer-left">
+                ${editButton}
+            </section>
+            <section class="message-footer-right">
+                ${timeDisplay}
+            </section>
+        </section>
+    `;
+                        } else {
+                            footerContent = `
+        <section class="message-footer message-footer-received">
+            ${timeDisplay}
+        </section>
+    `;
+                        }
+
                         messagesHtml += `
-                        <section class="message ${messageClass}">
-                            <span class="timestamp">${timeString}</span>
-                            <section class="bubble">
-                                ${senderInfo}${escapeHtml(msg.content)}
-                            </section>
-                        </section>
-                    `;
+    <section class="message ${messageClass}" data-message-id="${msg.id}">
+        <section class="bubble">
+            ${senderInfo}${escapeHtml(msg.content)}
+        </section>
+        ${footerContent}
+    </section>
+`;
                     });
                 }
 
@@ -236,34 +273,18 @@ function loadMessages(chatId, isAutoReload)
                     const chatForm = document.getElementById('chatForm');
                     if (chatForm)
                     {
-                        chatForm.addEventListener('submit', function(e) {
-                            e.preventDefault();
-                            sendMessage(e);
-                        });
-                    }
-
-                    const chatInput = document.getElementById('chatmessage');
-                    if (chatInput)
-                    {
-                        chatInput.addEventListener('keydown', function(e)
+                        chatForm.addEventListener('submit', function(e)
                         {
-                            if (e.key === 'Enter' && !e.shiftKey)
-                            {
-                                e.preventDefault();
-                                sendMessage(e);
-                            }
+                            e.preventDefault();
+                            sendMessage();
                         });
                     }
                 }
 
-                if (wasAtBottom || !isAutoReload)
+                if (!isAutoReload || wasAtBottom)
                 {
-                    scrollToBottom();
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
                 }
-            }
-            else
-            {
-                console.error('Load messages failed:', data.message);
             }
         })
         .catch(function(error)
@@ -272,40 +293,25 @@ function loadMessages(chatId, isAutoReload)
         });
 }
 
-function scrollToBottom()
+function sendMessage()
 {
-    const chatHistory = document.getElementById("chat-history");
-    if (chatHistory)
-    {
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-    }
-}
+    const messageInput = document.getElementById('chatmessage');
+    const message = messageInput.value.trim();
 
-function sendMessage(event)
-{
-    if (event) event.preventDefault();
+    if (!message)
+    {
+        return;
+    }
 
     if (!currentChatId)
     {
-        return;
-    }
-
-    const inputField = document.getElementById("chatmessage");
-    if (!inputField) {
-        console.error('Input field not found!');
-        return;
-    }
-
-    const text = inputField.value.trim();
-
-    if (text === "")
-    {
+        alert('Bitte wähle einen Chat aus');
         return;
     }
 
     const formData = new FormData();
     formData.append('chat_id', currentChatId);
-    formData.append('content', text);
+    formData.append('content', message);
 
     fetch('/src/components/send_message.php', {
         method: 'POST',
@@ -314,7 +320,7 @@ function sendMessage(event)
         .then(function(response)
         {
             if (!response.ok) {
-                throw new Error('HTTP ' + response.status);
+                throw new Error('Server-Fehler: ' + response.status);
             }
             const contentType = response.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
@@ -326,23 +332,24 @@ function sendMessage(event)
         {
             if (data.success)
             {
-                inputField.value = "";
-                inputField.style.height = 'auto';
-                loadMessages(currentChatId);
+                messageInput.value = '';
+                loadMessages(currentChatId, true);
+            }
+            else
+            {
+                alert('Fehler: ' + data.message);
             }
         })
         .catch(function(error)
         {
             console.error('Error sending message:', error);
+            alert('Fehler beim Senden der Nachricht');
         });
 }
 
 function startAutoReload()
 {
-    if (messageCheckInterval)
-    {
-        clearInterval(messageCheckInterval);
-    }
+    stopAutoReload();
 
     messageCheckInterval = setInterval(function()
     {
@@ -375,9 +382,9 @@ function closeSettings()
 function openEditUsername()
 {
     document.getElementById('editUsernameModal').classList.add('active');
-    document.getElementById('newUsername').value = '';
     document.getElementById('username-error').classList.add('hidden');
     document.getElementById('username-success').classList.add('hidden');
+    document.getElementById('newUsername').value = '';
 }
 
 function closeEditUsername()
@@ -385,39 +392,11 @@ function closeEditUsername()
     document.getElementById('editUsernameModal').classList.remove('active');
 }
 
-function openEditEmail()
-{
-    document.getElementById('editEmailModal').classList.add('active');
-    document.getElementById('newEmail').value = '';
-    document.getElementById('email-error').classList.add('hidden');
-    document.getElementById('email-success').classList.add('hidden');
-}
-
-function closeEditEmail()
-{
-    document.getElementById('editEmailModal').classList.remove('active');
-}
-
-function openEditPassword()
-{
-    document.getElementById('editPasswordModal').classList.add('active');
-    document.getElementById('oldPassword').value = '';
-    document.getElementById('newPassword').value = '';
-    document.getElementById('newPasswordConfirm').value = '';
-    document.getElementById('password-error').classList.add('hidden');
-    document.getElementById('password-success').classList.add('hidden');
-}
-
-function closeEditPassword()
-{
-    document.getElementById('editPasswordModal').classList.remove('active');
-}
-
 function updateUsername()
 {
-    var newUsername = document.getElementById('newUsername').value.trim();
-    var errorDiv = document.getElementById('username-error');
-    var successDiv = document.getElementById('username-success');
+    const newUsername = document.getElementById('newUsername').value.trim();
+    const errorDiv = document.getElementById('username-error');
+    const successDiv = document.getElementById('username-success');
 
     errorDiv.classList.add('hidden');
     successDiv.classList.add('hidden');
@@ -429,7 +408,14 @@ function updateUsername()
         return;
     }
 
-    var formData = new FormData();
+    if (!/^[A-Za-z0-9]+$/.test(newUsername))
+    {
+        errorDiv.textContent = 'Nur Buchstaben und Zahlen erlaubt';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    const formData = new FormData();
     formData.append('action', 'update_username');
     formData.append('new_username', newUsername);
 
@@ -454,8 +440,10 @@ function updateUsername()
             {
                 successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
+
                 document.getElementById('username-display').textContent = data.new_username;
                 document.querySelector('.nav-username').textContent = data.new_username;
+
                 setTimeout(function()
                 {
                     closeEditUsername();
@@ -469,16 +457,30 @@ function updateUsername()
         })
         .catch(function(error)
         {
-            errorDiv.textContent = 'Ein Fehler ist aufgetreten';
+            console.error('Error updating username:', error);
+            errorDiv.textContent = 'Fehler beim Aktualisieren';
             errorDiv.classList.remove('hidden');
         });
 }
 
+function openEditEmail()
+{
+    document.getElementById('editEmailModal').classList.add('active');
+    document.getElementById('email-error').classList.add('hidden');
+    document.getElementById('email-success').classList.add('hidden');
+    document.getElementById('newEmail').value = '';
+}
+
+function closeEditEmail()
+{
+    document.getElementById('editEmailModal').classList.remove('active');
+}
+
 function updateEmail()
 {
-    var newEmail = document.getElementById('newEmail').value.trim();
-    var errorDiv = document.getElementById('email-error');
-    var successDiv = document.getElementById('email-success');
+    const newEmail = document.getElementById('newEmail').value.trim();
+    const errorDiv = document.getElementById('email-error');
+    const successDiv = document.getElementById('email-success');
 
     errorDiv.classList.add('hidden');
     successDiv.classList.add('hidden');
@@ -490,7 +492,7 @@ function updateEmail()
         return;
     }
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('action', 'update_email');
     formData.append('new_email', newEmail);
 
@@ -515,7 +517,9 @@ function updateEmail()
             {
                 successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
+
                 document.getElementById('email-display').textContent = data.new_email;
+
                 setTimeout(function()
                 {
                     closeEditEmail();
@@ -529,18 +533,34 @@ function updateEmail()
         })
         .catch(function(error)
         {
-            errorDiv.textContent = 'Ein Fehler ist aufgetreten';
+            console.error('Error updating email:', error);
+            errorDiv.textContent = 'Fehler beim Aktualisieren';
             errorDiv.classList.remove('hidden');
         });
 }
 
+function openEditPassword()
+{
+    document.getElementById('editPasswordModal').classList.add('active');
+    document.getElementById('password-error').classList.add('hidden');
+    document.getElementById('password-success').classList.add('hidden');
+    document.getElementById('oldPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('newPasswordConfirm').value = '';
+}
+
+function closeEditPassword()
+{
+    document.getElementById('editPasswordModal').classList.remove('active');
+}
+
 function updatePassword()
 {
-    var oldPassword = document.getElementById('oldPassword').value;
-    var newPassword = document.getElementById('newPassword').value;
-    var newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
-    var errorDiv = document.getElementById('password-error');
-    var successDiv = document.getElementById('password-success');
+    const oldPassword = document.getElementById('oldPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
+    const errorDiv = document.getElementById('password-error');
+    const successDiv = document.getElementById('password-success');
 
     errorDiv.classList.add('hidden');
     successDiv.classList.add('hidden');
@@ -559,7 +579,7 @@ function updatePassword()
         return;
     }
 
-    var formData = new FormData();
+    const formData = new FormData();
     formData.append('action', 'update_password');
     formData.append('old_password', oldPassword);
     formData.append('new_password', newPassword);
@@ -586,9 +606,7 @@ function updatePassword()
             {
                 successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
-                document.getElementById('oldPassword').value = '';
-                document.getElementById('newPassword').value = '';
-                document.getElementById('newPasswordConfirm').value = '';
+
                 setTimeout(function()
                 {
                     closeEditPassword();
@@ -602,7 +620,8 @@ function updatePassword()
         })
         .catch(function(error)
         {
-            errorDiv.textContent = 'Ein Fehler ist aufgetreten';
+            console.error('Error updating password:', error);
+            errorDiv.textContent = 'Fehler beim Aktualisieren';
             errorDiv.classList.remove('hidden');
         });
 }
@@ -611,7 +630,8 @@ function openAddContact()
 {
     document.getElementById('addContactModal').classList.add('active');
     const inputField = document.getElementById('contactInput');
-    if (inputField) {
+    if (inputField)
+    {
         inputField.value = '';
         inputField.style.borderColor = '';
     }
@@ -625,20 +645,17 @@ function closeAddContact()
 {
     document.getElementById('addContactModal').classList.remove('active');
     const inputField = document.getElementById('contactInput');
-    if(inputField) {
+    if (inputField)
+    {
         inputField.value = '';
         inputField.style.borderColor = '';
     }
-    const errorDiv = document.getElementById('contact-error');
-    const successDiv = document.getElementById('contact-success');
-    if (errorDiv) errorDiv.classList.add('hidden');
-    if (successDiv) successDiv.classList.add('hidden');
 }
 
 function addContact()
 {
     const inputField = document.getElementById('contactInput');
-    const input = inputField ? inputField.value.trim() : '';
+    const input = inputField.value.trim();
     const errorDiv = document.getElementById('contact-error');
     const successDiv = document.getElementById('contact-success');
 
@@ -847,6 +864,7 @@ function createGroup()
         errorDiv.classList.remove('hidden');
         return;
     }
+
     if (groupMembers.length === 0)
     {
         errorDiv.textContent = 'Bitte füge mindestens ein Mitglied hinzu!';
@@ -877,7 +895,7 @@ function createGroup()
         {
             if (data.success)
             {
-                successDiv.textContent = 'Gruppe "' + data.chat_name + '" erstellt!';
+                successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
 
                 setTimeout(function()
@@ -916,16 +934,18 @@ function createGroup()
 function openManageGroup(chatId, chatName)
 {
     currentManageGroupId = chatId;
+
+    document.getElementById('manageGroupModal').classList.add('active');
     document.getElementById('manageGroupTitle').textContent = 'Gruppe verwalten: ' + chatName;
-    document.getElementById('addMemberInput').value = '';
-    document.getElementById('addMemberInput').style.borderColor = '';
 
     const errorDiv = document.getElementById('manage-group-error');
     const successDiv = document.getElementById('manage-group-success');
     if (errorDiv) errorDiv.classList.add('hidden');
     if (successDiv) successDiv.classList.add('hidden');
 
-    document.getElementById('manageGroupModal').classList.add('active');
+    const inputField = document.getElementById('addMemberInput');
+    if (inputField) inputField.value = '';
+
     loadGroupMembers(chatId);
 }
 
@@ -958,7 +978,7 @@ function loadGroupMembers(chatId)
             {
                 if (data.members.length === 0)
                 {
-                    membersList.innerHTML = '<p style="color: #888;">Keine Mitglieder</p>';
+                    membersList.innerHTML = '<p style="color: #888;">Keine Mitglieder gefunden</p>';
                     return;
                 }
 
@@ -966,12 +986,12 @@ function loadGroupMembers(chatId)
                 data.members.forEach(function(member)
                 {
                     html += `
-                    <div class="member-item" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:8px; background:rgba(255,255,255,0.05); border-radius:8px;">
-                        <div style="flex:1;">
+                    <div class="member-item" style="display:flex; justify-content:space-between; align-items:center; padding:8px; border-bottom:1px solid #eee;">
+                        <div>
                             <strong>${escapeHtml(member.username)}</strong><br>
-                            <small style="color:#888;">${escapeHtml(member.email)}</small>
+                            <small style="color: #888;">${escapeHtml(member.email)}</small>
                         </div>
-                        <button class="member-remove button-secondary" onclick="removeGroupMember(${member.id})" title="Entfernen" style="padding:4px 10px; font-size:0.9rem;">Entfernen</button>
+                        <button class="button-secondary" onclick="removeGroupMember(${member.id}, '${escapeHtml(member.username)}')" style="padding:4px 8px;">Entfernen</button>
                     </div>
                     `;
                 });
@@ -980,54 +1000,43 @@ function loadGroupMembers(chatId)
             }
             else
             {
-                membersList.innerHTML = '<p style="color: #c33;">Fehler beim Laden</p>';
+                membersList.innerHTML = '<p style="color: #c33;">' + escapeHtml(data.message) + '</p>';
             }
         })
         .catch(function(error)
         {
             console.error('Error loading members:', error);
-            membersList.innerHTML = '<p style="color: #c33;">Fehler beim Laden</p>';
+            membersList.innerHTML = '<p style="color: #c33;">Fehler beim Laden der Mitglieder</p>';
         });
 }
 
 function addGroupMember()
 {
-    if (!currentManageGroupId)
-    {
-        return;
-    }
-
     const inputField = document.getElementById('addMemberInput');
-    const input = inputField.value.trim();
+    const memberInput = inputField.value.trim();
     const errorDiv = document.getElementById('manage-group-error');
     const successDiv = document.getElementById('manage-group-success');
 
     errorDiv.classList.add('hidden');
     successDiv.classList.add('hidden');
-    inputField.style.borderColor = '';
 
-    if (input === '')
+    if (!memberInput)
     {
         errorDiv.textContent = 'Bitte gib einen Benutzernamen oder E-Mail ein';
         errorDiv.classList.remove('hidden');
-        inputField.style.borderColor = '#c33';
         return;
     }
 
-    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input);
-    const isValidUsername = /^[A-Za-z0-9_.-]{3,30}$/.test(input);
-
-    if (!isValidEmail && !isValidUsername)
+    if (!currentManageGroupId)
     {
-        errorDiv.textContent = 'Ungültiger Benutzername oder E-Mail. Benutzername: 3-30 Zeichen (Buchstaben, Zahlen, _, -, .)';
+        errorDiv.textContent = 'Keine Gruppe ausgewählt';
         errorDiv.classList.remove('hidden');
-        inputField.style.borderColor = '#c33';
         return;
     }
 
     const formData = new FormData();
     formData.append('chat_id', currentManageGroupId);
-    formData.append('member_input', input);
+    formData.append('member_input', memberInput);
 
     fetch('/src/components/add_group_member.php', {
         method: 'POST',
@@ -1051,8 +1060,13 @@ function addGroupMember()
                 successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
                 inputField.value = '';
-                inputField.style.borderColor = '';
+
                 loadGroupMembers(currentManageGroupId);
+
+                setTimeout(function()
+                {
+                    successDiv.classList.add('hidden');
+                }, 3000);
             }
             else
             {
@@ -1063,14 +1077,14 @@ function addGroupMember()
         .catch(function(error)
         {
             console.error('Error adding member:', error);
-            errorDiv.textContent = 'Fehler beim Hinzufügen';
+            errorDiv.textContent = 'Fehler beim Hinzufügen des Mitglieds';
             errorDiv.classList.remove('hidden');
         });
 }
 
-function removeGroupMember(memberId)
+function removeGroupMember(memberId, memberName)
 {
-    if (!currentManageGroupId)
+    if (!confirm('Möchtest du ' + memberName + ' wirklich aus der Gruppe entfernen?'))
     {
         return;
     }
@@ -1106,8 +1120,13 @@ function removeGroupMember(memberId)
             {
                 successDiv.textContent = data.message;
                 successDiv.classList.remove('hidden');
+
                 loadGroupMembers(currentManageGroupId);
-                loadChats();
+
+                setTimeout(function()
+                {
+                    successDiv.classList.add('hidden');
+                }, 3000);
             }
             else
             {
@@ -1118,7 +1137,7 @@ function removeGroupMember(memberId)
         .catch(function(error)
         {
             console.error('Error removing member:', error);
-            errorDiv.textContent = 'Fehler beim Entfernen';
+            errorDiv.textContent = 'Fehler beim Entfernen des Mitglieds';
             errorDiv.classList.remove('hidden');
         });
 }
@@ -1126,10 +1145,14 @@ function removeGroupMember(memberId)
 function toggleImportantPanel()
 {
     const panel = document.getElementById('importantPanel');
-    panel.classList.toggle('active');
 
     if (panel.classList.contains('active'))
     {
+        panel.classList.remove('active');
+    }
+    else
+    {
+        panel.classList.add('active');
         loadNotes();
     }
 }
@@ -1139,13 +1162,14 @@ function addNote()
     const input = document.getElementById('newNoteInput');
     const text = input.value.trim();
 
-    if (text === '')
+    if (!text)
     {
         return;
     }
 
     if (!currentChatId)
     {
+        alert('Bitte wähle einen Chat aus');
         return;
     }
 
@@ -1313,11 +1337,81 @@ function autoResizeTextarea(textarea)
     textarea.style.height = Math.min(textarea.scrollHeight, parseInt(getComputedStyle(textarea).maxHeight)) + 'px';
 }
 
+function openEditMessage(messageId, currentContent) {
+    editingMessageId = messageId;
+    document.getElementById('editMessageModal').classList.add('active');
+    const textarea = document.getElementById('editMessageText');
+
+    if (currentContent) {
+        textarea.value = currentContent;
+    } else {
+        textarea.value = '';
+    }
+
+    document.getElementById('edit-error').classList.add('hidden');
+    document.getElementById('edit-success').classList.add('hidden');
+
+    setTimeout(function() {
+        autoResizeTextarea(textarea);
+        textarea.focus();
+    }, 100);
+}
+
+function closeEditMessage() {
+    document.getElementById('editMessageModal').classList.remove('active');
+    document.getElementById('editMessageText').value = '';
+    editingMessageId = null;
+}
+
+function saveEditedMessage() {
+    const newContent = document.getElementById('editMessageText').value.trim();
+    const errorDiv = document.getElementById('edit-error');
+    const successDiv = document.getElementById('edit-success');
+
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    if (!newContent) {
+        errorDiv.textContent = 'Nachricht darf nicht leer sein';
+        errorDiv.classList.remove('hidden');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('message_id', editingMessageId);
+    formData.append('content', newContent);
+
+    fetch('/src/components/edit_message.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                successDiv.textContent = 'Nachricht aktualisiert!';
+                successDiv.classList.remove('hidden');
+
+                setTimeout(() => {
+                    closeEditMessage();
+                    loadMessages(currentChatId, true);
+                }, 1000);
+            } else {
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            errorDiv.textContent = 'Fehler beim Bearbeiten';
+            errorDiv.classList.remove('hidden');
+        });
+}
+
 document.addEventListener('DOMContentLoaded', function()
 {
     loadChats();
 
-    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'manageGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal'];
+    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'manageGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal', 'editMessageModal'];
     modals.forEach(function(modalId)
     {
         const modal = document.getElementById(modalId);
@@ -1334,6 +1428,7 @@ document.addEventListener('DOMContentLoaded', function()
                     if(modalId === 'editUsernameModal') closeEditUsername();
                     if(modalId === 'editEmailModal') closeEditEmail();
                     if(modalId === 'editPasswordModal') closeEditPassword();
+                    if(modalId === 'editMessageModal') closeEditMessage();
                 }
             });
         }
@@ -1377,6 +1472,33 @@ document.addEventListener('DOMContentLoaded', function()
             }
         });
     }
+
+    const editMessageText = document.getElementById('editMessageText');
+    if (editMessageText)
+    {
+        editMessageText.addEventListener('input', function()
+        {
+            autoResizeTextarea(this);
+        });
+
+        editMessageText.addEventListener('keydown', function(e)
+        {
+            if (e.key === 'Enter' && !e.shiftKey)
+            {
+                e.preventDefault();
+                saveEditedMessage();
+            }
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('edit-message-btn')) {
+            const messageId = parseInt(e.target.getAttribute('data-message-id'));
+            const contentBase64 = e.target.getAttribute('data-content');
+            const content = decodeURIComponent(escape(atob(contentBase64)));
+            openEditMessage(messageId, content);
+        }
+    });
 });
 
 window.addEventListener('beforeunload', function()

@@ -49,17 +49,18 @@ try
     $stmt->execute(array($chat_id));
 
     $stmt = $pdo->prepare("
-        SELECT 
-            m.id,
-            m.content,
-            m.sent_at,
-            m.sender_id,
-            u.username as sender_name
-        FROM message m
-        INNER JOIN user u ON m.sender_id = u.id
-        WHERE m.chat_id = ?
-        ORDER BY m.sent_at ASC
-    ");
+    SELECT 
+        m.id,
+        m.content,
+        m.sent_at,
+        m.edited_at,
+        m.sender_id,
+        u.username as sender_name
+    FROM message m
+    INNER JOIN user u ON m.sender_id = u.id
+    WHERE m.chat_id = ?
+    ORDER BY m.sent_at ASC
+");
 
     $stmt->execute(array($chat_id));
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
