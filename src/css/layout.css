@@ -1418,6 +1418,19 @@ select:disabled {
     margin-right: auto;
 }
 
+/* In layout.css hinzufügen */
+
+.d-feature-text h2 {
+    width: 100%;
+    max-width: 700px; /* Gleiche Breite wie der Text darunter */
+    margin-left: auto; /* Zentriert die Box im Grid */
+    margin-right: auto; /* Zentriert die Box im Grid */
+
+    /* Falls du Abstände nach unten brauchst, behalte diese bei,
+       da h2 oft default margins hat */
+    margin-bottom: 3%; /* Entspricht z.B. deinem h2 margin im privacy-box style */
+}
+
 .d-feature-text h2,
 .d-feature-text p,
 .d-feature-text img {
