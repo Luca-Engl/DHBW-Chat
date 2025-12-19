@@ -851,7 +851,7 @@ button.modal-close:hover::after {
 
 .error-message {
     background: #fee;
-    color: #c33;
+    color: var(--error-color);
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -862,11 +862,10 @@ button.modal-close:hover::after {
 
 .success-message {
     background: #efe;
-    color: #2a7f2a;
+    color: var(--primary-button-color);
     padding: 15px;
     border-radius: 5px;
     margin-bottom: 20px;
-    border: 1px solid #cfc;
     text-align: center;
     font-weight: bold;
 }
@@ -1014,15 +1013,15 @@ select:disabled {
 }
 
 .toast-success {
-    background: #2a7f2a;
+    background: var(--primary-button-color);
 }
 
 .toast-error {
-    background: #c33;
+    background: var(--error-color);
 }
 
 .toast-info {
-    background: #2196F3;
+    background: var(--primary-button-color);
 }
 
 /* Delete Modal Button Container */
@@ -1257,7 +1256,7 @@ select:disabled {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: #c33;
+    background: var(--primary-button-color);
     color: white;
     padding: 15px 20px;
     border-radius: 5px;
@@ -1274,14 +1273,14 @@ select:disabled {
 }
 
 .modal-error {
-    color: #c33;
+    color: var(--error-color);
     font-size: 0.9rem;
     margin-top: 5px;
     display: none;
 }
 
 .modal-success {
-    color: #2a7f2a;
+    color: var(--primary-button-color);
     font-size: 0.9rem;
     margin-top: 5px;
     display: none;
