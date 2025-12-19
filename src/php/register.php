@@ -154,6 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                 <label>
                     <input type="email"
                            inputmode="email"
+                           maxlength="30"
                            id="displayname"
                            name="displayname"
                            placeholder=""
@@ -211,6 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            name="password"
                            placeholder=""
                            autocomplete="new-password"
+                           maxlength="30"
                            minlength="6">
                 </label>
 
@@ -223,6 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
                            name="password_rep"
                            placeholder=""
                            autocomplete="new-password"
+                           maxlength="30"
                            minlength="6">
                 </label>
 
