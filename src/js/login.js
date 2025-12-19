@@ -4,11 +4,13 @@
 
     let timer = null;
 
+    // Fehlermeldung ausblenden
     function hide() {
         if (!box) return;
         box.classList.add('is-hidden');
     }
 
+    // Fehlermeldung anzeigen
     function show(message) {
         if (!box || !text) return;
         text.textContent = message;
@@ -21,10 +23,11 @@
     window.hidePageError = hide;
     window.showPageError = show;
 
-    if (text && text.textContent.trim() !== '') {
+    if (text && text.textContent. trim() !== '') {
         timer = window.setTimeout(hide, 5000);
     }
 
+    // Login-Formular Validierung
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function (e) {
@@ -36,7 +39,7 @@
                 show('Bitte fülle alle Felder aus.');
                 return;
             }
-            if (!/^[A-Za-z0-9]+$/.test(username)) {
+            if (!/^[A-Za-z0-9]+$/. test(username)) {
                 e.preventDefault();
                 show('Benutzername darf nur Buchstaben und Zahlen enthalten.');
                 return;
@@ -54,14 +57,15 @@
         });
     }
 
-    // Auto-Großbuchstaben beim Code eingeben
+    // Gruppencode automatisch in Großbuchstaben umwandeln
     const groupcodeInput = document.getElementById('groupcode');
     if (groupcodeInput) {
-        groupcodeInput.addEventListener('input', function(e) {
+        groupcodeInput. addEventListener('input', function(e) {
             this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
         });
     }
 
+    // Gast-Formular Validierung und Code-Prüfung
     const guestForm = document.getElementById('guestForm');
     if (guestForm) {
         guestForm.addEventListener('submit', function (e) {
@@ -79,8 +83,8 @@
             }
 
             const submitBtn = guestForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.disabled = true;
+            const originalText = submitBtn. textContent;
+            submitBtn. disabled = true;
             submitBtn.textContent = 'Prüfe Code...';
 
             fetch('/src/components/validate_guest_code.php?code=' + encodeURIComponent(code))
@@ -90,7 +94,7 @@
                         window.location.href = 'chat.php?groupcode=' + code;
                     } else {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = originalText;
+                        submitBtn. textContent = originalText;
                         show(data.message || 'Ungültiger Code');
                     }
                 })

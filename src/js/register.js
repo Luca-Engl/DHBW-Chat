@@ -1,3 +1,4 @@
+// Studiengänge nach Fakultät gruppiert
 var coursesByFaculty = {
     'T': [
         {value: 'INF', name: 'Angewandte Informatik'},
@@ -9,25 +10,26 @@ var coursesByFaculty = {
     'W': [
         {value: 'BWL', name: 'BWL - Industrie'},
         {value: 'BWL-BANK', name: 'BWL - Bank'},
-        {value: 'BWL-DLM', name: 'BWL - Dienstleistungsmanagement'},
+        {value:  'BWL-DLM', name: 'BWL - Dienstleistungsmanagement'},
         {value: 'WINFO', name: 'Wirtschaftsinformatik'}
     ],
-    'S': [
+    'S':  [
         {value: 'SOZARB', name: 'Soziale Arbeit'},
         {value: 'SOZMAN', name: 'Sozialmanagement'},
         {value: 'SOZPAED', name: 'Sozialpädagogik'}
     ],
     'G': [
         {value: 'PFLEGE', name: 'Angewandte Gesundheitswissenschaften'},
-        {value: 'PHYSIO', name: 'Physiotherapie'},
+        {value:  'PHYSIO', name:  'Physiotherapie'},
         {value: 'INTERPFL', name: 'Interprofessionelle Gesundheitsversorgung'}
     ],
     'A': [
         {value: 'AGRAR', name: 'Agrarwirtschaft'},
-        {value: 'SONST', name: 'Sonstiges'}
+        {value:  'SONST', name:  'Sonstiges'}
     ]
 };
 
+// Fehlermeldung anzeigen
 function showError(message) {
     const existingError = document.querySelector('.error-message-box');
     if (existingError) {
@@ -61,12 +63,13 @@ function showError(message) {
     }
 }
 
+// Studiengänge basierend auf Fakultät aktualisieren
 function updateCourses() {
     var faculty = document.getElementById('faculty').value;
     var cursusSelect = document.getElementById('cursus');
     var yearSelect = document.getElementById('year');
 
-    cursusSelect.innerHTML = '<option value="">Studiengang wählen ...</option>';
+    cursusSelect. innerHTML = '<option value="">Studiengang wählen ...</option>';
     yearSelect.innerHTML = '<option value="">Erst Studiengang wählen ...</option>';
     yearSelect.disabled = true;
 
@@ -76,7 +79,7 @@ function updateCourses() {
         var courses = coursesByFaculty[faculty];
         for (var i = 0; i < courses.length; i++) {
             var option = document.createElement('option');
-            option.value = courses[i].value;
+            option.value = courses[i]. value;
             option.textContent = courses[i].name;
             cursusSelect.appendChild(option);
         }
@@ -86,6 +89,7 @@ function updateCourses() {
     }
 }
 
+// Jahrgänge basierend auf Studiengang aktualisieren
 function updateYear() {
     var cursus = document.getElementById('cursus').value;
     var yearSelect = document.getElementById('year');
@@ -105,6 +109,7 @@ function updateYear() {
     }
 }
 
+// Zum zweiten Schritt wechseln mit Validierung
 function showStep2() {
     var username = document.getElementById('username').value.trim();
     var email = document.getElementById('displayname').value.trim();
@@ -130,7 +135,7 @@ function showStep2() {
     }
 
     if (!faculty) {
-        showError('Bitte wähle eine Fakultät!');
+        showError('Bitte wähle eine Fakultät! ');
         return;
     }
 
@@ -151,10 +156,11 @@ function showStep2() {
     document.getElementById('password_rep').required = true;
 }
 
+// Zurück zum ersten Schritt
 function showStep1() {
     document.getElementById('step2').classList.add('hidden');
     document.getElementById('step1').classList.remove('hidden');
 
     document.getElementById('password').required = false;
-    document.getElementById('password_rep').required = false;
+    document. getElementById('password_rep').required = false;
 }
