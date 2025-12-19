@@ -550,6 +550,14 @@ button.modal-close:hover::after {
     background-color: var(--input-hover-shadow-color);
 }
 
+.chat-sidebar li.active-chat {
+    background-color: var(--input-hover-border-color);
+}
+
+.chat-sidebar li.active-chat:hover {
+    background-color: rgba(226, 0, 26, 0.7);
+}
+
 .chat-sidebar-buttons {
     display: flex;
     flex-direction: column;
@@ -1089,7 +1097,7 @@ select:disabled {
 #editMessageText:focus {
     outline: none;
     border-color: var(--input-focus-border-color);
-    box-shadow: 0 0 10px var(--input-focus-shadow-color);
+    box-shadow: 0 0 10px rgba(226, 0, 26, 0.7);
     background-color: var(--input-focus-background-color);
     transform: translateY(-2px);
 }
@@ -1669,7 +1677,7 @@ html {
 }
 
 .active-chat:hover {
-    background-color: var(--input-focus-shadow-color);
+    background-color: rgba(226, 0, 26, 0.7);
 }
 
 #newNoteInput {
