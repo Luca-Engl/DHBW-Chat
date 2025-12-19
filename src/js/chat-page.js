@@ -939,7 +939,7 @@ function updateMemberList()
         html += `
         <div class="member-item" style="display:flex; justify-content:space-between; margin-bottom:5px;">
             <span class="member-email">${escapeHtml(member)}</span>
-            <button class="member-remove button-secondary" onclick="removeMember('${escapeHtml(member)}')" title="Entfernen" style="padding:2px 8px; font-size:0.8rem;">×</button>
+            <button class="member-remove button-secondary" onclick="removeMember('${escapeHtml(member)}')" title="✖️ Entfernen" style="padding:2px 8px; font-size:0.8rem;">×</button>
         </div>
         `;
     });
@@ -1340,7 +1340,7 @@ function resetPendingGroupMemberRemoval() {
         pendingGroupMemberRemovalTimer = null;
     }
     if (pendingGroupMemberRemovalBtn) {
-        pendingGroupMemberRemovalBtn.textContent = 'Entfernen';
+        pendingGroupMemberRemovalBtn.textContent = '✖️ Entfernen';
         pendingGroupMemberRemovalBtn.classList.remove('button-danger');
         pendingGroupMemberRemovalBtn.removeAttribute('data-confirming');
     }
