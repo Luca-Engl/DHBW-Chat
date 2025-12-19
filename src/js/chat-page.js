@@ -346,6 +346,19 @@ function loadMessages(chatId, isAutoReload)
                             e.preventDefault();
                             sendMessage();
                         });
+
+                        const chatMessageInput = document.getElementById('chatmessage');
+                        if (chatMessageInput)
+                        {
+                            chatMessageInput.addEventListener('keydown', function(e)
+                            {
+                                if (e.key === 'Enter' && !e.shiftKey)
+                                {
+                                    e.preventDefault();
+                                    sendMessage();
+                                }
+                            });
+                        }
                     }
                 }
 
