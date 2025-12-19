@@ -159,11 +159,11 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <section class="nav-right">
             <?php if ($loggedIn): ?>
                 <a href="logout.php" class="font-secondary nav-logout margin-right-5">
-                    Abmelden
+                    🚪 Abmelden
                 </a>
             <?php elseif ($isGuest): ?>
                 <a href="logout.php" class="font-secondary nav-logout margin-right-5">
-                    Verlassen
+                    🚪 Verlassen
                 </a>
             <?php endif; ?>
 
@@ -202,7 +202,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <?php if (! $isGuest): ?>
             <section class="chat-sidebar-buttons">
                 <button class="button-secondary" onclick="openAddContact()">Kontakt hinzufügen</button>
-                <button class="button-secondary" onclick="openAddGroup()">Gruppe hinzufügen</button>
+                <button class="button-secondary" onclick="openAddGroup()">Gruppe erstellen</button>
 
                 <p class="margin-top-5 align-center">
                     <a href="legal_notice.php" class="font-secondary">Impressum</a>
@@ -228,17 +228,17 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 </button>
                 <h2 id="currentChatName"><?php echo $isGuest && $guestChatName ? htmlspecialchars($guestChatName) : 'Wähle einen Chat'; ?></h2>
                 <?php if (! $isGuest): ?>
-                    <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
-                        + Mitglied
+                    <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Gruppe verwalten">
+                        ⚙️ Verwalten
                     </button>
                 <?php endif; ?>
                 <h2 id="currentChatName">Wähle einen Chat</h2>
-                <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
-                    Gruppe verwalten
+                <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Gruppe verwalten">
+                    ⚙️ Verwalten
                 </button>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
-                📌 Ablage
+                📌 Wichtige Notizen
             </button>
         </section>
 
@@ -250,9 +250,9 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
                 <textarea id="chatmessage" maxlength="2048" name="chatmessage" rows="1"
-                          placeholder="Nachricht eingeben..."
+                          placeholder="Neue Nachricht eingeben ..."
                           inputmode="text" aria-label="Nachricht eingeben"></textarea>
-                <button type="submit" class="style-bold">Senden</button>
+                <button type="submit" class="style-bold">Senden  ➡ </button>
             </form>
         </section>
     </section>
@@ -264,7 +264,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
             <button class="modal-close" onclick="closeSettings()">&times;</button>
 
             <section class="align-left margin-top-5">
-                <h2 class="style-bold align-center margin-bottom-5">Einstellungen</h2>
+                <h2 class="style-bold align-center margin-bottom-5">Profileinstellungen</h2>
 
                 <section class="margin-bottom-3 settings-row">
                     <label class="style-bold">Profilbild:</label>
@@ -275,18 +275,18 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 </section>
 
                 <section class="margin-bottom-3 settings-row">
-                    <label class="style-bold">Username:</label>
+                    <label class="style-bold">Benutzername:</label>
                     <section class="settings-field">
                         <span id="username-display"><?php echo htmlspecialchars($currentUser); ?></span>
-                        <button type="button" class="button-secondary settings-edit" onclick="openEditUsername()">Bearbeiten</button>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditUsername()">✏️ Bearbeiten</button>
                     </section>
                 </section>
 
                 <section class="margin-bottom-3 settings-row">
-                    <label class="style-bold">Email:</label>
+                    <label class="style-bold">E-Mail-Adresse:</label>
                     <section class="settings-field">
                         <span id="email-display"><?php echo htmlspecialchars($currentEmail); ?></span>
-                        <button type="button" class="button-secondary settings-edit" onclick="openEditEmail()">Bearbeiten</button>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditEmail()">✏️ Bearbeiten</button>
                     </section>
                 </section>
 
@@ -294,7 +294,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                     <label class="style-bold">Passwort:</label>
                     <section class="settings-field">
                         <span id="password-display">••••••••</span>
-                        <button type="button" class="button-secondary settings-edit" onclick="openEditPassword()">Bearbeiten</button>
+                        <button type="button" class="button-secondary settings-edit" onclick="openEditPassword()">✏️ Bearbeiten</button>
                     </section>
                 </section>
             </section>
@@ -308,82 +308,86 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
             <br>
             <div id="username-error" class="error-message hidden"></div>
             <div id="username-success" class="success-message hidden"></div>
-            <p><label for="newUsername">Neuer Benutzername:</label></p>
-            <input type="text" id="newUsername" maxlength="30" pattern="[A-Za-z0-9]+" placeholder="Neuer Benutzername">
+            <p><label for="newUsername">Neuen Benutzernamen eingeben:</label></p>
+            <input type="text" id="newUsername" maxlength="30" pattern="[A-Za-z0-9]+" placeholder="">
             <br><br>
-            <button onclick="updateUsername()">Speichern</button>
+            <button onclick="updateUsername()">✔ Speichern</button>
         </section>
     </section>
 
     <section id="editEmailModal" class="modal-overlay">
         <section class="modal-content popup-box">
             <button class="modal-close" onclick="closeEditEmail()">&times;</button>
-            <h2>E-Mail ändern</h2>
+            <h2>E-Mail-Adresse ändern</h2>
             <br>
             <div id="email-error" class="error-message hidden"></div>
             <div id="email-success" class="success-message hidden"></div>
-            <p><label for="newEmail">Neue E-Mail:</label></p>
-            <input type="email" maxlength="30" id="newEmail" placeholder="neue@email.de">
+            <p><label for="newEmail">Neue E-Mail-Adresse eingeben:</label></p>
+            <input type="email" maxlength="30" id="newEmail" placeholder="">
             <br><br>
-            <button onclick="updateEmail()">Speichern</button>
+            <button onclick="updateEmail()">✔ Speichern</button>
         </section>
     </section>
 
     <section id="editPasswordModal" class="modal-overlay">
         <section class="modal-content popup-box">
             <button class="modal-close" onclick="closeEditPassword()">&times;</button>
-            <h2>Passwort ändern</h2>
+            <h2>Passwort bearbeiten:</h2>
             <br>
             <div id="password-error" class="error-message hidden"></div>
             <div id="password-success" class="success-message hidden"></div>
-            <p><label for="oldPassword">Altes Passwort:</label></p>
-            <input type="password" id="oldPassword" minlength="6" maxlength="30" placeholder="Altes Passwort">
+            <p><label for="oldPassword">Altes Passwort eingeben:</label></p>
+            <input type="password" id="oldPassword" minlength="6" maxlength="30" placeholder="">
             <br>
-            <p><label for="newPassword">Neues Passwort:</label></p>
-            <input type="password" id="newPassword" minlength="6" maxlength="30" placeholder="Neues Passwort">
+            <p><label for="newPassword">Neues Passwort eingeben:</label></p>
+            <input type="password" id="newPassword" minlength="6" maxlength="30" placeholder="">
             <br>
-            <p><label for="newPasswordConfirm">Passwort wiederholen:</label></p>
-            <input type="password" id="newPasswordConfirm" minlength="6" maxlength="30" placeholder="Passwort wiederholen">
+            <p><label for="newPasswordConfirm">Neues Passwort wiederholen:</label></p>
+            <input type="password" id="newPasswordConfirm" minlength="6" maxlength="30" placeholder="">
             <br><br>
-            <button onclick="updatePassword()">Speichern</button>
+            <button onclick="updatePassword()">✔ Speichern</button>
         </section>
     </section>
 
     <section id="addContactModal" class="modal-overlay">
         <section class="modal-content popup-box">
             <button class="modal-close" onclick="closeAddContact()">&times;</button>
-            <h2>Kontakt hinzufügen</h2>
+            <h2>Neuen Kontakt hinzufügen:</h2>
+            <br>
 
             <div id="contact-error" class="error-message hidden"></div>
             <div id="contact-success" class="success-message hidden"></div>
 
-            <p><label for="contactInput">Benutzername oder E-Mail:</label></p>
-            <input type="text" id="contactInput" maxlength="30" placeholder="z.B. max.mustermann oder max@dhbw.de">
+            <p><label for="contactInput">Benutzername oder E-Mail-Adresse eingeben:</label></p>
+            <input type="text" id="contactInput" maxlength="30" placeholder="">
             <br><br>
-            <button onclick="addContact()">Hinzufügen</button>
+            <button onclick="addContact()">✔ Kontakt hinzufügen</button>
         </section>
     </section>
 
     <section id="addGroupModal" class="modal-overlay">
         <section class="modal-content popup-box">
             <button class="modal-close" onclick="closeAddGroup()">&times;</button>
-            <h2>Gruppe erstellen</h2>
+            <h2>Neue Gruppe erstellen:</h2>
+            <br>
 
             <div id="group-error" class="error-message hidden"></div>
             <div id="group-success" class="success-message hidden"></div>
 
-            <p><label for="groupName">Gruppenname:</label></p>
-            <input type="text" id="groupName" maxlength="50" placeholder="z.B. Team DHBW">
+            <p><label for="groupName">Gruppenname eingeben:</label></p>
+            <input type="text" id="groupName" maxlength="15" placeholder="">
             <br><br>
             <p><label for="memberInput">Mitglieder hinzufügen:</label></p>
             <section style="display: flex; gap: 10px; align-items: center;">
-                <input type="text" id="memberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
-                <button class="button-secondary" onclick="addMemberToList()">+ Hinzufügen</button>
+                <input type="text" id="memberInput" maxlength="30" placeholder="" style="flex: 1;">
+                <button class="button-secondary" onclick="addMemberToList()">➕ Hinzufügen</button>
             </section>
             <br>
             <section id="memberList" style="max-height: 150px; overflow-y: auto;"></section>
             <br>
-            <button onclick="createGroup()">Gruppe erstellen</button>
+            <p class="font-error style-italic">Achtung: Alle hinzugefügten Mitglieder können die Gruppe und Mitglieder verwalten.</p>
+            <br>
+            <button onclick="createGroup()">✔ Gruppe erstellen</button>
         </section>
     </section>
 
@@ -395,21 +399,23 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
             <div id="manage-group-error" class="error-message hidden"></div>
             <div id="manage-group-success" class="success-message hidden"></div>
 
-            <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
-            <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
-                <p style="color: #888;">Lade Mitglieder...</p>
+            <h3 style="margin-top: 20px; margin-bottom: 10px;">Gruppenname bearbeiten:</h3>
+            <section style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                <input type="text" id="manageGroupNameInput" maxlength="15" placeholder="" style="flex: 1;">
+                <button class="button-secondary" type="button" onclick="updateGroupName()">✏️ Gruppenname aktualisieren</button>
             </section>
 
-            <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
+            <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglied hinzufügen:</h3>
             <section style="display: flex; gap: 10px; align-items: center;">
-                <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
-                <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
+                <input type="text" id="addMemberInput" maxlength="30" placeholder="" style="flex: 1;">
+                <button class="button-secondary" onclick="addGroupMember()">➕ Hinzufügen</button>
             </section>
-            <section class="settings-row margin-bottom-3">
-                <h3 class="style-bold">Einladungscode für Gäste</h3>
-                <p class="font-secondary" style="font-size: 0.9rem; margin-bottom: 10px;">
+
+            <section class="settings-row">
+                <h3 style="margin-top: 20px; margin-bottom: 10px;">Gast hinzufügen:</h3>
+                <p class="font-secondary" style="font-size: 0.9rem;">
                 </p>
-                <div style="display: flex; align-items: center; gap: 10px;">
+                <div style="display: flex; gap: 10px; align-items: center;">
                     <input
                             type="text"
                             id="inviteCodeDisplay"
@@ -422,12 +428,16 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                             class="button-secondary"
                             onclick="copyInviteCodeToClipboard()"
                             id="copyInviteCodeBtn"
-                            style="white-space: nowrap; min-width: auto;"
-                    >
-                        📋 Kopieren
+                    >📋 Code kopieren
                     </button>
                 </div>
             </section>
+
+            <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitgliederliste:</h3>
+            <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
+                <p style="color: #888;">Lade Mitglieder...</p>
+            </section>
+
         </section>
     </section>
 
@@ -439,13 +449,13 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
             <div id="edit-error" class="error-message hidden"></div>
             <div id="edit-success" class="success-message hidden"></div>
 
-            <p><label for="editMessageText">Nachricht:</label></p>
-            <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
+            <p><label for="editMessageText">Neue Nachricht eingeben:</label></p>
+            <textarea id="editMessageText" rows="2" maxlength="2048" placeholder=""></textarea>
             <br><br>
 
             <section>
-                <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
-                <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
+                <button onclick="saveEditedMessage()" class="style-bold">✔ Speichern</button>
+                <button onclick="closeEditMessage()" class="button-secondary">✖ Abbrechen</button>
             </section>
         </section>
     </section>
@@ -453,12 +463,12 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     <div id="deleteMessageModal" class="modal-overlay">
         <div class="modal-content popup-box">
             <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
-            <h2>Nachricht löschen?</h2>
-            <p>Möchtest du diese Nachricht wirklich löschen?</p>
+            <h2>Nachricht löschen</h2>
+            <p>Möchtest du diese Nachricht wirklich unwiderruflich löschen?</p>
             <div id="delete-error" class="error-message hidden"></div>
             <div class="button-container">
-                <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
-                <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
+                <button class="button-primary" onclick="confirmDeleteMessage()">✔ Löschen</button>
+                <button class="button-secondary" onclick="closeDeleteMessage()">✖ Abbrechen</button>
             </div>
         </div>
     </div>
@@ -470,11 +480,11 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <button class="panel-close-btn" onclick="toggleImportantPanel()">×</button>
     </section>
     <section id="notesList" class="notes-list">
-        <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
+        <p class="empty-state">Keine wichtigen Notizen für diesen Chat. Notiere dir etwas! :)</p>
     </section>
     <section class="note-input-container">
-        <textarea aria-label="Neue Notiz" maxlength="1024" id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
-        <button onclick="addNote()" class="style-bold">Senden</button>
+        <textarea aria-label="Neue Notiz" maxlength="1024" id="newNoteInput" placeholder="Neue Notiz hinzufügen ..." rows="1"></textarea>
+        <button onclick="addNote()" class="style-bold">Senden  ➡ </button>
     </section>
 </aside>
 
@@ -483,65 +493,6 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     var guestChatId = <?php echo $guestChatId ? $guestChatId : 'null'; ?>;
     var guestChatName = <?php echo $guestChatName ? '"' . addslashes($guestChatName) . '"' : 'null'; ?>;
 </script>
-<section id="manageGroupModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeManageGroup()">&times;</button>
-        <h2 id="manageGroupTitle">Gruppe verwalten</h2>
-
-        <div id="manage-group-error" class="error-message hidden"></div>
-        <div id="manage-group-success" class="success-message hidden"></div>
-
-        <h3 style="margin-top: 20px; margin-bottom: 10px;">Gruppenname</h3>
-        <section style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
-            <input type="text" id="manageGroupNameInput" maxlength="50" placeholder="Gruppenname" style="flex: 1;">
-            <button class="button-secondary" type="button" onclick="updateGroupName()">Speichern</button>
-        </section>
-
-        <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
-        <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
-            <p style="color: #888;">Lade Mitglieder...</p>
-        </section>
-
-        <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
-        <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
-            <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
-        </section>
-    </section>
-</section>
-
-<section id="editMessageModal" class="modal-overlay">
-    <section class="modal-content popup-box">
-        <button class="modal-close" onclick="closeEditMessage()">&times;</button>
-        <h2>Nachricht bearbeiten</h2>
-        <br>
-        <div id="edit-error" class="error-message hidden"></div>
-        <div id="edit-success" class="success-message hidden"></div>
-
-        <p><label for="editMessageText">Nachricht:</label></p>
-        <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
-        <br><br>
-
-        <section>
-            <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
-            <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
-        </section>
-    </section>
-</section>
-
-<div id="deleteMessageModal" class="modal-overlay">
-    <div class="modal-content popup-box">
-        <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
-        <h2>Nachricht löschen?</h2>
-        <p>Möchtest du diese Nachricht wirklich löschen?</p>
-        <div id="delete-error" class="error-message hidden"></div>
-        <div class="button-container">
-            <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
-            <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
-        </div>
-    </div>
-</div>
-
 
 <script src="../js/chat-page.js"></script>
 </body>

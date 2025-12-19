@@ -127,7 +127,7 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
     height: 100%;
 }
 
@@ -147,6 +147,11 @@ footer {
 .chat-nav-settings img:hover {
     transform: scale(1.05);
 }
+
+.nav-logout{
+    white-space: nowrap;
+}
+
 
 .chat-avatar {
     width:60px;
@@ -419,7 +424,6 @@ button.modal-close:hover::after {
 .settings-row {
     display: flex;
     flex-direction: column;
-    gap: 6px;
 }
 
 .settings-field {

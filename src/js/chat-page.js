@@ -99,11 +99,11 @@ function loadChats()
                     li.setAttribute('data-chat-type', chat.chat_type);
                     li.classList.add('chat-item');
 
-                    let icon = '💬';
+                    let icon = '💬 | ';
                     if (chat.chat_type === 'global') {
-                        icon = '🌍';
+                        icon = '🌐 | ';
                     } else if (chat.chat_type === 'group') {
-                        icon = '👥';
+                        icon = '👥 | ';
                     }
 
                     li.innerHTML = '<span class="chat-icon">' + icon + '</span><span class="chat-name">' + escapeHtml(chat.chat_name) + '</span>';
@@ -246,7 +246,7 @@ function loadMessages(chatId, isAutoReload)
 
                 if (data.messages.length === 0)
                 {
-                    messagesHtml = '<p style="text-align: center; color: #888; padding: 20px;">Noch keine Nachrichten. Schreibe die erste!</p>';
+                    messagesHtml = '<p style="text-align: center; color: #888; padding: 20px;">Hier sieht es leer aus ... Sei der erste, der eine Nachricht schreibt!</p>';
                 }
                 else
                 {
@@ -265,8 +265,8 @@ function loadMessages(chatId, isAutoReload)
                         let deleteButton = '';
                         if (isSent) {
                             const contentBase64 = btoa(unescape(encodeURIComponent(msg.content)));
-                            editButton = `<button class="edit-message-btn" data-message-id="${msg.id}" data-content="${contentBase64}" title="Bearbeiten">✏️</button>`;
-                            deleteButton = `<button class="delete-message-btn" data-message-id="${msg.id}" title="Löschen">🗑️</button>`;
+                            editButton = `<button class="edit-message-btn" data-message-id="${msg.id}" data-content="${contentBase64}" title="Nachricht bearbeiten">✏️</button>`;
+                            deleteButton = `<button class="delete-message-btn" data-message-id="${msg.id}" title="Nachricht löschen">🗑️</button>`;
                         }
 
                         let timeDisplay = '';
@@ -329,10 +329,10 @@ function loadMessages(chatId, isAutoReload)
                     messagesHtml += `
                     <form class="chat-input-container chat-input-floating" id="chatForm">
                         <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
-                        <textarea id="chatmessage" name="chatmessage" rows="2"
-                                  placeholder="Nachricht eingeben..."
+                        <textarea id="chatmessage" name="chatmessage" rows="1"
+                                  placeholder="Neue Nachricht eingeben ..."
                                   inputmode="text" aria-label="Nachricht eingeben"></textarea>
-                        <button type="submit" class="style-bold">Senden</button>
+                        <button type="submit" class="style-bold">Senden ➡ </button>
                     </form>
                 `;
 
@@ -1040,7 +1040,6 @@ function openManageGroup(chatId, chatName)
 {
     currentManageGroupId = chatId;
     document.getElementById('manageGroupModal').classList.add('active');
-    document.getElementById('manageGroupTitle').textContent = 'Gruppe verwalten: ' + chatName;
 
     const errorDiv = document.getElementById('manage-group-error');
     const successDiv = document.getElementById('manage-group-success');
@@ -1183,6 +1182,137 @@ function updateGroupName()
         });
 }
 
+function updateGroupName()
+{
+    const errorDiv = document.getElementById('manage-group-error');
+    const successDiv = document.getElementById('manage-group-success');
+    if (errorDiv) errorDiv.classList.add('hidden');
+    if (successDiv) successDiv.classList.add('hidden');
+
+    if (!currentManageGroupId)
+    {
+        if (errorDiv) {
+            errorDiv.textContent = 'Keine Gruppe ausgewählt';
+            errorDiv.classList.remove('hidden');
+        }
+        return;
+    }
+
+    const nameInput = document.getElementById('manageGroupNameInput');
+    const newName = (nameInput ? nameInput.value : '').trim();
+
+    if (!newName)
+    {
+        if (errorDiv) {
+            errorDiv.textContent = 'Bitte gib einen Gruppennamen ein';
+            errorDiv.classList.remove('hidden');
+        }
+        if (nameInput) nameInput.style.borderColor = '#c33';
+        return;
+    }
+
+    if (newName.length > 50)
+    {
+        if (errorDiv) {
+            errorDiv.textContent = 'Gruppenname darf maximal 50 Zeichen haben';
+            errorDiv.classList.remove('hidden');
+        }
+        if (nameInput) nameInput.style.borderColor = '#c33';
+        return;
+    }
+
+    if (nameInput) nameInput.style.borderColor = '';
+
+    const saveBtn = nameInput ? nameInput.parentElement.querySelector('button') : null;
+    if (saveBtn) saveBtn.disabled = true;
+
+    const formData = new FormData();
+    formData.append('chat_id', currentManageGroupId);
+    formData.append('chat_name', newName);
+
+    fetch('/src/components/update_group_name.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(function(response)
+        {
+            if (!response.ok) {
+                throw new Error('Server-Fehler: ' + response.status);
+            }
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('Server hat kein JSON zurückgegeben');
+            }
+            return response.json();
+        })
+        .then(function(data)
+        {
+            if (data && data.success)
+            {
+                const updatedName = data.chat_name || newName;
+
+                // Modal-Title aktualisieren
+                const titleEl = document.getElementById('manageGroupTitle');
+                if (titleEl) titleEl.textContent = 'Gruppe verwalten: ' + updatedName;
+
+                // Headline aktualisieren, wenn aktueller Chat
+                if (currentChatId === currentManageGroupId)
+                {
+                    currentChat = updatedName;
+                    const currentNameEl = document.getElementById('currentChatName');
+                    if (currentNameEl) currentNameEl.textContent = updatedName;
+                }
+
+                // Sidebar-Listeneintrag aktualisieren
+                const li = document.querySelector('#chatList li[data-chat-id="' + currentManageGroupId + '"]');
+                if (li)
+                {
+                    li.textContent = updatedName;
+                    li.setAttribute('data-chat-name', updatedName);
+                }
+
+                // Manage-Button Chat-Name updaten
+                const manageBtn = document.getElementById('manageGroupBtn');
+                if (manageBtn)
+                {
+                    manageBtn.setAttribute('data-chat-name', updatedName);
+                }
+
+                if (successDiv)
+                {
+                    successDiv.textContent = data.message || 'Gruppenname aktualisiert';
+                    successDiv.classList.remove('hidden');
+                    window.setTimeout(function()
+                    {
+                        successDiv.classList.add('hidden');
+                    }, 3000);
+                }
+
+                if (nameInput) nameInput.setAttribute('data-original', updatedName);
+            }
+            else
+            {
+                if (errorDiv)
+                {
+                    errorDiv.textContent = (data && data.message) ? data.message : 'Fehler beim Aktualisieren des Gruppennamens';
+                    errorDiv.classList.remove('hidden');
+                }
+            }
+        })
+        .catch(function(error)
+        {
+            console.error('Error updating group name:', error);
+            if (errorDiv)
+            {
+                errorDiv.textContent = 'Fehler beim Aktualisieren des Gruppennamens';
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .finally(function()
+        {
+            if (saveBtn) saveBtn.disabled = false;
+        });
+}
 
 function closeManageGroup()
 {
@@ -1236,7 +1366,7 @@ function loadGroupMembers(chatId)
                         </div>
                         <button class="button-secondary"
                         onclick="removeGroupMember(${member.id}, '${escapeHtml(member.username)}', this)"
-                        style="padding:4px 8px;">Entfernen</button>
+                        style="padding:4px 8px;">✖️ Entfernen</button>
                         </div>
                     `;
                 });
@@ -1362,7 +1492,7 @@ function removeGroupMember(memberId, memberName, buttonEl)
 
         if (pendingGroupMemberRemovalBtn)
         {
-            pendingGroupMemberRemovalBtn.textContent = 'Bestätigen';
+            pendingGroupMemberRemovalBtn.textContent = '✔️ Bestätigen';
             pendingGroupMemberRemovalBtn.classList.add('button-danger');
             pendingGroupMemberRemovalBtn.setAttribute('data-confirming', '1');
         }
@@ -1579,7 +1709,7 @@ function loadNotes()
 
                 if (data.notes.length === 0)
                 {
-                    list.innerHTML = '<p class="empty-state">Noch keine Notizen in diesem Chat</p>';
+                    list.innerHTML = '<p class="empty-state">Keine wichtigen Notizen für diesen Chat. Notiere dir etwas! :)</p>';
                     return;
                 }
 
@@ -1599,7 +1729,7 @@ function loadNotes()
                         <div class="note-content-full">
                             <p class="note-text">${escapeHtml(note.content)}</p>
                         </div>
-                        <button class="note-delete-btn-full" onclick="deleteNote(${note.id})" title="Löschen">×</button>
+                        <button class="note-delete-btn-full" onclick="deleteNote(${note.id})" title="Notiz löschen">×</button>
                     </div>
                 `;
                 }).join('');
