@@ -344,14 +344,24 @@ footer {
 }
 
 .info-box {
+    /* Layout-Basis von privacy-box */
+    flex: 1 1 40%;
+    max-width: 30%;
     border-radius: 7px;
-    transition: all 0.3s ease-in-out;
-    width: 320px;
+    text-align: center;
+    padding: 2%;
+
+    /* Standard-Status (Sichtbar & Positioniert ohne JS) */
+    opacity: 1;
+    transform: translateY(0);
+
+    /* WICHTIG: Das Easing für die Animation */
+    transition: all 0.4s ease-in-out;
 }
 
 .info-box:hover {
-    box-shadow: 0 0 35px rgba(0,0,0,0.6);
-    transform: translateY(-1px);
+    /* Hover-Effekt: Leichtes Anheben */
+    transform: scale(1.0) translateY(-10px);
 }
 
 .modal-overlay {
@@ -1991,7 +2001,7 @@ html {
         width: 100%;
         gap: 20px;
     }
-    .privacy-box {
+    .privacy-box, .info-box {  /* Hier .info-box hinzugefügt */
         flex: 1 1 100%;
         max-width: 100%;
         min-height: auto;
