@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../components/db_connect.php';
+
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
@@ -9,7 +11,8 @@ if (empty($_SESSION['loggedIn']) && empty($_SESSION['isGuest'])) {
 }
 
 $currentUser  = $_SESSION['username'] ?? 'Unbekannt';
-if (! empty($_SESSION['isGuest']) && ! empty($_SESSION['user_id'])) {
+
+if (!empty($_SESSION['isGuest']) && !empty($_SESSION['user_id']) && isset($pdo)) {
     try {
         $stmt = $pdo->prepare("DELETE FROM `user` WHERE id = ?  AND username LIKE 'Guest_%'");
         $stmt->execute([$_SESSION['user_id']]);
@@ -60,7 +63,7 @@ session_destroy();
         </section>
     </nav>
 </header>
-<body>
+
 <main class="img-background-login center-box">
     <a href="./index.php">
         <img src="../img/DHBW-Banner-Chat-Red.png" class="margin-top-10 img-logo-login" alt="DHBW-Chat-Logo">
