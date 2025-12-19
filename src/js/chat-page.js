@@ -19,6 +19,10 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+function escapeHtmlWithLineBreaks(text) {
+    return escapeHtml(text).replace(/\n/g, '<br>');
+}
+
 function validateId(id) {
     const num = parseInt(id);
     return !isNaN(num) && num > 0 ? num : null;
@@ -303,7 +307,7 @@ function loadMessages(chatId, isAutoReload)
                         messagesHtml += `
                             <section class="message ${messageClass}" data-message-id="${msg.id}">
                                 <section class="bubble">
-                                    ${senderInfo}${escapeHtml(msg.content)}
+                                    ${senderInfo}${escapeHtmlWithLineBreaks(msg.content)}
                                 </section>
                                 ${footerContent}
                             </section>
@@ -331,7 +335,8 @@ function loadMessages(chatId, isAutoReload)
                         <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
                         <textarea id="chatmessage" name="chatmessage" rows="1"
                                   placeholder="Neue Nachricht eingeben ..."
-                                  inputmode="text" aria-label="Nachricht eingeben"></textarea>
+                                  inputmode="text" aria-label="Nachricht eingeben"
+                                  style="max-height: 7.5em; overflow-y: auto;"></textarea>
                         <button type="submit" class="style-bold">Senden ➡ </button>
                     </form>
                 `;
@@ -346,6 +351,24 @@ function loadMessages(chatId, isAutoReload)
                             e.preventDefault();
                             sendMessage();
                         });
+
+                        const chatMessageInput = document.getElementById('chatmessage');
+                        if (chatMessageInput)
+                        {
+                            chatMessageInput.addEventListener('keydown', function(e)
+                            {
+                                if (e.key === 'Enter' && !e.shiftKey)
+                                {
+                                    e.preventDefault();
+                                    sendMessage();
+                                }
+                            });
+
+                            chatMessageInput.addEventListener('input', function()
+                            {
+                                autoResizeTextarea(this);
+                            });
+                        }
                     }
                 }
 
@@ -407,6 +430,7 @@ function sendMessage()
             if (data.success)
             {
                 messageInput.value = '';
+                messageInput.style.height = 'auto';
                 loadMessages(currentChatId, true);
             }
             else
@@ -1894,7 +1918,7 @@ function copyInviteCodeToClipboard()
                 copyBtn.style.background = '';
             }, 2000);
         } catch (err) {
-            alert('Code: ' + currentInviteCode);
+            showToast('Kopieren fehlgeschlagen. Code: ' + currentInviteCode, 'error');
         }
         document.body.removeChild(textArea);
     }
