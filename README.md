@@ -186,64 +186,21 @@ Klicke bei **"Username"** auf **"Bearbeiten"**
 ### E-Mail-Adresse ändern
 
 Klicke bei **"Email"** auf **"Bearbeiten"**
-
+![edit_profile_popup_edit_email.png](src/img/tutorial/edit_profile_popup_edit_email.png)
 
 ### Passwort ändern
 
 Klicke bei **"Passwort"** auf **"Bearbeiten"**
-
+![edit_profile_popup_edit_password.png](src/img/tutorial/edit_profile_popup_edit_password.png)
 
 ## Abmelden
 
 1. Klicke oben rechts auf **"Abmelden"**
-
+![logout.png](src/img/tutorial/logout.png)
 2. Du wirst automatisch ausgeloggt
 3. Weiterleitung zur Startseite erfolgt nach 2 Sekunden
 
 ---
-
-## Support und Hilfe
-
-**E-Mail**: support@dhbw-chat-fiktiv.de
-**Telefon**: +49 123 4567890
-
-**Weitere Informationen**:
-- Impressum: [legal_notice.php](legal_notice.php)
-- Datenschutz: [privacy.php](privacy.php)
-- FAQ: [help.php](help.php)
-
----
-
-## Funktionen
-
-### Benutzerauthentifizierung
-
-- Registrierung mit DHBW E-Mail-Adresse
-- Auswahl von Fakultät, Studiengang und Jahrgang
-- Sichere Passwort-Speicherung mit `password_hash()`
-- Session-basierte Authentifizierung
-
-### Gastzugang
-
-Nutzer können ohne Registrierung per Gruppencode beitreten:
-```
-chat.php?groupcode=ABC123
-```
-
-### Chat-System
-
-- Echtzeit-Nachrichtenaustausch
-- Globaler Chat für alle registrierten Nutzer
-- Private Direktnachrichten
-- Gruppenchats mit Mitgliederverwaltung
-- Wichtige Notizen / Ablage-Funktion
-
-### Profileinstellungen
-
-- Profilbild ändern
-- Benutzername bearbeiten
-- E-Mail-Adresse aktualisieren
-- Passwort ändern
 
 ## CSS-Architektur
 
