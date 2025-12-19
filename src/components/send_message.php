@@ -1,56 +1,21 @@
 <?php
-header('Content-Type: application/json');
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/chat_helpers.php';
+require_once __DIR__ . '/json_response.php';
 
-require_once __DIR__ . '/db_connect.php';
-
-if (session_status() !== PHP_SESSION_ACTIVE)
-{
-    session_start();
-}
-
-if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
-{
-    if (empty($_SESSION['isGuest']) || empty($_SESSION['user_id'])) {
-        echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
-        exit;
-    }
-}
-
-$user_id = $_SESSION['user_id'];
-$chat_id = isset($_POST['chat_id']) ? intval($_POST['chat_id']) : 0;
-$content = isset($_POST['content']) ? trim($_POST['content']) : '';
-
-if ($chat_id <= 0)
-{
-    echo json_encode(['success' => false, 'message' => 'Ungültige Chat-ID']);
-    exit;
-}
-
-if (empty($content))
-{
-    echo json_encode(['success' => false, 'message' => 'Nachricht darf nicht leer sein']);
-    exit;
-}
+$user_id = requireLoginOrGuest();
+$chat_id = validateChatId($_POST['chat_id'] ?? 0);
+$content = requireNotEmpty($_POST['content'] ?? '', 'Nachricht darf nicht leer sein');
 
 try
 {
-    $stmt = $pdo->prepare("
-        SELECT 1 FROM chat_participant 
-        WHERE chat_id = ? AND user_id = ?
-    ");
-    $stmt->execute(array($chat_id, $user_id));
-
-    if (!$stmt->fetch())
-    {
-        echo json_encode(['success' => false, 'message' => 'Kein Zugriff auf diesen Chat']);
-        exit;
-    }
+    requireChatAccess($pdo, $chat_id, $user_id);
 
     $stmt = $pdo->prepare("
         INSERT INTO message (chat_id, sender_id, content, sent_at)
         VALUES (?, ?, ?, NOW())
     ");
-
     $stmt->execute(array($chat_id, $user_id, $content));
 
     $message_id = $pdo->lastInsertId();
@@ -66,20 +31,15 @@ try
         INNER JOIN user u ON m.sender_id = u.id
         WHERE m.id = ?
     ");
-
     $stmt->execute(array($message_id));
     $message = $stmt->fetch();
 
-    echo json_encode([
-        'success' => true,
+    jsonSuccess([
         'message' => $message,
         'current_user_id' => $user_id
     ]);
 }
 catch (PDOException $e)
 {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Fehler beim Senden der Nachricht'
-    ]);
+    jsonError('Fehler beim Senden der Nachricht');
 }

@@ -1,46 +1,25 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/json_response.php';
 
-require_once __DIR__ . '/db_connect.php';
-
-if (session_status() !== PHP_SESSION_ACTIVE)
-{
-    session_start();
-}
-
-if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
-{
-    echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
+$user_id = requireLogin();
 $action = $_POST['action'] ?? '';
 
 try
 {
     if ($action === 'update_username')
     {
-        $new_username = trim($_POST['new_username'] ?? '');
-
-        if (empty($new_username))
-        {
-            echo json_encode(['success' => false, 'message' => 'Benutzername darf nicht leer sein']);
-            exit;
-        }
+        $new_username = requireNotEmpty($_POST['new_username'] ?? '', 'Benutzername darf nicht leer sein');
 
         if (!preg_match('/^[A-Za-z0-9]+$/', $new_username))
         {
-            echo json_encode(['success' => false, 'message' => 'Benutzername darf nur Buchstaben und Zahlen enthalten']);
-            exit;
+            jsonError('Benutzername darf nur Buchstaben und Zahlen enthalten');
         }
 
         if (strlen($new_username) > 30)
         {
-            echo json_encode(['success' => false, 'message' => 'Benutzername darf maximal 30 Zeichen haben']);
-            exit;
+            jsonError('Benutzername darf maximal 30 Zeichen haben');
         }
 
         $stmt = $pdo->prepare("SELECT id FROM `user` WHERE username = ? AND id != ?");
@@ -48,8 +27,7 @@ try
 
         if ($stmt->fetch())
         {
-            echo json_encode(['success' => false, 'message' => 'Benutzername bereits vergeben']);
-            exit;
+            jsonError('Benutzername bereits vergeben');
         }
 
         $stmt = $pdo->prepare("UPDATE `user` SET username = ? WHERE id = ?");
@@ -57,22 +35,15 @@ try
 
         $_SESSION['username'] = $new_username;
 
-        echo json_encode(['success' => true, 'message' => 'Benutzername erfolgreich geändert', 'new_username' => $new_username]);
+        jsonSuccess(['new_username' => $new_username], 'Benutzername erfolgreich geändert');
     }
     elseif ($action === 'update_email')
     {
-        $new_email = trim($_POST['new_email'] ?? '');
-
-        if (empty($new_email))
-        {
-            echo json_encode(['success' => false, 'message' => 'E-Mail darf nicht leer sein']);
-            exit;
-        }
+        $new_email = requireNotEmpty($_POST['new_email'] ?? '', 'E-Mail darf nicht leer sein');
 
         if (!filter_var($new_email, FILTER_VALIDATE_EMAIL))
         {
-            echo json_encode(['success' => false, 'message' => 'Ungültige E-Mail-Adresse']);
-            exit;
+            jsonError('Ungültige E-Mail-Adresse');
         }
 
         $stmt = $pdo->prepare("SELECT id FROM `user` WHERE email = ? AND id != ?");
@@ -80,14 +51,13 @@ try
 
         if ($stmt->fetch())
         {
-            echo json_encode(['success' => false, 'message' => 'E-Mail bereits vergeben']);
-            exit;
+            jsonError('E-Mail bereits vergeben');
         }
 
         $stmt = $pdo->prepare("UPDATE `user` SET email = ? WHERE id = ?");
         $stmt->execute(array($new_email, $user_id));
 
-        echo json_encode(['success' => true, 'message' => 'E-Mail erfolgreich geändert', 'new_email' => $new_email]);
+        jsonSuccess(['new_email' => $new_email], 'E-Mail erfolgreich geändert');
     }
     elseif ($action === 'update_password')
     {
@@ -97,8 +67,7 @@ try
 
         if (empty($old_password) || empty($new_password) || empty($new_password_confirm))
         {
-            echo json_encode(['success' => false, 'message' => 'Bitte fülle alle Felder aus']);
-            exit;
+            jsonError('Bitte fülle alle Felder aus');
         }
 
         $stmt = $pdo->prepare("SELECT password_hash FROM `user` WHERE id = ?");
@@ -107,20 +76,17 @@ try
 
         if (!$user || !password_verify($old_password, $user['password_hash']))
         {
-            echo json_encode(['success' => false, 'message' => 'Altes Passwort ist falsch']);
-            exit;
+            jsonError('Altes Passwort ist falsch');
         }
 
         if ($new_password !== $new_password_confirm)
         {
-            echo json_encode(['success' => false, 'message' => 'Neue Passwörter stimmen nicht überein']);
-            exit;
+            jsonError('Neue Passwörter stimmen nicht überein');
         }
 
         if (strlen($new_password) < 6)
         {
-            echo json_encode(['success' => false, 'message' => 'Neues Passwort muss mindestens 6 Zeichen lang sein']);
-            exit;
+            jsonError('Neues Passwort muss mindestens 6 Zeichen lang sein');
         }
 
         $new_password_hash = password_hash($new_password, PASSWORD_DEFAULT);
@@ -128,14 +94,14 @@ try
         $stmt = $pdo->prepare("UPDATE `user` SET password_hash = ? WHERE id = ?");
         $stmt->execute(array($new_password_hash, $user_id));
 
-        echo json_encode(['success' => true, 'message' => 'Passwort erfolgreich geändert']);
+        jsonSuccess([], 'Passwort erfolgreich geändert');
     }
     else
     {
-        echo json_encode(['success' => false, 'message' => 'Ungültige Aktion']);
+        jsonError('Ungültige Aktion');
     }
 }
 catch (PDOException $e)
 {
-    echo json_encode(['success' => false, 'message' => 'Ein Fehler ist aufgetreten']);
+    jsonError('Ein Fehler ist aufgetreten');
 }

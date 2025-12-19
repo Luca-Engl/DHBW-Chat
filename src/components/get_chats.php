@@ -1,22 +1,9 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/json_response.php';
 
-require_once __DIR__ . '/db_connect.php';
-
-if (session_status() !== PHP_SESSION_ACTIVE)
-{
-    session_start();
-}
-
-if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
-{
-    echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
+$user_id = requireLogin();
 
 try
 {
@@ -28,18 +15,11 @@ try
         ORDER BY c.id ASC
     ");
     $stmt->execute(array($user_id));
-
     $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode([
-        'success' => true,
-        'chats' => $chats
-    ]);
+    jsonSuccess(['chats' => $chats]);
 }
 catch (PDOException $e)
 {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Fehler beim Laden der Chats'
-    ]);
+    jsonError('Fehler beim Laden der Chats');
 }

@@ -1,24 +1,21 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
-
-require_once __DIR__ . '/db_connect.php';
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/json_response.php';
 
 $code = isset($_GET['code']) ? strtoupper(trim($_GET['code'])) : '';
 
-if (empty($code)) {
-    echo json_encode(['success' => false, 'message' => 'Kein Code angegeben']);
-    exit;
+if (empty($code))
+{
+    jsonError('Kein Code angegeben');
 }
 
-// Code validieren
-if (!preg_match('/^[A-Z0-9]{6}$/', $code)) {
-    echo json_encode(['success' => false, 'message' => 'Ungültiges Code-Format']);
-    exit;
+if (!preg_match('/^[A-Z0-9]{6}$/', $code))
+{
+    jsonError('Ungültiges Code-Format');
 }
 
-try {
+try
+{
     $stmt = $pdo->prepare("
         SELECT id, chat_name 
         FROM chat 
@@ -27,17 +24,16 @@ try {
     $stmt->execute([$code]);
     $chat = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($chat) {
-        echo json_encode([
-            'success' => true,
-            'chat_name' => $chat['chat_name']
-        ]);
-    } else {
-        echo json_encode([
-            'success' => false,
-            'message' => 'Ungültiger Code'
-        ]);
+    if ($chat)
+    {
+        jsonSuccess(['chat_name' => $chat['chat_name']]);
     }
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Datenbankfehler']);
+    else
+    {
+        jsonError('Ungültiger Code');
+    }
+}
+catch (PDOException $e)
+{
+    jsonError('Datenbankfehler');
 }
