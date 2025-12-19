@@ -594,6 +594,21 @@ button.modal-close:hover::after {
     cursor: pointer;
 }
 
+.error-message.is-hidden {
+    display: none;
+}
+
+.error-message {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.error-message > span {
+    flex: 1;
+}
+
 .privacy-container {
     display: flex;
     align-items: stretch;

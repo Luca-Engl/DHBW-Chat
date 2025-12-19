@@ -160,7 +160,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
-                <textarea id="chatmessage" name="chatmessage" rows="1"
+                <textarea id="chatmessage" maxlength="2048" name="chatmessage" rows="1"
                           placeholder="Nachricht eingeben..."
                           inputmode="text" aria-label="Nachricht eingeben"></textarea>
                 <button type="submit" class="style-bold">Senden</button>
@@ -233,7 +233,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <div id="email-error" class="error-message hidden"></div>
         <div id="email-success" class="success-message hidden"></div>
         <p><label for="newEmail">Neue E-Mail:</label></p>
-        <input type="email" id="newEmail" placeholder="neue@email.de">
+        <input type="email" maxlength="30" id="newEmail" placeholder="neue@email.de">
         <br><br>
         <button onclick="updateEmail()">Speichern</button>
     </section>
@@ -247,13 +247,13 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <div id="password-error" class="error-message hidden"></div>
         <div id="password-success" class="success-message hidden"></div>
         <p><label for="oldPassword">Altes Passwort:</label></p>
-        <input type="password" id="oldPassword" placeholder="Altes Passwort">
+        <input type="password" id="oldPassword" minlength="6" maxlength="30" placeholder="Altes Passwort">
         <br>
         <p><label for="newPassword">Neues Passwort:</label></p>
-        <input type="password" id="newPassword" minlength="6" placeholder="Neues Passwort">
+        <input type="password" id="newPassword" minlength="6" maxlength="30" placeholder="Neues Passwort">
         <br>
         <p><label for="newPasswordConfirm">Passwort wiederholen:</label></p>
-        <input type="password" id="newPasswordConfirm" minlength="6" placeholder="Passwort wiederholen">
+        <input type="password" id="newPasswordConfirm" minlength="6" maxlength="30" placeholder="Passwort wiederholen">
         <br><br>
         <button onclick="updatePassword()">Speichern</button>
     </section>
@@ -268,7 +268,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <div id="contact-success" class="success-message hidden"></div>
 
         <p><label for="contactInput">Benutzername oder E-Mail:</label></p>
-        <input type="text" id="contactInput" placeholder="z.B. max.mustermann oder max@dhbw.de">
+        <input type="text" id="contactInput" maxlength="30" placeholder="z.B. max.mustermann oder max@dhbw.de">
         <br><br>
         <button onclick="addContact()">Hinzufügen</button>
     </section>
@@ -283,11 +283,11 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <div id="group-success" class="success-message hidden"></div>
 
         <p><label for="groupName">Gruppenname:</label></p>
-        <input type="text" id="groupName" placeholder="z.B. Team DHBW">
+        <input type="text" minlength="15" id="groupName" placeholder="z.B. Team DHBW">
         <br><br>
         <p><label for="memberInput">Mitglieder hinzufügen:</label></p>
         <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="memberInput" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+            <input type="text" id="memberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
             <button class="button-secondary" onclick="addMemberToList()">+ Hinzufügen</button>
         </section>
         <br>
@@ -306,7 +306,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <p class="empty-state">Keine wichtigen Notizen für diesen Chat</p>
     </section>
     <section class="note-input-container">
-        <textarea aria-label="Neue Notiz" id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
+        <textarea aria-label="Neue Notiz" maxlength="1024" id="newNoteInput" placeholder="Neue Notiz..." rows="1"></textarea>
         <button onclick="addNote()" class="style-bold">Senden</button>
     </section>
 </aside>
@@ -326,7 +326,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
         <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
         <section style="display: flex; gap: 10px; align-items: center;">
-            <input type="text" id="addMemberInput" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+            <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
             <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
         </section>
     </section>
@@ -341,7 +341,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         <div id="edit-success" class="success-message hidden"></div>
 
         <p><label for="editMessageText">Nachricht:</label></p>
-        <textarea id="editMessageText" rows="2" maxlength="5000" placeholder="Nachricht bearbeiten..."></textarea>
+        <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
         <br><br>
 
         <section>
