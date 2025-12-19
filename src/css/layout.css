@@ -2033,7 +2033,7 @@ html {
         flex-direction: column;
         padding: 0 5%;
         gap: 20px;
-        margin-bottom: 30px;
+        margin-bottom: 20px !important;
     }
     .privacy-row {
         flex-direction: column;
@@ -2045,6 +2045,8 @@ html {
         max-width: 100%;
         min-height: auto;
         padding: 5%;
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
     }
     .fixed-height-13rem,
     .fixed-height-10rem {
