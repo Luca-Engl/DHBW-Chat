@@ -144,17 +144,6 @@ Die Anwendung verwendet CSS Custom Properties für konsistentes Theming:
 - **XSS-Schutz**: Output-Encoding mit `htmlspecialchars()`
 - **IP-Logging**: Temporäre Speicherung (max. 24h) zur Missbrauchsprävention
 
-## Entwicklung
-
-### Debug-Modus
-
-Für Entwicklungszwecke existiert ein Force-Login:
-```
-index.php?forceLogin=1
-```
-
-> ⚠️ **Wichtig**: Diese Funktion vor dem Produktivbetrieb entfernen!
-
 ### Datenbanktest
 
 Die Datei `test.php` prüft die PHP-Konfiguration und Datenbankverbindung.

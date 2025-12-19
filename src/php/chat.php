@@ -160,7 +160,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
-                <textarea id="chatmessage" maxlength="2048" name="chatmessage" rows="2"
+                <textarea id="chatmessage" maxlength="2048" name="chatmessage" rows="1"
                           placeholder="Nachricht eingeben..."
                           inputmode="text" aria-label="Nachricht eingeben"></textarea>
                 <button type="submit" class="style-bold">Senden</button>
@@ -350,6 +350,20 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
         </section>
     </section>
 </section>
+
+<div id="deleteMessageModal" class="modal-overlay">
+    <div class="modal-content popup-box">
+        <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
+        <h2>Nachricht löschen?</h2>
+        <p>Möchtest du diese Nachricht wirklich löschen?</p>
+        <div id="delete-error" class="error-message hidden"></div>
+        <div class="button-container">
+            <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
+            <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
+        </div>
+    </div>
+</div>
+
 
 <script src="../js/chat-page.js"></script>
 </body>

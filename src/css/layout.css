@@ -553,17 +553,6 @@ button.modal-close:hover::after {
     height: 100%;
 }
 
-#chatmessage {
-    field-sizing: content;
-    max-height: 9em;
-    min-height: 3rem;
-    width: 100%;
-    box-sizing: border-box;
-    line-height: 1.5;
-    padding: 0.75rem;
-    resize: none;
-    overflow-y: auto;
-}
 
 .chat-content-area {
     flex: 1;
@@ -686,11 +675,15 @@ button.modal-close:hover::after {
 .chat-input-container textarea {
     flex: 1;
     max-width: 100%;
-    min-height: 30px;
-    max-height: 50px;
+    min-height: 50px;  /* geändert von 30px auf 45px */
+    max-height: 120px;  /* geändert von 50px auf 120px */
+    padding: 10px;  /* hinzugefügt für konsistentes padding */
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
-    overflow-y: hidden;
+    line-height: 1.5;  /* hinzugefügt für konsistente Zeilenhöhe */
+    overflow-y: auto;  /* geändert von hidden auf auto */
+    resize: none;  /* hinzugefügt */
+    border-radius: 8px;  /* hinzugefügt für konsistentes Design */
 }
 
 .chat-input-floating {
@@ -823,6 +816,14 @@ button.modal-close:hover::after {
 .panel-close-btn:hover {
     transform: rotate(90deg);
     color: var(--primary-button-color);
+    background: transparent;
+    box-shadow: none;
+}
+
+.panel-close-btn::after,
+.panel-close-btn:hover::after {
+    display: none !important;
+    content: none;
 }
 
 .important-panel-content {
@@ -869,6 +870,14 @@ select:disabled {
     cursor: not-allowed;
 }
 
+/* Message Container mit erweiterten Hover-Bereich */
+.message {
+    position: relative;
+    padding: 5px 10px;
+    margin: -5px -10px;
+}
+
+/* Edit Button - versteckt bis Hover */
 .edit-message-btn {
     background: transparent;
     border: none;
@@ -876,7 +885,12 @@ select:disabled {
     cursor: pointer;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
-    transition: color 0.2s, transform 0.2s;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, transform 0.2s;
+}
+
+.message:hover .edit-message-btn {
+    opacity: 1;
 }
 
 .edit-message-btn:hover {
@@ -885,6 +899,31 @@ select:disabled {
 }
 
 .edit-message-btn::after {
+    display: none;
+}
+
+/* Delete Button - versteckt bis Hover */
+.delete-message-btn {
+    background: transparent;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, transform 0.2s;
+}
+
+.message:hover .delete-message-btn {
+    opacity: 1;
+}
+
+.delete-message-btn:hover {
+    color: #c33;
+    transform: translateY(-1px);
+}
+
+.delete-message-btn::after {
     display: none;
 }
 
@@ -912,6 +951,8 @@ select:disabled {
     white-space: nowrap;
     flex-shrink: 0;
 }
+
+/* Message Footer */
 .message-footer {
     display: flex;
     align-items: center;
@@ -937,6 +978,48 @@ select:disabled {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10000;
+    transition: right 0.3s ease;
+    min-width: 200px;
+}
+
+.toast.show {
+    right: 20px;
+}
+
+.toast-success {
+    background: #2a7f2a;
+}
+
+.toast-error {
+    background: #c33;
+}
+
+.toast-info {
+    background: #2196F3;
+}
+
+/* Delete Modal Button Container */
+#deleteMessageModal .button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#deleteMessageModal .button-container button {
+    flex: 1;
 }
 
 .edited-time {
@@ -1116,11 +1199,25 @@ select:disabled {
 .note-input-container {
     display: flex;
     gap: 10px;
-    padding: 15px;
-    border-top: 2px solid rgba(255,255,255,0.1);
-    border-bottom: none;
+    padding: 10px 14px;
+
+    /* NEU: Floating-Style wie beim Chat-Input */
+    margin: 0 20px 20px 20px; /* 20px Abstand zum Rand und Boden */
+    border-radius: 18px;
+    background: var(--chat-input-color);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    border: none; /* Alten Rand oben entfernen */
+    transition: all 0.3s ease-in-out;
+
     flex-shrink: 0;
     align-items: center;
+}
+
+/* NEU: Hover-Effekt passend zum Chat-Input */
+.note-input-container:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 }
 
 .note-input-container textarea {
@@ -1128,11 +1225,12 @@ select:disabled {
     padding: 10px;
     border-radius: 8px;
     resize: none;
-    height: 45px;
+    min-height: 50px;  /* geändert von height auf min-height */
     max-height: 120px;
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
     line-height: 1.5;
+    overflow-y: auto;  /* hinzugefügt für Konsistenz */
 }
 
 .note-input-container button {
@@ -1474,12 +1572,6 @@ select:disabled {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.message {
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
 }
 
 .message.received {
@@ -2042,7 +2134,7 @@ html {
         padding: 3px 8px;
         font-size: 0.75rem;
     }
-    .edit-message-btn {
+    .edit-message-btn, .delete-message-btn {
         font-size: 14px;
         padding: 3px 6px;
     }
