@@ -867,7 +867,7 @@ button.modal-close:hover::after {
 }
 
 .success-message {
-    background: #efe;
+    background: #fee;
     color: var(--primary-button-color);
     padding: 15px;
     border-radius: 5px;
