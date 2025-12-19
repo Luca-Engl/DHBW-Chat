@@ -232,6 +232,10 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                         + Mitglied
                     </button>
                 <?php endif; ?>
+                <h2 id="currentChatName">Wähle einen Chat</h2>
+                <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
+                    Gruppe verwalten
+                </button>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
                 📌 Ablage
@@ -479,6 +483,66 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     var guestChatId = <?php echo $guestChatId ? $guestChatId : 'null'; ?>;
     var guestChatName = <?php echo $guestChatName ? '"' . addslashes($guestChatName) . '"' : 'null'; ?>;
 </script>
+<section id="manageGroupModal" class="modal-overlay">
+    <section class="modal-content popup-box">
+        <button class="modal-close" onclick="closeManageGroup()">&times;</button>
+        <h2 id="manageGroupTitle">Gruppe verwalten</h2>
+
+        <div id="manage-group-error" class="error-message hidden"></div>
+        <div id="manage-group-success" class="success-message hidden"></div>
+
+        <h3 style="margin-top: 20px; margin-bottom: 10px;">Gruppenname</h3>
+        <section style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+            <input type="text" id="manageGroupNameInput" maxlength="50" placeholder="Gruppenname" style="flex: 1;">
+            <button class="button-secondary" type="button" onclick="updateGroupName()">Speichern</button>
+        </section>
+
+        <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
+        <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
+            <p style="color: #888;">Lade Mitglieder...</p>
+        </section>
+
+        <h3 style="margin-bottom: 10px;">Mitglied hinzufügen</h3>
+        <section style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" id="addMemberInput" maxlength="30" placeholder="Benutzername oder E-Mail" style="flex: 1;">
+            <button class="button-secondary" onclick="addGroupMember()">+ Hinzufügen</button>
+        </section>
+    </section>
+</section>
+
+<section id="editMessageModal" class="modal-overlay">
+    <section class="modal-content popup-box">
+        <button class="modal-close" onclick="closeEditMessage()">&times;</button>
+        <h2>Nachricht bearbeiten</h2>
+        <br>
+        <div id="edit-error" class="error-message hidden"></div>
+        <div id="edit-success" class="success-message hidden"></div>
+
+        <p><label for="editMessageText">Nachricht:</label></p>
+        <textarea id="editMessageText" rows="2" maxlength="2048" placeholder="Nachricht bearbeiten..."></textarea>
+        <br><br>
+
+        <section>
+            <button onclick="saveEditedMessage()" class="style-bold">Speichern</button>
+            <button onclick="closeEditMessage()" class="button-secondary">Abbrechen</button>
+        </section>
+    </section>
+</section>
+
+<div id="deleteMessageModal" class="modal-overlay">
+    <div class="modal-content popup-box">
+        <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
+        <h2>Nachricht löschen?</h2>
+        <p>Möchtest du diese Nachricht wirklich löschen?</p>
+        <div id="delete-error" class="error-message hidden"></div>
+        <div class="button-container">
+            <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
+            <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
+        </div>
+    </div>
+</div>
+
+
 <script src="../js/chat-page.js"></script>
 </body>
 </html>
