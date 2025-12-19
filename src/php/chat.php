@@ -145,7 +145,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 </button>
                 <h2 id="currentChatName">Wähle einen Chat</h2>
                 <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
-                    + Mitglied
+                    Gruppe verwalten
                 </button>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
