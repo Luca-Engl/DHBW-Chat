@@ -10,9 +10,11 @@ if (empty($_SESSION['loggedIn']) && empty($_SESSION['isGuest'])) {
     exit;
 }
 
-$currentUser  = $_SESSION['username'] ?? 'Unbekannt';
+$isGuest = !empty($_SESSION['isGuest']);
 
-if (!empty($_SESSION['isGuest']) && !empty($_SESSION['user_id']) && isset($pdo)) {
+$currentUser = $isGuest ? 'Gast' : ($_SESSION['username'] ?? 'Unbekannt');
+
+if ($isGuest && !empty($_SESSION['user_id']) && isset($pdo)) {
     try {
         $stmt = $pdo->prepare("DELETE FROM `user` WHERE id = ?  AND username LIKE 'Guest_%'");
         $stmt->execute([$_SESSION['user_id']]);

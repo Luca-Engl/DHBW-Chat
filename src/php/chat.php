@@ -176,7 +176,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 </a>
             <?php else: ?>
                 <span class="nav-username margin-right-5 style-bold">
-                    Gastaccount
+                    Gast
                 </span>
                 <span class="nav-settings">
                     <img src="../img/default-avatar.png" alt="User-Avatar">
