@@ -553,17 +553,6 @@ button.modal-close:hover::after {
     height: 100%;
 }
 
-#chatmessage {
-    field-sizing: content;
-    max-height: 9em;
-    min-height: 3rem;
-    width: 100%;
-    box-sizing: border-box;
-    line-height: 1.5;
-    padding: 0.75rem;
-    resize: none;
-    overflow-y: auto;
-}
 
 .chat-content-area {
     flex: 1;
@@ -671,11 +660,15 @@ button.modal-close:hover::after {
 .chat-input-container textarea {
     flex: 1;
     max-width: 100%;
-    min-height: 30px;
-    max-height: 50px;
+    min-height: 50px;  /* geändert von 30px auf 45px */
+    max-height: 120px;  /* geändert von 50px auf 120px */
+    padding: 10px;  /* hinzugefügt für konsistentes padding */
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
-    overflow-y: hidden;
+    line-height: 1.5;  /* hinzugefügt für konsistente Zeilenhöhe */
+    overflow-y: auto;  /* geändert von hidden auf auto */
+    resize: none;  /* hinzugefügt */
+    border-radius: 8px;  /* hinzugefügt für konsistentes Design */
 }
 
 .chat-input-floating {
@@ -1101,11 +1094,25 @@ select:disabled {
 .note-input-container {
     display: flex;
     gap: 10px;
-    padding: 15px;
-    border-top: 2px solid rgba(255,255,255,0.1);
-    border-bottom: none;
+    padding: 10px 14px;
+
+    /* NEU: Floating-Style wie beim Chat-Input */
+    margin: 0 20px 20px 20px; /* 20px Abstand zum Rand und Boden */
+    border-radius: 18px;
+    background: var(--chat-input-color);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.3);
+    border: none; /* Alten Rand oben entfernen */
+    transition: all 0.3s ease-in-out;
+
     flex-shrink: 0;
     align-items: center;
+}
+
+/* NEU: Hover-Effekt passend zum Chat-Input */
+.note-input-container:hover {
+    backdrop-filter: blur(8px);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 }
 
 .note-input-container textarea {
@@ -1113,11 +1120,12 @@ select:disabled {
     padding: 10px;
     border-radius: 8px;
     resize: none;
-    height: 45px;
+    min-height: 50px;  /* geändert von height auf min-height */
     max-height: 120px;
     font-family: 'Exo2', Arial, sans-serif;
     font-size: 16px;
     line-height: 1.5;
+    overflow-y: auto;  /* hinzugefügt für Konsistenz */
 }
 
 .note-input-container button {
