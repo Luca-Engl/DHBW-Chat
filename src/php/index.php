@@ -82,7 +82,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Privat bleibt privat.</h2>
             <img src="../img/dfeature-1.png" alt="lock" class="d-feature-text-img">
-            <p>
+            <p class="d-feature-text-width">
                 Ob Direktnachricht oder Lerngruppe -
                 deine Gespräche sind durchgehend Ende-zu-Ende verschlüsselt.
                 Wir nutzen modernste Standards wie das Signal-Protokoll,
@@ -93,7 +93,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <article class="d-feature-text">
             <h2 class="font-size-landing-small style-bold">Anonym starten. In Sekunden.</h2>
             <img src="../img/dfeature-2.png" alt="Guy Incognito" class="d-feature-text-r-img">
-            <p>
+            <p class="d-feature-text-width">
                 Starte sofort als Gast oder erstelle einen anonymen Account -
                 ganz ohne E-Mail-Zwang. Du behälst die Kontrolle darüber,
                 wie viel du von dir preisgibst und ob du dich für erweiterte Funktionen
@@ -104,7 +104,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Dein Raum. Deine Regeln.</h2>
             <img src="../img/dfeature-3.png " alt="Community" class="d-feature-text-img">
-            <p>
+            <p class="d-feature-text-width">
                 Erstelle eine private Lerngruppe für dein Projekt oder einen offenen Channel
                 für den ganzen Campus. Mit mächtigen Tools für Rollen, Rechte und Moderation
                 schaffst du einen sicheren und produktiven Ort für deine Community.
@@ -113,7 +113,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <article class="d-feature-text">
             <h2 class="font-size-landing-small style-bold">Dein Chat. Dein Look.</h2>
             <img src="../img/dfeature-4.png" alt="Colorpalette" class="d-feature-text-r-img">
-            <p>
+            <p class="d-feature-text-width">
                 Passe Themes, Farben, Icons und sogar das Layout an.
                 Ob du es minimalistisch magst oder es nicht bunt genug sein kann
                 - richte den Chat so ein, dass er sich jeden Tag nach dir anfühlt.
@@ -122,7 +122,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
         <article class="background d-feature-text">
             <h2 class="font-size-landing-small style-bold">Alles teilen. Ohne Umwege.</h2>
             <img src="../img/dfeature-5.png" alt="File and sending arrow" class="d-feature-text-img">
-            <p>
+            <p class="d-feature-text-width">
                 Ob Projektarbeit, Skript oder Video - sende auch große Dateien mühelos.
                 Alles wird sicher Ende-zu-Ende verschlüsselt übertragen.
                 Dank der integrierten Vorschau siehst du Inhalte sofort,
