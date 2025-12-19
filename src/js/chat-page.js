@@ -1862,8 +1862,7 @@ function copyInviteCodeToClipboard()
             showToast('Code kopiert: ' + currentInviteCode, 'success');
 
             const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '✓ Kopiert!';
-            copyBtn.style.background = '#2a7f2a';
+            copyBtn.innerHTML = '✔️ Code kopiert!';
 
             setTimeout(() => {
                 copyBtn.innerHTML = originalText;
@@ -1888,8 +1887,7 @@ function copyInviteCodeToClipboard()
             showToast('Code kopiert: ' + currentInviteCode, 'success');
 
             const originalText = copyBtn.innerHTML;
-            copyBtn.innerHTML = '✓ Kopiert!';
-            copyBtn.style.background = '#2a7f2a';
+            copyBtn.innerHTML = '✔️ Code kopiert!';
 
             setTimeout(() => {
                 copyBtn.innerHTML = originalText;
