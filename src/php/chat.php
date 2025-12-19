@@ -22,12 +22,13 @@ if (! empty($_GET['groupcode']))
     }
 
     try {
+        // Schritt 1: Gruppe finden
         $stmt = $pdo->prepare("
             SELECT id, chat_name 
             FROM chat 
-            WHERE invite_code = ?  AND chat_type = 'group'
+            WHERE invite_code = ? AND chat_type = 'group'
         ");
-        $stmt->execute(array(strtoupper($groupcode)));
+        $stmt->execute([strtoupper($groupcode)]);
         $group = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$group) {
@@ -35,18 +36,48 @@ if (! empty($_GET['groupcode']))
             exit;
         }
 
+        // Schritt 2: Gast-User erstellen oder finden
+        $guestUsername = 'Guest_' . session_id();
+        $guestEmail = 'guest_' . session_id() . '@temp.local';
+
+        // Prüfen ob Gast-User bereits existiert
+        $stmt = $pdo->prepare("SELECT id FROM `user` WHERE username = ?");
+        $stmt->execute([$guestUsername]);
+        $existingGuest = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($existingGuest) {
+            $guestUserId = $existingGuest['id'];
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO `user` (username, email, password_hash, created_at) 
+                VALUES (?, ?, ?, NOW())
+            ");
+            $dummyPassword = bin2hex(random_bytes(32));
+            $dummyHash = password_hash($dummyPassword, PASSWORD_DEFAULT);
+            $stmt->execute([$guestUsername, $guestEmail, $dummyHash]);
+
+            $guestUserId = $pdo->lastInsertId();
+        }
+
+        $stmt = $pdo->prepare("
+            INSERT IGNORE INTO chat_participant (user_id, chat_id, joined_at)
+            VALUES (?, ?, NOW())
+        ");
+        $stmt->execute([$guestUserId, $group['id']]);
+
         $_SESSION['isGuest'] = true;
+        $_SESSION['user_id'] = $guestUserId;
         $_SESSION['groupcode'] = $groupcode;
         $_SESSION['guest_chat_id'] = $group['id'];
         $_SESSION['guest_chat_name'] = $group['chat_name'];
-        $_SESSION['username'] = 'Gastaccount';
+        $_SESSION['username'] = $guestUsername;
 
         $guestChatId = $group['id'];
         $guestChatName = $group['chat_name'];
 
     } catch (PDOException $e) {
         error_log("Error joining group: " . $e->getMessage());
-        header('Location: login.php');
+        header('Location: login. php? error=db_error');
         exit;
     }
 }
