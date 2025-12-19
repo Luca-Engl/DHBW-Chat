@@ -160,7 +160,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
             <form class="chat-input-container chat-input-floating" id="chatForm">
                 <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
-                <textarea id="chatmessage" name="chatmessage" rows="2"
+                <textarea id="chatmessage" name="chatmessage" rows="1"
                           placeholder="Nachricht eingeben..."
                           inputmode="text" aria-label="Nachricht eingeben"></textarea>
                 <button type="submit" class="style-bold">Senden</button>

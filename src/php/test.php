@@ -1,6 +1,8 @@
 <?php
 
-// test.php ist nur zu Testzwecken vorhanden und komplett KI-generiert
+// ***********************************************************************
+// * test.php ist nur zu Testzwecken vorhanden und komplett KI-generiert *
+// ***********************************************************************
 
 // Error Reporting aktivieren
 error_reporting(E_ALL);
