@@ -331,7 +331,8 @@ function loadMessages(chatId, isAutoReload)
                         <label for="chatmessage" class="visually-hidden">Nachricht eingeben</label>
                         <textarea id="chatmessage" name="chatmessage" rows="1"
                                   placeholder="Neue Nachricht eingeben ..."
-                                  inputmode="text" aria-label="Nachricht eingeben"></textarea>
+                                  inputmode="text" aria-label="Nachricht eingeben"
+                                  style="max-height: 7.5em; overflow-y: auto;"></textarea>
                         <button type="submit" class="style-bold">Senden ➡ </button>
                     </form>
                 `;
@@ -357,6 +358,11 @@ function loadMessages(chatId, isAutoReload)
                                     e.preventDefault();
                                     sendMessage();
                                 }
+                            });
+
+                            chatMessageInput.addEventListener('input', function()
+                            {
+                                autoResizeTextarea(this);
                             });
                         }
                     }
@@ -420,6 +426,7 @@ function sendMessage()
             if (data.success)
             {
                 messageInput.value = '';
+                messageInput.style.height = 'auto';
                 loadMessages(currentChatId, true);
             }
             else
