@@ -227,12 +227,6 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                     ← Zurück
                 </button>
                 <h2 id="currentChatName"><?php echo $isGuest && $guestChatName ? htmlspecialchars($guestChatName) : 'Wähle einen Chat'; ?></h2>
-                <?php if (! $isGuest): ?>
-                    <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Gruppe verwalten">
-                        ⚙️ Verwalten
-                    </button>
-                <?php endif; ?>
-                <h2 id="currentChatName">Wähle einen Chat</h2>
                 <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Gruppe verwalten">
                     ⚙️ Verwalten
                 </button>
