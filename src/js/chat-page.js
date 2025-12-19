@@ -1123,7 +1123,6 @@ function updateGroupName()
                 const updatedName = data.chat_name || newName;
 
                 const titleEl = document.getElementById('manageGroupTitle');
-                if (titleEl) titleEl.textContent = 'Gruppe verwalten: ' + updatedName;
 
                 if (currentChatId === currentManageGroupId)
                 {
@@ -1132,146 +1131,14 @@ function updateGroupName()
                     if (currentNameEl) currentNameEl.textContent = updatedName;
                 }
 
-                const li = document.querySelector('#chatList li[data-chat-id="' + currentManageGroupId + '"]');
+                const li = document.querySelector('#chatList .chat-item[data-chat-id="' + currentManageGroupId + '"]');
                 if (li)
                 {
-                    li.textContent = updatedName;
                     li.setAttribute('data-chat-name', updatedName);
+                    li.setAttribute('data-chat-type', 'group');
+                    li.innerHTML = '<span class="chat-icon">👥 | </span><span class="chat-name">' + escapeHtml(updatedName) + '</span>';
                 }
 
-                // Manage-Button Chat-Name updaten
-                const manageBtn = document.getElementById('manageGroupBtn');
-                if (manageBtn)
-                {
-                    manageBtn.setAttribute('data-chat-name', updatedName);
-                }
-
-                if (successDiv)
-                {
-                    successDiv.textContent = data.message || 'Gruppenname erfolgreich aktualisiert';
-                    successDiv.classList.remove('hidden');
-                    window.setTimeout(function()
-                    {
-                        successDiv.classList.add('hidden');
-                    }, 3000);
-                }
-
-                if (nameInput) nameInput.setAttribute('data-original', updatedName);
-            }
-            else
-            {
-                if (errorDiv)
-                {
-                    errorDiv.textContent = (data && data.message) ? data.message : 'Fehler beim Aktualisieren des Gruppennamens';
-                    errorDiv.classList.remove('hidden');
-                }
-            }
-        })
-        .catch(function(error)
-        {
-            console.error('Error updating group name:', error);
-            if (errorDiv)
-            {
-                errorDiv.textContent = 'Fehler beim Aktualisieren des Gruppennamens';
-                errorDiv.classList.remove('hidden');
-            }
-        })
-        .finally(function()
-        {
-            if (saveBtn) saveBtn.disabled = false;
-        });
-}
-
-function updateGroupName()
-{
-    const errorDiv = document.getElementById('manage-group-error');
-    const successDiv = document.getElementById('manage-group-success');
-    if (errorDiv) errorDiv.classList.add('hidden');
-    if (successDiv) successDiv.classList.add('hidden');
-
-    if (!currentManageGroupId)
-    {
-        if (errorDiv) {
-            errorDiv.textContent = 'Keine Gruppe ausgewählt';
-            errorDiv.classList.remove('hidden');
-        }
-        return;
-    }
-
-    const nameInput = document.getElementById('manageGroupNameInput');
-    const newName = (nameInput ? nameInput.value : '').trim();
-
-    if (!newName)
-    {
-        if (errorDiv) {
-            errorDiv.textContent = 'Bitte gib einen Gruppennamen ein';
-            errorDiv.classList.remove('hidden');
-        }
-        if (nameInput) nameInput.style.borderColor = '#c33';
-        return;
-    }
-
-    if (newName.length > 50)
-    {
-        if (errorDiv) {
-            errorDiv.textContent = 'Gruppenname darf maximal 50 Zeichen haben';
-            errorDiv.classList.remove('hidden');
-        }
-        if (nameInput) nameInput.style.borderColor = '#c33';
-        return;
-    }
-
-    if (nameInput) nameInput.style.borderColor = '';
-
-    const saveBtn = nameInput ? nameInput.parentElement.querySelector('button') : null;
-    if (saveBtn) saveBtn.disabled = true;
-
-    const formData = new FormData();
-    formData.append('chat_id', currentManageGroupId);
-    formData.append('chat_name', newName);
-
-    fetch('/src/components/update_group_name.php', {
-        method: 'POST',
-        body: formData
-    })
-        .then(function(response)
-        {
-            if (!response.ok) {
-                throw new Error('Server-Fehler: ' + response.status);
-            }
-            const contentType = response.headers.get('content-type');
-            if (!contentType || !contentType.includes('application/json')) {
-                throw new Error('Server hat kein JSON zurückgegeben');
-            }
-            return response.json();
-        })
-        .then(function(data)
-        {
-            if (data && data.success)
-            {
-                const updatedName = data.chat_name || newName;
-
-                // Modal-Title aktualisieren
-                const titleEl = document.getElementById('manageGroupTitle');
-                if (titleEl) titleEl.textContent = 'Gruppe verwalten: ' + updatedName;
-
-                // Headline aktualisieren, wenn aktueller Chat
-                if (currentChatId === currentManageGroupId)
-                {
-                    currentChat = updatedName;
-                    const currentNameEl = document.getElementById('currentChatName');
-                    if (currentNameEl) currentNameEl.textContent = updatedName;
-                }
-
-                // Sidebar-Listeneintrag aktualisieren
-                const li = document.querySelector('#chatList li[data-chat-id="' + currentManageGroupId + '"]');
-                if (li)
-                {
-                    li.textContent = updatedName;
-                    li.setAttribute('data-chat-name', updatedName);
-                }
-
-                // Manage-Button Chat-Name updaten
                 const manageBtn = document.getElementById('manageGroupBtn');
                 if (manageBtn)
                 {
