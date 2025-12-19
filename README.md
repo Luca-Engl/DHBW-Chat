@@ -81,6 +81,131 @@ $pdo = new PDO(
 );
 ```
 
+# Tutorial
+
+## Inhaltsverzeichnis
+1. [Registrierung und Anmeldung](#registrierung-und-anmeldung)
+2. [Nachrichten senden](#nachrichten-senden)
+3. [Kontakt hinzufügen](#kontakt-hinzufügen)
+4. [Gruppe erstellen](#gruppe-erstellen)
+5. [Profil bearbeiten](#profil-bearbeiten)
+6. [Abmelden](#abmelden)
+
+---
+
+## Registrierung und Anmeldung
+
+### Registrierung
+
+1. Klicke auf **"Jetzt loslegen"** oder **"Account erstellen"**
+2. Gib deine Daten ein:
+    - **Benutzername** (nur Buchstaben und Zahlen, max. 30 Zeichen)
+    - **DHBW E-Mail-Adresse**
+    - **Fakultät, Studiengang und Studienjahr** wählen
+3. Klicke auf **"Weiter"**
+4. Lege dein **Passwort** fest (mindestens 6 Zeichen)
+5. Wiederhole das Passwort
+6. Klicke auf **"Registrieren"**
+
+✅ Du wirst automatisch eingeloggt und dem globalen Chat hinzugefügt.
+
+### Anmeldung
+
+1. Öffne die Login-Seite
+2. Gib deinen **Benutzernamen** ein (nicht die E-Mail!)
+3. Gib dein **Passwort** ein
+4. Klicke auf **"Anmelden"**
+
+## Nachrichten senden
+
+### Chat auswählen
+
+1. In der **linken Seitenleiste** siehst du alle verfügbaren Chats
+2. **Klicke auf einen Chat**, um ihn zu öffnen
+3. Der Nachrichtenverlauf wird angezeigt
+
+### Nachricht schreiben
+
+1. Klicke in das **Eingabefeld** am unteren Rand
+2. Tippe deine Nachricht
+3. Drücke **Enter** oder klicke auf **"Senden"**
+
+## Kontakt hinzufügen
+
+1. Klicke in der Chat-Liste auf **"Kontakt hinzufügen"**
+2. Gib den **Benutzernamen** oder die **E-Mail-Adresse** ein
+3. Klicke auf **"Hinzufügen"**
+
+✅ Der Kontakt erscheint in deiner Chat-Liste.
+
+## Gruppe erstellen
+
+1. Klicke in der Chat-Liste auf **"Gruppe hinzufügen"**
+2. Gib einen **Gruppennamen** ein
+3. Füge Mitglieder hinzu:
+    - Gib einen **Benutzernamen** oder **E-Mail** ein
+    - Klicke auf **"+ Hinzufügen"**
+    - Wiederhole dies für weitere Mitglieder
+4. Klicke auf **"Gruppe erstellen"**
+
+✅ Die neue Gruppe erscheint in deiner Chat-Liste.
+
+### Mitglieder später hinzufügen
+
+1. Öffne den Gruppenchat
+2. Klicke oben rechts auf **"+ Mitglied"**
+3. Gib Benutzername oder E-Mail ein
+4. Klicke auf **"+ Hinzufügen"**
+
+## Profil bearbeiten
+
+### Einstellungen öffnen
+
+Klicke oben rechts auf dein **Profilbild** oder deinen **Benutzernamen**.
+
+### Benutzername ändern
+
+1. Klicke bei **"Username"** auf **"Bearbeiten"**
+2. Gib deinen neuen Benutzernamen ein (nur Buchstaben und Zahlen, max. 30 Zeichen)
+3. Klicke auf **"Speichern"**
+
+### E-Mail-Adresse ändern
+
+1. Klicke bei **"Email"** auf **"Bearbeiten"**
+2. Gib deine neue E-Mail-Adresse ein
+3. Klicke auf **"Speichern"**
+
+### Passwort ändern
+
+1. Klicke bei **"Passwort"** auf **"Bearbeiten"**
+2. Gib dein **altes Passwort** ein
+3. Gib dein **neues Passwort** ein (mindestens 6 Zeichen)
+4. **Wiederhole** das neue Passwort
+5. Klicke auf **"Speichern"**
+
+## Abmelden
+
+1. Klicke oben rechts auf **"Abmelden"**
+2. Du wirst automatisch ausgeloggt
+3. Weiterleitung zur Startseite erfolgt nach 2 Sekunden
+
+---
+
+## Support und Hilfe
+
+**E-Mail**: support@dhbw-chat-fiktiv.de  
+**Telefon**: +49 123 4567890
+
+**Weitere Informationen**:
+- Impressum: [legal_notice.php](legal_notice.php)
+- Datenschutz: [privacy.php](privacy.php)
+- FAQ: [help.php](help.php)
+
+---
+
+**Version**: 1.0 (Kurzfassung)  
+**Stand**: Dezember 2024
+
 ## Funktionen
 
 ### Benutzerauthentifizierung
