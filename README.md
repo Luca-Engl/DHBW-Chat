@@ -81,36 +81,126 @@ $pdo = new PDO(
 );
 ```
 
-## Funktionen
+# Tutorial
 
-### Benutzerauthentifizierung
+## Inhaltsverzeichnis
+1. [Registrierung und Anmeldung](#registrierung-und-anmeldung)
+2. [Nachrichten senden](#nachrichten-senden)
+3. [Kontakt hinzufügen](#kontakt-hinzufügen)
+4. [Gruppe erstellen](#gruppe-erstellen)
+5. [Profil bearbeiten](#profil-bearbeiten)
+6. [Abmelden](#abmelden)
 
-- Registrierung mit DHBW E-Mail-Adresse
-- Auswahl von Fakultät, Studiengang und Jahrgang
-- Sichere Passwort-Speicherung mit `password_hash()`
-- Session-basierte Authentifizierung
+---
 
-### Gastzugang
+## Registrierung und Anmeldung
 
-Nutzer können ohne Registrierung per Gruppencode beitreten:
-```
-chat.php?groupcode=ABC123
-```
+### Registrierung
 
-### Chat-System
+1. Klicke auf **"Jetzt loslegen"** oder **"Account erstellen"**
+![index_top.png](src/img/tutorial/index_top.png)
 
-- Echtzeit-Nachrichtenaustausch
-- Globaler Chat für alle registrierten Nutzer
-- Private Direktnachrichten
-- Gruppenchats mit Mitgliederverwaltung
-- Wichtige Notizen / Ablage-Funktion
+2. Gib deine Daten ein:
+    - **Benutzername** (nur Buchstaben und Zahlen, max. 30 Zeichen)
+    - **DHBW E-Mail-Adresse**
+    - **Fakultät, Studiengang und Studienjahr** wählen
+3. Klicke auf **"Weiter"**
+![register.png](src/img/tutorial/register.png)
 
-### Profileinstellungen
+4. Lege dein **Passwort** fest (mindestens 6 Zeichen)
+5. Wiederhole das Passwort
+6. Klicke auf **"Registrieren"**
+![login_pw.png](src/img/tutorial/login_pw.png)
 
-- Profilbild ändern
-- Benutzername bearbeiten
-- E-Mail-Adresse aktualisieren
-- Passwort ändern
+✅ Du wirst automatisch eingeloggt und dem globalen Chat hinzugefügt.
+
+### Anmeldung
+
+1. Öffne die Login-Seite
+2. Gib deinen **Benutzernamen** ein (nicht die E-Mail!)
+3. Gib dein **Passwort** ein
+4. Klicke auf **"Anmelden"**
+![login.png](src/img/tutorial/login.png)
+
+## Nachrichten senden
+
+### Chat auswählen
+
+1. In der **linken Seitenleiste** siehst du alle verfügbaren Chats
+2. **Klicke auf einen Chat**, um ihn zu öffnen
+3. Der Nachrichtenverlauf wird angezeigt
+![chat_selection.png](src/img/tutorial/chat_selection.png)
+
+### Nachricht schreiben
+
+1. Klicke in das **Eingabefeld** am unteren Rand
+2. Tippe deine Nachricht
+3. Drücke **Enter** oder klicke auf **"Senden"**
+![chat_send_message.png](src/img/tutorial/chat_send_message.png)
+
+## Kontakt hinzufügen
+
+1. Klicke in der Chat-Liste auf **"Kontakt hinzufügen"**
+![chat_add_contact.png](src/img/tutorial/chat_add_contact.png)
+2. Gib den **Benutzernamen** oder die **E-Mail-Adresse** ein
+3. Klicke auf **"Hinzufügen"**
+![chat_add_contact_popup.png](src/img/tutorial/chat_add_contact_popup.png)
+
+✅ Der Kontakt erscheint in deiner Chat-Liste.
+
+## Gruppe erstellen
+
+1. Klicke in der Chat-Liste auf **"Gruppe hinzufügen"**
+![add_group.png](src/img/tutorial/add_group.png)
+2. Gib einen **Gruppennamen** ein
+3. Füge Mitglieder hinzu:
+    - Gib einen **Benutzernamen** oder **E-Mail** ein
+    - Klicke auf **"+ Hinzufügen"**
+    - Wiederhole dies für weitere Mitglieder
+4. Klicke auf **"Gruppe erstellen"**
+![add_group_popup.png](src/img/tutorial/add_group_popup.png)
+
+✅ Die neue Gruppe erscheint in deiner Chat-Liste.
+
+### Mitglieder später hinzufügen
+
+1. Öffne den Gruppenchat
+2. Klicke oben links auf **"+ Mitglied"**
+![group_add_member.png](src/img/tutorial/group_add_member.png)
+3. Gib Benutzername oder E-Mail ein
+4. Klicke auf **"+ Hinzufügen"**
+![group_add_member_popup.png](src/img/tutorial/group_add_member_popup.png)
+
+## Profil bearbeiten
+
+### Einstellungen öffnen
+
+Klicke oben rechts auf dein **Profilbild** oder deinen **Benutzernamen**.
+![edit_profile.png](src/img/tutorial/edit_profile.png)
+
+### Benutzername ändern
+
+Klicke bei **"Username"** auf **"Bearbeiten"**
+![edit_profile_popup_edit_username.png](src/img/tutorial/edit_profile_popup_edit_username.png)
+
+### E-Mail-Adresse ändern
+
+Klicke bei **"Email"** auf **"Bearbeiten"**
+![edit_profile_popup_edit_email.png](src/img/tutorial/edit_profile_popup_edit_email.png)
+
+### Passwort ändern
+
+Klicke bei **"Passwort"** auf **"Bearbeiten"**
+![edit_profile_popup_edit_password.png](src/img/tutorial/edit_profile_popup_edit_password.png)
+
+## Abmelden
+
+1. Klicke oben rechts auf **"Abmelden"**
+![logout.png](src/img/tutorial/logout.png)
+2. Du wirst automatisch ausgeloggt
+3. Weiterleitung zur Startseite erfolgt nach 2 Sekunden
+
+---
 
 ## CSS-Architektur
 

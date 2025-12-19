@@ -102,7 +102,7 @@ $loggedIn = !empty($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true;
 
     <h2 class="align-center margin-bottom-1">Wir sind für dich da.</h2>
 
-    <section class="flex-center align-stretch gap-5 margin-top-2 margin-bottom-5">
+    <section class="flex-center align-stretch gap-3 margin-top-2 margin-bottom-5">
 
         <article class="info-box background padding-3 align-left info-box">
             <p>
