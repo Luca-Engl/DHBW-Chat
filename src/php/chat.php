@@ -145,7 +145,7 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
                 </button>
                 <h2 id="currentChatName">Wähle einen Chat</h2>
                 <button id="manageGroupBtn" class="chat-manage-btn" onclick="openManageGroupFromNav()" style="display: none;" title="Mitglied hinzufügen">
-                    + Mitglied
+                    Gruppe verwalten
                 </button>
             </section>
             <button class="chat-important-btn" onclick="toggleImportantPanel()">
@@ -318,6 +318,12 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
 
         <div id="manage-group-error" class="error-message hidden"></div>
         <div id="manage-group-success" class="success-message hidden"></div>
+
+        <h3 style="margin-top: 20px; margin-bottom: 10px;">Gruppenname</h3>
+        <section style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+            <input type="text" id="manageGroupNameInput" maxlength="50" placeholder="Gruppenname" style="flex: 1;">
+            <button class="button-secondary" type="button" onclick="updateGroupName()">Speichern</button>
+        </section>
 
         <h3 style="margin-top: 20px; margin-bottom: 10px;">Mitglieder</h3>
         <section id="currentMembersList" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;">
