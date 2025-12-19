@@ -2160,4 +2160,42 @@ html {
     .original-time {
         font-size: 0.65rem;
     }
+
+    .img-background-index {
+        background:   linear-gradient(rgba(39,39,39,0.6), rgba(39,39,39,0.6)),
+        url(../img/DHBW-Background-Red.png)
+        center / cover no-repeat;
+        min-height: 70vh !important;
+        padding-top: 60px !important;
+        padding-bottom: 5% !important;
+        display:  flex;
+        flex-direction:  column;
+        justify-content:  flex-start !important;
+    }
+
+    .padding-top-5 {
+        padding-top: 3% !important;
+    }
+
+    .margin-top-1 {
+        margin-top: 1% !important;
+    }
+
+    . margin-bottom-2 {
+        margin-bottom: 3% !important;
+    }
+
+    .font-size-landing {
+        font-size:  2.2rem !important;
+        line-height: 1.1 !important;
+    }
+
+    .font-size-landing-small {
+        font-size: 1rem !important;
+        margin-top: 2% ! important;
+    }
+
+    .margin-left-10 {
+        margin-left: 5% !important;
+    }
 }
