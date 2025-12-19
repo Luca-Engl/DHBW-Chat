@@ -19,6 +19,10 @@ function escapeHtml(text) {
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
+function escapeHtmlWithLineBreaks(text) {
+    return escapeHtml(text).replace(/\n/g, '<br>');
+}
+
 function validateId(id) {
     const num = parseInt(id);
     return !isNaN(num) && num > 0 ? num : null;
@@ -303,7 +307,7 @@ function loadMessages(chatId, isAutoReload)
                         messagesHtml += `
                             <section class="message ${messageClass}" data-message-id="${msg.id}">
                                 <section class="bubble">
-                                    ${senderInfo}${escapeHtml(msg.content)}
+                                    ${senderInfo}${escapeHtmlWithLineBreaks(msg.content)}
                                 </section>
                                 ${footerContent}
                             </section>
