@@ -1,49 +1,35 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/json_response.php';
 
-require_once __DIR__ . '/db_connect.php';
+$guest = getGuestAccess();
 
-if (session_status() !== PHP_SESSION_ACTIVE)
+if (!$guest)
 {
-    session_start();
+    jsonError('Kein Gast-Zugang');
 }
 
-if (empty($_SESSION['isGuest']) || empty($_SESSION['guest_chat_id']))
-{
-    echo json_encode(['success' => false, 'message' => 'Kein Gast-Zugang']);
-    exit;
-}
-
-$chat_id = $_SESSION['guest_chat_id'];
+$chat_id = $guest['chat_id'];
 
 try
 {
     $stmt = $pdo->prepare("
         SELECT id, chat_name, chat_type
         FROM chat
-        WHERE id = ?  AND chat_type = 'group'
+        WHERE id = ? AND chat_type = 'group'
     ");
     $stmt->execute(array($chat_id));
-
     $chat = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$chat)
     {
-        echo json_encode(['success' => false, 'message' => 'Chat nicht gefunden']);
-        exit;
+        jsonError('Chat nicht gefunden');
     }
 
-    echo json_encode([
-        'success' => true,
-        'chats' => [$chat]
-    ]);
+    jsonSuccess(['chats' => [$chat]]);
 }
 catch (PDOException $e)
 {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Fehler beim Laden des Chats'
-    ]);
+    jsonError('Fehler beim Laden des Chats');
 }

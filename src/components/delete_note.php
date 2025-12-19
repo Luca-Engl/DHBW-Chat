@@ -1,72 +1,31 @@
 <?php
-header('Content-Type: application/json');
-error_reporting(0);
-ini_set('display_errors', 0);
+require_once __DIR__ . '/api_init.php';
+require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/chat_helpers.php';
+require_once __DIR__ . '/json_response.php';
 
-require_once __DIR__ . '/db_connect.php';
-
-if (session_status() !== PHP_SESSION_ACTIVE)
-{
-    session_start();
-}
-
-if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
-{
-    echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
-    exit;
-}
-
-$user_id = $_SESSION['user_id'];
-$note_id = isset($_POST['note_id']) ? intval($_POST['note_id']) : 0;
-
-if ($note_id <= 0)
-{
-    echo json_encode(['success' => false, 'message' => 'Ungültige Notiz-ID']);
-    exit;
-}
+$user_id = requireLogin();
+$note_id = validateNoteId($_POST['note_id'] ?? 0);
 
 try
 {
-    $stmt = $pdo->prepare("
-        SELECT n.chat_id 
-        FROM note n
-        WHERE n.id = ?
-    ");
+    $stmt = $pdo->prepare("SELECT chat_id FROM note WHERE id = ?");
     $stmt->execute(array($note_id));
     $note = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$note)
     {
-        echo json_encode(['success' => false, 'message' => 'Notiz nicht gefunden']);
-        exit;
+        jsonError('Notiz nicht gefunden');
     }
 
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) as count
-        FROM chat_participant
-        WHERE chat_id = ? AND user_id = ?
-    ");
-    $stmt->execute(array($note['chat_id'], $user_id));
-    $access = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($access['count'] == 0)
-    {
-        echo json_encode(['success' => false, 'message' => 'Kein Zugriff auf diesen Chat']);
-        exit;
-    }
+    requireChatAccess($pdo, $note['chat_id'], $user_id);
 
     $stmt = $pdo->prepare("DELETE FROM note WHERE id = ?");
     $stmt->execute(array($note_id));
 
-    echo json_encode([
-        'success' => true,
-        'message' => 'Notiz gelöscht'
-    ]);
+    jsonSuccess([], 'Notiz gelöscht');
 }
 catch (PDOException $e)
 {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Fehler beim Löschen der Notiz'
-    ]);
+    jsonError('Fehler beim Löschen der Notiz');
 }
