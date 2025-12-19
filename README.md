@@ -237,11 +237,3 @@ Die Anwendung verwendet CSS Custom Properties für konsistentes Theming:
 ### Datenbanktest
 
 Die Datei `test.php` prüft die PHP-Konfiguration und Datenbankverbindung.
-
-## Mitwirkende
-
-Entwickelt im Rahmen eines DHBW-Projekts.
-
-## Lizenz
-
-Dieses Projekt ist für Bildungszwecke an der DHBW entwickelt worden.
