@@ -30,15 +30,16 @@ CREATE TABLE `chat_participant` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Messages
-CREATE TABLE `message` (
-                           `id` INT AUTO_INCREMENT PRIMARY KEY,
-                           `chat_id` INT NOT NULL,
-                           `sender_id` INT NOT NULL,
-                           `content` TEXT NOT NULL,
-                           `sent_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
-                           FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON DELETE CASCADE,
-                           FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS `message` (
+                                         `id` INT AUTO_INCREMENT PRIMARY KEY,
+                                         `chat_id` INT NOT NULL,
+                                         `sender_id` INT NOT NULL,
+                                         `content` TEXT NOT NULL,
+                                         `sent_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+                                         `edited_at` DATETIME NULL DEFAULT NULL,
+                                         FOREIGN KEY (`chat_id`) REFERENCES `chat`(`id`) ON DELETE CASCADE,
+                                        FOREIGN KEY (`sender_id`) REFERENCES `user`(`id`) ON DELETE CASCADE,
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Notes
 CREATE TABLE `note` (
