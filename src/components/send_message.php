@@ -10,8 +10,10 @@ if (session_status() !== PHP_SESSION_ACTIVE)
 
 if (!isset($_SESSION['loggedIn']) || $_SESSION['loggedIn'] !== true)
 {
-    echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
-    exit;
+    if (empty($_SESSION['isGuest']) || empty($_SESSION['user_id'])) {
+        echo json_encode(['success' => false, 'message' => 'Nicht eingeloggt']);
+        exit;
+    }
 }
 
 $user_id = $_SESSION['user_id'];

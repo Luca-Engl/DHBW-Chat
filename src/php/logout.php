@@ -10,6 +10,14 @@ if (empty($_SESSION['loggedIn']) && empty($_SESSION['isGuest'])) {
 }
 
 $currentUser  = $_SESSION['username'] ?? 'Unbekannt';
+if (! empty($_SESSION['isGuest']) && ! empty($_SESSION['user_id'])) {
+    try {
+        $stmt = $pdo->prepare("DELETE FROM `user` WHERE id = ?  AND username LIKE 'Guest_%'");
+        $stmt->execute([$_SESSION['user_id']]);
+    } catch (PDOException $e) {
+        error_log("Error deleting guest user: " . $e->getMessage());
+    }
+}
 
 session_unset();
 session_destroy();
