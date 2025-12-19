@@ -351,6 +351,20 @@ $currentGroup = isset($_SESSION['groupcode']) ? $_SESSION['groupcode'] : null;
     </section>
 </section>
 
+<div id="deleteMessageModal" class="modal-overlay">
+    <div class="modal-content popup-box">
+        <button class="modal-close" onclick="closeDeleteMessage()">&times;</button>
+        <h2>Nachricht löschen?</h2>
+        <p>Möchtest du diese Nachricht wirklich löschen?</p>
+        <div id="delete-error" class="error-message hidden"></div>
+        <div class="button-container">
+            <button class="button-secondary" onclick="closeDeleteMessage()">Abbrechen</button>
+            <button class="button-primary" onclick="confirmDeleteMessage()">Löschen</button>
+        </div>
+    </div>
+</div>
+
+
 <script src="../js/chat-page.js"></script>
 </body>
 </html>

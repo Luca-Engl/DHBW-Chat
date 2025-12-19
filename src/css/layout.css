@@ -854,6 +854,14 @@ select:disabled {
     cursor: not-allowed;
 }
 
+/* Message Container mit erweiterten Hover-Bereich */
+.message {
+    position: relative;
+    padding: 5px 10px;
+    margin: -5px -10px;
+}
+
+/* Edit Button - versteckt bis Hover */
 .edit-message-btn {
     background: transparent;
     border: none;
@@ -861,7 +869,12 @@ select:disabled {
     cursor: pointer;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
-    transition: color 0.2s, transform 0.2s;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, transform 0.2s;
+}
+
+.message:hover .edit-message-btn {
+    opacity: 1;
 }
 
 .edit-message-btn:hover {
@@ -870,6 +883,31 @@ select:disabled {
 }
 
 .edit-message-btn::after {
+    display: none;
+}
+
+/* Delete Button - versteckt bis Hover */
+.delete-message-btn {
+    background: transparent;
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, transform 0.2s;
+}
+
+.message:hover .delete-message-btn {
+    opacity: 1;
+}
+
+.delete-message-btn:hover {
+    color: #c33;
+    transform: translateY(-1px);
+}
+
+.delete-message-btn::after {
     display: none;
 }
 
@@ -897,6 +935,8 @@ select:disabled {
     white-space: nowrap;
     flex-shrink: 0;
 }
+
+/* Message Footer */
 .message-footer {
     display: flex;
     align-items: center;
@@ -922,6 +962,48 @@ select:disabled {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Toast Notifications */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: -400px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10000;
+    transition: right 0.3s ease;
+    min-width: 200px;
+}
+
+.toast.show {
+    right: 20px;
+}
+
+.toast-success {
+    background: #2a7f2a;
+}
+
+.toast-error {
+    background: #c33;
+}
+
+.toast-info {
+    background: #2196F3;
+}
+
+/* Delete Modal Button Container */
+#deleteMessageModal .button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+#deleteMessageModal .button-container button {
+    flex: 1;
 }
 
 .edited-time {
@@ -1459,12 +1541,6 @@ select:disabled {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-.message {
-    display: flex;
-    flex-direction: column;
-    max-width: 70%;
 }
 
 .message.received {
@@ -2027,7 +2103,7 @@ html {
         padding: 3px 8px;
         font-size: 0.75rem;
     }
-    .edit-message-btn {
+    .edit-message-btn, .delete-message-btn {
         font-size: 14px;
         padding: 3px 6px;
     }

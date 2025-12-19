@@ -3,6 +3,7 @@ let currentChat = 'Globalchat';
 let messageCheckInterval = null;
 let currentManageGroupId = null;
 let editingMessageId = null;
+let deletingMessageId = null;
 
 function escapeHtml(text) {
     const map = {
@@ -197,9 +198,11 @@ function loadMessages(chatId, isAutoReload)
                         const senderInfo = !isSent ? '<strong>' + escapeHtml(msg.sender_name) + '</strong><br>' : '';
 
                         let editButton = '';
+                        let deleteButton = '';
                         if (isSent) {
                             const contentBase64 = btoa(unescape(encodeURIComponent(msg.content)));
-                            editButton = `<button class="edit-message-btn" data-message-id="${msg.id}" data-content="${contentBase64}">✏️</button>`;
+                            editButton = `<button class="edit-message-btn" data-message-id="${msg.id}" data-content="${contentBase64}" title="Bearbeiten">✏️</button>`;
+                            deleteButton = `<button class="delete-message-btn" data-message-id="${msg.id}" title="Löschen">🗑️</button>`;
                         }
 
                         let timeDisplay = '';
@@ -215,31 +218,32 @@ function loadMessages(chatId, isAutoReload)
                         let footerContent = '';
                         if (isSent) {
                             footerContent = `
-        <section class="message-footer message-footer-sent">
-            <section class="message-footer-left">
-                ${editButton}
-            </section>
-            <section class="message-footer-right">
-                ${timeDisplay}
-            </section>
-        </section>
-    `;
+                                <section class="message-footer message-footer-sent">
+                                    <section class="message-footer-left">
+                                        ${editButton}
+                                        ${deleteButton}
+                                    </section>
+                                    <section class="message-footer-right">
+                                        ${timeDisplay}
+                                    </section>
+                                </section>
+                            `;
                         } else {
                             footerContent = `
-        <section class="message-footer message-footer-received">
-            ${timeDisplay}
-        </section>
-    `;
+                                <section class="message-footer message-footer-received">
+                                    ${timeDisplay}
+                                </section>
+                            `;
                         }
 
                         messagesHtml += `
-    <section class="message ${messageClass}" data-message-id="${msg.id}">
-        <section class="bubble">
-            ${senderInfo}${escapeHtml(msg.content)}
-        </section>
-        ${footerContent}
-    </section>
-`;
+                            <section class="message ${messageClass}" data-message-id="${msg.id}">
+                                <section class="bubble">
+                                    ${senderInfo}${escapeHtml(msg.content)}
+                                </section>
+                                ${footerContent}
+                            </section>
+                        `;
                     });
                 }
 
@@ -305,7 +309,7 @@ function sendMessage()
 
     if (!currentChatId)
     {
-        alert('Bitte wähle einen Chat aus');
+        showToast('Bitte wähle einen Chat aus', 'error');
         return;
     }
 
@@ -337,13 +341,13 @@ function sendMessage()
             }
             else
             {
-                alert('Fehler: ' + data.message);
+                showToast('Fehler: ' + data.message, 'error');
             }
         })
         .catch(function(error)
         {
             console.error('Error sending message:', error);
-            alert('Fehler beim Senden der Nachricht');
+            showToast('Fehler beim Senden der Nachricht', 'error');
         });
 }
 
@@ -1169,7 +1173,7 @@ function addNote()
 
     if (!currentChatId)
     {
-        alert('Bitte wähle einen Chat aus');
+        showToast('Bitte wähle einen Chat aus', 'error');
         return;
     }
 
@@ -1407,11 +1411,72 @@ function saveEditedMessage() {
         });
 }
 
+function openDeleteMessage(messageId) {
+    deletingMessageId = messageId;
+    document.getElementById('deleteMessageModal').classList.add('active');
+    document.getElementById('delete-error').classList.add('hidden');
+}
+
+function closeDeleteMessage() {
+    document.getElementById('deleteMessageModal').classList.remove('active');
+    deletingMessageId = null;
+}
+
+function confirmDeleteMessage() {
+    if (!deletingMessageId) {
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('message_id', deletingMessageId);
+
+    fetch('/src/components/delete_message.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                closeDeleteMessage();
+                loadMessages(currentChatId, true);
+                showToast('Nachricht gelöscht', 'success');
+            } else {
+                const errorDiv = document.getElementById('delete-error');
+                errorDiv.textContent = data.message;
+                errorDiv.classList.remove('hidden');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            const errorDiv = document.getElementById('delete-error');
+            errorDiv.textContent = 'Fehler beim Löschen der Nachricht';
+            errorDiv.classList.remove('hidden');
+        });
+}
+
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = 'toast toast-' + type;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 100);
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+    }, 2000);
+}
+
 document.addEventListener('DOMContentLoaded', function()
 {
     loadChats();
 
-    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'manageGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal', 'editMessageModal'];
+    const modals = ['settingsModal', 'addContactModal', 'addGroupModal', 'manageGroupModal', 'editUsernameModal', 'editEmailModal', 'editPasswordModal', 'editMessageModal', 'deleteMessageModal'];
     modals.forEach(function(modalId)
     {
         const modal = document.getElementById(modalId);
@@ -1429,6 +1494,7 @@ document.addEventListener('DOMContentLoaded', function()
                     if(modalId === 'editEmailModal') closeEditEmail();
                     if(modalId === 'editPasswordModal') closeEditPassword();
                     if(modalId === 'editMessageModal') closeEditMessage();
+                    if(modalId === 'deleteMessageModal') closeDeleteMessage();
                 }
             });
         }
@@ -1497,6 +1563,11 @@ document.addEventListener('DOMContentLoaded', function()
             const contentBase64 = e.target.getAttribute('data-content');
             const content = decodeURIComponent(escape(atob(contentBase64)));
             openEditMessage(messageId, content);
+        }
+
+        if (e.target.classList.contains('delete-message-btn')) {
+            const messageId = parseInt(e.target.getAttribute('data-message-id'));
+            openDeleteMessage(messageId);
         }
     });
 });
